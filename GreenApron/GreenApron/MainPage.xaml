@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:GreenApron"
              x:Class="GreenApron.MainPage">
 
-  <Label Text="Welcome to Xamarin Forms!"
+  <Label Text="Green Apron, let's do this!"
            VerticalOptions="Center"
            HorizontalOptions="Center" />
 
