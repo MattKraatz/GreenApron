@@ -1,6 +1,6 @@
 ﻿{
   "userSecretsId": "aspnet-WebAPI-162db843-dd30-4039-8564-15a238d55540",
-
+  "version": "1.0.0-*",
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.1",
