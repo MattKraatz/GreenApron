@@ -9,11 +9,9 @@ namespace Tests.WebAPI
     public class Main
     {
         [Fact]
-        public void FrameworkInstantiates()
+        public void TestingFrameworkLoads()
         {
-            Assert.Null(null);
             Assert.True(true);
-            Assert.NotNull(1);
         }
     }
 }

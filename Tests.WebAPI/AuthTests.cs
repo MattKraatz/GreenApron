@@ -1,40 +1,34 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI;
 using Xunit;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using WebAPI.Data;
-using WebAPI.Controllers;
-using WebAPI.Models;
 
 namespace Tests.WebAPI
 {
     public class AuthTests
     {
-        static ApplicationDbContext _context;
+        private GreenApronContext _context { get; set; }
+
         public AuthTests()
         {
             var serviceProvider = new ServiceCollection()
             .AddEntityFrameworkSqlServer()
             .BuildServiceProvider();
-            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            var connection = Environment.GetEnvironmentVariable("GreenApronDB");
-            builder.UseSqlServer(connection)
+            var builder = new DbContextOptionsBuilder<GreenApronContext>();
+            builder.UseSqlServer($"Server=(localdb)\\mssqllocaldb;Database=monsters_db_{Guid.NewGuid()};Trusted_Connection=True;MultipleActiveResultSets=true")
                     .UseInternalServiceProvider(serviceProvider);
-            _context = new ApplicationDbContext(builder.Options);
+            _context = new GreenApronContext(builder.Options);
             _context.Database.Migrate();
         }
 
-        Guid userId = new Guid();
-
         [Fact]
-        public void CanRegisterNewUser()
+        public void CanRegisterUser()
         {
-
+            
         }
 
         [Fact]
