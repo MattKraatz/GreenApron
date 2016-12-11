@@ -7,12 +7,12 @@ using Xamarin.Forms;
 
 namespace GreenApron
 {
-    public partial class LoginPage : ContentPage
+    public partial class LoginPage : TabbedPage
     {
         public LoginPage()
         {
             InitializeComponent();
-			BindingContext = new LoginCreds();
+            BindingContext = new User();
         }
 
 		private async void DoLogin(object sender, EventArgs e)
@@ -24,7 +24,7 @@ namespace GreenApron
 
 		private async void DoRegistration(object sender, EventArgs e)
 		{
-			var user = (User)BindingContext;
+			var user = BindingContext;
 			Navigation.InsertPageBefore(new HomePage(), this);
 			await Navigation.PopAsync();
 		}

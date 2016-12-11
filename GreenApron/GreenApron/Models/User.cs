@@ -13,6 +13,8 @@ namespace GreenApron
 
 		public string Password { get; set; }
 
+        public string ConfirmPassword { get; set; }
+
 		public DateTime DateCreated { get; set; }
 	}
 }

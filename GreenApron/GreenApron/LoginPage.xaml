@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--  <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               x:Class="GreenApron.LoginPage">
-    <TabbedPage.Children>-->
-      <ContentPage Title="Login"
-		xmlns="http://xamarin.com/schemas/2014/forms"
-              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              x:Class="GreenApron.LoginPage">
+    <TabbedPage.Children>
+      <ContentPage Title="Login">
+        <ContentPage.Content>
         <StackLayout Spacing="20" Padding="20"
                  VerticalOptions="Center">
-		  <Label Text = "Welcome to Green Apron"
-				 HorizontalOptions="Center"
-				 FontSize="26" />
-		  <Label Text="Please Log In or Register"
-                 HorizontalOptions="Center" />
-          <Entry Placeholder="Username"
-                 Text="{Binding Path=Username}"/>
-          <Entry Placeholder="Password"
-                 Text="{Binding Path=Password}"
-                 IsPassword="true"/>
+          <Label Text="Welcome to Green Apron"
+                 FontSize="26" />
+          <Label Text="Please Login or Register" />
+          <Label Text="Username" />
+          <Entry Text="{Binding Username}" />
+          <Label Text="Password" />
+          <Entry Text="{Binding Password}"
+                 IsPassword="True" />
           <Button Text="Login" TextColor="White"
                   BackgroundColor="#77D065"
                   Clicked="DoLogin"/>
         </StackLayout>
+        </ContentPage.Content>
       </ContentPage>
-<!--      <ContentPage Title="Register">
+      <ContentPage Title="Register">
         <StackLayout Spacing="20" Padding="20"
                  VerticalOptions="Center">
 		  <Label Text="Green Apron Registration"
@@ -46,6 +43,6 @@
                   BackgroundColor="#77D065"
                   Clicked="DoRegistration"/>
         </StackLayout>
-      </ContentPage>-->
-<!--    </TabbedPage.Children>
-  </TabbedPage>-->
+      </ContentPage>
+    </TabbedPage.Children>
+  </TabbedPage>
