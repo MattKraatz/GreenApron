@@ -30,5 +30,7 @@ namespace GreenApron
         {
             // Handle when your app resumes
         }
+
+        
     }
 }
