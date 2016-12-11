@@ -1,14 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
   <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			  xmlns:local="clr-namespace:GreenApron;assembly=GreenApron"
               x:Class="GreenApron.MainPage">
     <TabbedPage.Children>
       <ContentPage Title="Login">
-        <Label Text="Please Log In or Register"
-                 VerticalOptions="Center"
-                 HorizontalOptions="Center" />
         <StackLayout Spacing="20" Padding="20"
                  VerticalOptions="Center">
+		  <Label Text = "Welcome to Green Apron"
+				 HorizontalOptions="Center"
+				 FontSize="26" />
+		  <Label Text="Please Log In or Register"
+                 HorizontalOptions="Center" />
           <Entry Placeholder="Username"
                  Text="{Binding Username}"/>
           <Entry Placeholder="Password"
@@ -20,15 +23,11 @@
         </StackLayout>
       </ContentPage>
       <ContentPage Title="Register">
-        <Label Text="Please Log In or Register"
-                 VerticalOptions="Center"
-                 HorizontalOptions="Center" />
         <StackLayout Spacing="20" Padding="20"
                  VerticalOptions="Center">
-          <Entry Placeholder="First Name"
-                 Text="{Binding FirstName}"/>
-          <Entry Placeholder="Last Name"
-                 Text="{Binding LastName}"/>
+		  <Label Text="Green Apron Registration"
+				 FontSize="26"
+                 HorizontalOptions="Center" />
           <Entry Placeholder="Username"
                  Text="{Binding Username}"/>
           <Entry Placeholder="Password"
@@ -37,9 +36,13 @@
           <Entry Placeholder="Confirm Password"
                  Text="{Binding ConfirmPassword}"
                  IsPassword="true"/>
-          <Button Text="Login" TextColor="White"
+		  <Entry Placeholder="First Name"
+                 Text="{Binding FirstName}"/>
+          <Entry Placeholder="Last Name"
+                 Text="{Binding LastName}"/>
+          <Button Text="Register" TextColor="White"
                   BackgroundColor="#77D065"
-                  Command="{Binding DoLogin}"/>
+                  Command="{Binding DoRegistration}"/>
         </StackLayout>
       </ContentPage>
     </TabbedPage.Children>
