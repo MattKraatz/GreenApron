@@ -13,7 +13,7 @@ namespace GreenApron
         {
             InitializeComponent();
 
-            MainPage = new GreenApron.MainPage();
+			MainPage = new NavigationPage( new GreenApron.LoginPage());
         }
 
         protected override void OnStart()

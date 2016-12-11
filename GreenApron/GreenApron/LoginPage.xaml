@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-  <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+<!--  <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			  xmlns:local="clr-namespace:GreenApron;assembly=GreenApron"
-              x:Class="GreenApron.MainPage">
-    <TabbedPage.Children>
-      <ContentPage Title="Login">
+              x:Class="GreenApron.LoginPage">
+    <TabbedPage.Children>-->
+      <ContentPage Title="Login"
+		xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              x:Class="GreenApron.LoginPage">
         <StackLayout Spacing="20" Padding="20"
                  VerticalOptions="Center">
 		  <Label Text = "Welcome to Green Apron"
@@ -13,37 +15,37 @@
 		  <Label Text="Please Log In or Register"
                  HorizontalOptions="Center" />
           <Entry Placeholder="Username"
-                 Text="{Binding Username}"/>
+                 Text="{Binding Path=Username}"/>
           <Entry Placeholder="Password"
-                 Text="{Binding Password}"
+                 Text="{Binding Path=Password}"
                  IsPassword="true"/>
           <Button Text="Login" TextColor="White"
                   BackgroundColor="#77D065"
-                  Command="{Binding DoLogin}"/>
+                  Clicked="DoLogin"/>
         </StackLayout>
       </ContentPage>
-      <ContentPage Title="Register">
+<!--      <ContentPage Title="Register">
         <StackLayout Spacing="20" Padding="20"
                  VerticalOptions="Center">
 		  <Label Text="Green Apron Registration"
 				 FontSize="26"
                  HorizontalOptions="Center" />
           <Entry Placeholder="Username"
-                 Text="{Binding Username}"/>
+                 Text="{Binding Path=Username}"/>
           <Entry Placeholder="Password"
-                 Text="{Binding Password}"
+                 Text="{Binding Path=Password}"
                  IsPassword="true"/>
           <Entry Placeholder="Confirm Password"
-                 Text="{Binding ConfirmPassword}"
+                 Text="{Binding Path=ConfirmPassword}"
                  IsPassword="true"/>
 		  <Entry Placeholder="First Name"
-                 Text="{Binding FirstName}"/>
+                 Text="{Binding Path=FirstName}"/>
           <Entry Placeholder="Last Name"
-                 Text="{Binding LastName}"/>
+                 Text="{Binding Path=LastName}"/>
           <Button Text="Register" TextColor="White"
                   BackgroundColor="#77D065"
-                  Command="{Binding DoRegistration}"/>
+                  Clicked="DoRegistration"/>
         </StackLayout>
-      </ContentPage>
-    </TabbedPage.Children>
-  </TabbedPage>
+      </ContentPage>-->
+<!--    </TabbedPage.Children>
+  </TabbedPage>-->
