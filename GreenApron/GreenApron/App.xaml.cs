@@ -9,11 +9,15 @@ namespace GreenApron
 {
     public partial class App : Application
     {
+        public static AuthManager AuthManager { get; private set; }
+
         public App()
         {
             InitializeComponent();
 
-			MainPage = new NavigationPage( new GreenApron.LoginPage());
+            AuthManager = new AuthManager(new AuthService());
+
+            MainPage = new GreenApron.MainPage();
         }
 
         protected override void OnStart()
