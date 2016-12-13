@@ -10,12 +10,14 @@ namespace GreenApron
     public partial class App : Application
     {
         public static AuthManager AuthManager { get; private set; }
+        public static SpoonManager SpoonManager { get; private set; }
 
         public App()
         {
             InitializeComponent();
 
             AuthManager = new AuthManager(new AuthService());
+            SpoonManager = new SpoonManager(new SpoonService());
 
             MainPage = new GreenApron.MainPage();
         }

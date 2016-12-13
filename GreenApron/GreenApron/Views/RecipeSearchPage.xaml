@@ -1,6 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GreenApron.RecipeSearchPage">
-  <Label Text="Recipe Search Page" VerticalOptions="Center" HorizontalOptions="Center" />
+             x:Class="GreenApron.RecipeSearchPage"
+             Title="Recipe Search">
+  <ContentPage.Content>
+    <StackLayout VerticalOptions="FillAndExpand">
+      <Button Clicked="GetRandomRecipe" Text="Get Random Recipe" TextColor="White" BackgroundColor="#77D065" />
+      <ListView x:Name="recipeSearchList" VerticalOptions="FillAndExpand" SeparatorVisibility="None" ItemTapped="OnItemTapped">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ImageCell Text="{Binding title}" ImageSource="{Binding image}" />
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
+  </ContentPage.Content>
 </ContentPage>

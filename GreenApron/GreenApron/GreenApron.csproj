@@ -44,11 +44,17 @@
     <Compile Include="Factories\AuthManager.cs" />
     <Compile Include="Factories\AuthService.cs" />
     <Compile Include="Factories\IAuthService.cs" />
-    <Compile Include="Factories\JsonResponse.cs" />
+    <Compile Include="Factories\ISpoonService.cs" />
+    <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Factories\Keys.cs" />
+    <Compile Include="Models\Recipe.cs" />
+    <Compile Include="Factories\SpoonManager.cs" />
+    <Compile Include="Factories\SpoonService.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ingredient.cs" />
+    <Compile Include="Models\RecipeArray.cs" />
     <Compile Include="Views\GroceryListPage.xaml.cs">
       <DependentUpon>GroceryListPage.xaml</DependentUpon>
     </Compile>
@@ -67,12 +73,18 @@
     <Compile Include="Views\MainNav.xaml.cs">
       <DependentUpon>MainNav.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MasterPageItem.cs" />
+    <Compile Include="ViewModels\MasterPageItem.cs" />
     <Compile Include="Views\MealPlanHomePage.xaml.cs">
       <DependentUpon>MealPlanHomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RecipeCollectionPage.xaml.cs">
       <DependentUpon>RecipeCollectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddToPlanFromRecipePage.xaml.cs">
+      <DependentUpon>AddToPlanFromRecipePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecipePage.xaml.cs">
+      <DependentUpon>RecipePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RecipeSearchPage.xaml.cs">
       <DependentUpon>RecipeSearchPage.xaml</DependentUpon>
@@ -99,6 +111,9 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.SfCalendar.XForms">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\14.4.0.15\Xamarin\lib\pcl\Syncfusion.SfCalendar.XForms.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.3.175\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
@@ -151,6 +166,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\HomeInventoryPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\RecipePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\AddToPlanFromRecipePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GreenApron.RecipePage">
+  <ContentPage.Content>
+    <StackLayout>
+      <Label Text="{Binding title}" HorizontalOptions="Center" />
+      <Label Text="{Binding preparationMinutes,
+             StringFormat='Prep Time: {0:F0} minutes'}" />
+      <Label Text="{Binding cookingMinutes,
+             StringFormat='Cook Time: {0:F0} minutes'}" />
+      <Image Source="{Binding image}" />
+      <Label Text="{Binding sourceName,
+             StringFormat='Source: {0:F0}'}" />
+      <Label Text="{Binding instructions,
+             StringFormat='Instructions: {0:F0}'}" />
+      <Button Text="Add To Plan" TextColor="White" BackgroundColor="#77D065" Clicked="OnAddToPlanClicked" />
+      <Button Text="Bookmark" TextColor="White" BackgroundColor="#77D065" />
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>

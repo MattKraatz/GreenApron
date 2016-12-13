@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Syncfusion.SfCalendar.XForms.iOS;
 
 namespace GreenApron.iOS
 {
@@ -24,6 +25,9 @@ namespace GreenApron.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
+
+            // Create an instance of SfCalendarRenderer for SyncFusion Calendar support
+            new SfCalendarRenderer();
 
             return base.FinishedLaunching(app, options);
         }
