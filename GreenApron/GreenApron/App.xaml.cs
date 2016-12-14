@@ -11,6 +11,7 @@ namespace GreenApron
     {
         public static AuthManager AuthManager { get; private set; }
         public static SpoonManager SpoonManager { get; private set; }
+        public static APImanager APImanager { get; private set; }
 
         public App()
         {
@@ -18,6 +19,7 @@ namespace GreenApron
 
             AuthManager = new AuthManager(new AuthService());
             SpoonManager = new SpoonManager(new SpoonService());
+            APImanager = new APImanager(new APIservice());
 
             MainPage = new GreenApron.MainPage();
         }

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GreenApron
 {
-    public class JsonResponse
+    public class AuthResponse : JsonResponse
     {
-        public bool success { get; set; }
-        public string message { get; set; }
+        public User user { get; set; }
     }
 }

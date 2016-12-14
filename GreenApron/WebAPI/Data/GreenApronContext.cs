@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System.Linq;
-using System.Threading.Tasks;
-using WebAPI.Models;
 
-namespace WebAPI.Data
+namespace WebAPI
 {
     public class GreenApronContext : DbContext
     {
@@ -15,12 +12,37 @@ namespace WebAPI.Data
         }
 
         public DbSet<User> User { get; set; }
+        public DbSet<Plan> Plan { get; set; }
+        public DbSet<GroceryItem> GroceryItem { get; set; }
+        public DbSet<InventoryItem> InventoryItem { get; set; }
+        public DbSet<Bookmark> Bookmark { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
             base.OnModelCreating(builder);
 
             builder.Entity<User>()
+                .Property(b => b.DateCreated)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<Plan>()
+                .Property(b => b.DateCreated)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<GroceryItem>()
+                .Property(b => b.DateCreated)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<InventoryItem>()
+                .Property(b => b.DateCreated)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<Bookmark>()
                 .Property(b => b.DateCreated)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }

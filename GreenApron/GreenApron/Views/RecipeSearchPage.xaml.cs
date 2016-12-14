@@ -31,6 +31,7 @@ namespace GreenApron
         public void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var recipe = e.Item as Recipe;
+            App.SpoonManager.selectedRecipe = recipe;
             var recipePage = new RecipePage();
             recipePage.BindingContext = recipe;
             Navigation.PushAsync(recipePage);

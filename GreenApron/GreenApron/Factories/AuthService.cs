@@ -16,7 +16,7 @@ namespace GreenApron
             client.MaxResponseContentBufferSize = 256000;
         }
 
-        public async Task<JsonResponse> RegisterAsync(User user)
+        public async Task<AuthResponse> RegisterAsync(User user)
         {
             var uri = new Uri(string.Format(Keys.WebAPI + "/auth/register", string.Empty));
             try
@@ -25,7 +25,7 @@ namespace GreenApron
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(uri, content);
                 var JSONstring = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+                return JsonConvert.DeserializeObject<AuthResponse>(JSONstring);
             }
             catch
             {
@@ -33,7 +33,7 @@ namespace GreenApron
             }
         }
 
-        public async Task<JsonResponse> LoginAsync(User user)
+        public async Task<AuthResponse> LoginAsync(User user)
         {
             var uri = new Uri(string.Format(Keys.WebAPI + "/auth/login", string.Empty));
             try
@@ -42,7 +42,7 @@ namespace GreenApron
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(uri, content);
                 var JSONstring = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+                return JsonConvert.DeserializeObject<AuthResponse>(JSONstring);
             }
             catch
             {

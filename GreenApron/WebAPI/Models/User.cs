@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebAPI.Models
+namespace WebAPI
 {
     public class User
     {
@@ -25,5 +26,9 @@ namespace WebAPI.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime DateCreated { get; set; }
 
+        public ICollection<Plan> Plans { get; set; }
+        public ICollection<GroceryItem> GroceryItems { get; set; }
+        public ICollection<Bookmark> Bookmarks { get; set; }
+        public ICollection<InventoryItem> InventoryItems { get; set; }
     }
 }

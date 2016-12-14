@@ -2,9 +2,7 @@
 using System;
 using Xunit;
 using Microsoft.EntityFrameworkCore;
-using WebAPI.Data;
-using WebAPI.Controllers;
-using WebAPI.Models;
+using WebAPI;
 using System.Reflection;
 using Newtonsoft.Json;
 using System.Threading.Tasks;

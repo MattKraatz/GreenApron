@@ -10,6 +10,7 @@ namespace GreenApron
     public class SpoonManager
     {
         ISpoonService _spoonService;
+        public Recipe selectedRecipe;
         
         public SpoonManager(ISpoonService service)
         {

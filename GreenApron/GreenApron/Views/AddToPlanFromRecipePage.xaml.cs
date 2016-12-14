@@ -11,11 +11,14 @@ namespace GreenApron
 {
     public partial class AddToPlanFromRecipePage : ContentPage
     {
+        public DateTime selectedDate { get; set; }
+
         public AddToPlanFromRecipePage()
         {
             InitializeComponent();
             // Instantiate Calendar and add to View
             SfCalendar calendar = new SfCalendar();
+            calendar.OnCalendarTapped += CacheSelectedDate;
             layout.Children.Add(calendar);
             // Instantiate Add to Plan button and add to View
             var addButton = new Button { Text = "Add to Plan", BackgroundColor = Color.FromHex("#77D065"), TextColor = Color.White };
@@ -28,8 +31,25 @@ namespace GreenApron
         public async void OnAddToPlanClicked(object sender, EventArgs e)
         {
             var action = await DisplayActionSheet("Which Meal?", "Cancel", null, "Breakfast", "Lunch", "Dinner", "Snack", "Dessert");
-            // TODO: Post this Meal Plan to WebAPI
-            // TODO: On Success, pop this page from Navigation
+            // Post this Meal Plan to WebAPI
+            var newPlan = new PlanRequest { userId = App.AuthManager.loggedInUser.UserId, date = selectedDate, meal = action, recipe = App.SpoonManager.selectedRecipe };
+            JsonResponse response = await App.APImanager.AddPlan(newPlan);
+            var testy = response;
+            // On Success, pop this page from Navigation
+            if (response.success)
+            {
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                // handle failure
+                await DisplayAlert("Error", response.message, "Okay");
+            }
+        }
+
+        public void CacheSelectedDate(object sender, Syncfusion.SfCalendar.XForms.CalendarTappedEventArgs args)
+        {
+            selectedDate = args.datetime;
         }
     }
 }

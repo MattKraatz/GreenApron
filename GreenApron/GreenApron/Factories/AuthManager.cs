@@ -16,12 +16,12 @@ namespace GreenApron
             _authService = service;
         }
 
-        public Task<JsonResponse> RegisterAsync(User user)
+        public Task<AuthResponse> RegisterAsync(User user)
         {
             return _authService.RegisterAsync(user);
         }
 
-        public Task<JsonResponse> LoginAsync(User user)
+        public Task<AuthResponse> LoginAsync(User user)
         {
             return _authService.LoginAsync(user);
         }

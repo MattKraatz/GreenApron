@@ -41,12 +41,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Factories\APImanager.cs" />
     <Compile Include="Factories\AuthManager.cs" />
+    <Compile Include="Factories\APIservice.cs" />
     <Compile Include="Factories\AuthService.cs" />
+    <Compile Include="Factories\IAPIservice.cs" />
     <Compile Include="Factories\IAuthService.cs" />
     <Compile Include="Factories\ISpoonService.cs" />
-    <Compile Include="Models\JsonResponse.cs" />
+    <Compile Include="Models\AuthResponse.cs" />
     <Compile Include="Factories\Keys.cs" />
+    <Compile Include="Models\JsonResponse.cs" />
+    <Compile Include="Models\PlanRequest.cs" />
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Factories\SpoonManager.cs" />
     <Compile Include="Factories\SpoonService.cs" />

@@ -21,7 +21,7 @@ namespace GreenApron
             // grab user input from page entry elements
             var creds = (User)BindingContext;
             // attempt registration
-            JsonResponse response = await App.AuthManager.LoginAsync(creds);
+            AuthResponse response = await App.AuthManager.LoginAsync(creds);
             if (response.success)
             {
                 // if successful, set current user and route to home page
@@ -48,7 +48,7 @@ namespace GreenApron
             else
             {
                 // attempt registration
-                JsonResponse response = await App.AuthManager.RegisterAsync(creds);
+                AuthResponse response = await App.AuthManager.RegisterAsync(creds);
                 if (response.success)
                 {
                     // if successful, set current user and route to home page
