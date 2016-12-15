@@ -8,9 +8,10 @@ using WebAPI;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(GreenApronContext))]
-    partial class GreenApronContextModelSnapshot : ModelSnapshot
+    [Migration("20161215170609_AddDateCompleteToPlan")]
+    partial class AddDateCompleteToPlan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -124,7 +125,7 @@ namespace WebAPI.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<DateTime?>("DateCompleted");
+                    b.Property<DateTime>("DateCompleted");
 
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAddOrUpdate()

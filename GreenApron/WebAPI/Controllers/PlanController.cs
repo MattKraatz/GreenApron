@@ -134,14 +134,51 @@ namespace WebAPI
         // GET api/plan/getall/{userId}
         // Returns all active plans
         [HttpGet("{userId}")]
-        public async Task<PlanResponse> GetAll([FromRoute] Guid userId)
+        public async Task<JsonResult> GetAll([FromRoute] Guid userId)
         {
             var plans = await _context.Plan.Where(p => p.UserId == userId).ToListAsync();
             if (plans.Count < 1)
             {
-                return new PlanResponse { success = false, message = "No plans were found, have you added any?" };
+                return Json(new PlanResponse { success = false, message = "No plans were found, have you added any?" });
             }
-            return new PlanResponse { success = true, message = "Plan(s) retrieved successfully.", plans = plans };
+            return Json(new PlanResponse { success = true, message = "Plan(s) retrieved successfully.", plans = plans });
+        }
+
+        // POST api/plan/complete/{planId}
+        // Completes a plan, deducts amounts from inventory items
+        [HttpPost("{planId}")]
+        public async Task<JsonResult> Complete([FromRoute] Guid planId)
+        {
+            var plan = await _context.Plan.SingleOrDefaultAsync(p => p.PlanId == planId);
+            if (plan == null)
+            {
+                return Json(new JsonResponse { success = false, message = "Something went wrong, please refresh your client." });
+            }
+            plan.DateCompleted = DateTime.Now;
+            _context.Entry(plan).State = EntityState.Modified;
+            var planIngredients = await _context.PlanIngredient.Where(pi => pi.PlanId == plan.PlanId).ToListAsync();
+            foreach (PlanIngredient ingredient in planIngredients)
+            {
+                var inventoryItem = await _context.InventoryItem.SingleOrDefaultAsync(ii => ii.IngredientId == ingredient.IngredientId);
+                if (inventoryItem != null)
+                {
+                    inventoryItem.Amount -= ingredient.Amount;
+                    if (inventoryItem.Amount < 0)
+                    {
+                        inventoryItem.Amount = 0;
+                    }
+                    _context.Entry(inventoryItem).State = EntityState.Modified;
+                }
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
+            }
+            return Json(new JsonResponse { success = true, message = "Plan updated successfully" });
         }
     }
 }

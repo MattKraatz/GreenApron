@@ -29,6 +29,8 @@ namespace WebAPI
         public Guid UserId { get; set; }
         public User User { get; set; }
 
+        public DateTime? DateCompleted { get; set; }
+
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime DateCreated { get; set; }
