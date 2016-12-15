@@ -34,7 +34,6 @@ namespace GreenApron
             // Post this Meal Plan to WebAPI
             var newPlan = new PlanRequest { userId = App.AuthManager.loggedInUser.UserId, date = selectedDate, meal = action, recipe = App.SpoonManager.selectedRecipe };
             JsonResponse response = await App.APImanager.AddPlan(newPlan);
-            var testy = response;
             // On Success, pop this page from Navigation
             if (response.success)
             {

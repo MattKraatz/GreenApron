@@ -5,6 +5,9 @@ using System.Linq;
 using Foundation;
 using UIKit;
 using Syncfusion.SfCalendar.XForms.iOS;
+using Xamarin.Forms;
+using Plugin.Toasts;
+using UserNotifications;
 
 namespace GreenApron.iOS
 {
@@ -24,10 +27,32 @@ namespace GreenApron.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            DependencyService.Register<ToastNotification>();
+            ToastNotification.Init();
+
             LoadApplication(new App());
 
             // Create an instance of SfCalendarRenderer for SyncFusion Calendar support
             new SfCalendarRenderer();
+
+            // Request Permissions for Toast
+            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            {
+                // Request Permissions
+                UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound, (granted, error) =>
+                {
+                    // Do something if needed
+                });
+            }
+
+            else if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
+                var notificationSettings = UIUserNotificationSettings.GetSettingsForTypes(
+                UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null);
+
+                app.RegisterUserNotificationSettings(notificationSettings);
+            }
 
             return base.FinishedLaunching(app, options);
         }

@@ -20,5 +20,14 @@ namespace GreenApron
             return _APIservice.AddPlan(plan);
         }
 
-}
+        public Task<JsonResponse> AddBookmark(BookmarkRequest bookmark)
+        {
+            return _APIservice.AddBookmark(bookmark);
+        }
+
+        public Task<BookmarkResponse> GetBookmarks()
+        {
+            return _APIservice.GetBookmarks();
+        }
+    }
 }

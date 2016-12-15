@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Plugin.Toasts;
+using Xamarin.Forms;
 
 namespace GreenApron.Droid
 {
@@ -20,6 +22,10 @@ namespace GreenApron.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            DependencyService.Register<ToastNotification>();
+            ToastNotification.Init(this);
+
             LoadApplication(new App());
         }
     }

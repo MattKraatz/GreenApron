@@ -15,7 +15,7 @@
       <Label Text="{Binding instructions,
              StringFormat='Instructions: {0:F0}'}" />
       <Button Text="Add To Plan" TextColor="White" BackgroundColor="#77D065" Clicked="OnAddToPlanClicked" />
-      <Button Text="Bookmark" TextColor="White" BackgroundColor="#77D065" />
+      <Button Text="Bookmark" TextColor="White" BackgroundColor="#77D065" Clicked="OnBookmarkClicked" />
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>

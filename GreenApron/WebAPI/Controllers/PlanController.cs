@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -53,6 +53,19 @@ namespace WebAPI
             }
 
             return Json( new JsonResponse { success = true, message = "Plan saved successfully"});
+        }
+
+        // GET api/plan/getall/{userId}
+        // Returns all active plans
+        [HttpGet("{userId}")]
+        public async Task<PlanResponse> GetAll([FromRoute] Guid userId)
+        {
+            var plans = await _context.Plan.Where(p => p.UserId == userId).ToListAsync();
+            if (plans.Count < 1)
+            {
+                return new PlanResponse { success = false, message = "No plans were found, have you added any?" };
+            }
+            return new PlanResponse { success = true, message = "Bookmark(s) retrieved successfully.", plans = plans };
         }
     }
 }

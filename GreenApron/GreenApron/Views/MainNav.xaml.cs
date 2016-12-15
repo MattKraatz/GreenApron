@@ -43,6 +43,12 @@ namespace GreenApron
             });
             masterPageItems.Add(new MasterPageItem
             {
+                Title = "Bookmarked Recipes",
+                IconSource = "",
+                TargetType = typeof(RecipeCollectionPage)
+            });
+            masterPageItems.Add(new MasterPageItem
+            {
                 Title = "My Pantry",
                 IconSource = "",
                 TargetType = typeof(HomeInventoryPage)
