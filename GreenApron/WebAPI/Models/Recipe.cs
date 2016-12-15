@@ -25,7 +25,7 @@ namespace WebAPI
         public int aggregateLikes { get; set; }
         public string creditText { get; set; }
         public string sourceName { get; set; }
-        public List<Ingredient> extendedIngredients { get; set; }
+        public List<extIngredient> extendedIngredients { get; set; }
         public int id { get; set; }
         public string title { get; set; }
         public int readyInMinutes { get; set; }

@@ -8,9 +8,10 @@ using WebAPI;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(GreenApronContext))]
-    partial class GreenApronContextModelSnapshot : ModelSnapshot
+    [Migration("20161215160635_PlanFKFix")]
+    partial class PlanFKFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")

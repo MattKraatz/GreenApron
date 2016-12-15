@@ -8,8 +8,8 @@ using WebAPI;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(GreenApronContext))]
-    [Migration("20161213232620_GroceryInventoryBookmarkTablesAndFixes")]
-    partial class GroceryInventoryBookmarkTablesAndFixes
+    [Migration("20161215061733_GroceryItemFix")]
+    partial class GroceryItemFix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,8 +47,6 @@ namespace WebAPI.Migrations
                     b.Property<Guid>("GroceryItemId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Aisle");
-
                     b.Property<double>("Amount");
 
                     b.Property<DateTime?>("DateCompleted");
@@ -57,10 +55,7 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<string>("ImageURL");
-
-                    b.Property<string>("IngredientName")
-                        .IsRequired();
+                    b.Property<int>("IngredientId");
 
                     b.Property<Guid?>("PlanId");
 
@@ -71,6 +66,8 @@ namespace WebAPI.Migrations
 
                     b.HasKey("GroceryItemId");
 
+                    b.HasIndex("IngredientId");
+
                     b.HasIndex("PlanId");
 
                     b.HasIndex("UserId");
@@ -78,14 +75,11 @@ namespace WebAPI.Migrations
                     b.ToTable("GroceryItem");
                 });
 
-            modelBuilder.Entity("WebAPI.InventoryItem", b =>
+            modelBuilder.Entity("WebAPI.Ingredient", b =>
                 {
-                    b.Property<Guid>("InventoryItemId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("IngredientId");
 
                     b.Property<string>("Aisle");
-
-                    b.Property<double>("Amount");
 
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAddOrUpdate()
@@ -96,12 +90,32 @@ namespace WebAPI.Migrations
                     b.Property<string>("IngredientName")
                         .IsRequired();
 
+                    b.HasKey("IngredientId");
+
+                    b.ToTable("Ingredient");
+                });
+
+            modelBuilder.Entity("WebAPI.InventoryItem", b =>
+                {
+                    b.Property<Guid>("InventoryItemId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Amount");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("IngredientId");
+
                     b.Property<string>("Unit")
                         .IsRequired();
 
                     b.Property<Guid>("UserId");
 
                     b.HasKey("InventoryItemId");
+
+                    b.HasIndex("IngredientId");
 
                     b.HasIndex("UserId");
 
@@ -136,6 +150,31 @@ namespace WebAPI.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Plan");
+                });
+
+            modelBuilder.Entity("WebAPI.PlanIngredient", b =>
+                {
+                    b.Property<Guid>("PlanIngredientId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Amount");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("IngredientId");
+
+                    b.Property<Guid>("PlanId");
+
+                    b.Property<string>("unit")
+                        .IsRequired();
+
+                    b.HasKey("PlanIngredientId");
+
+                    b.HasIndex("IngredientId");
+
+                    b.ToTable("PlanIngredient");
                 });
 
             modelBuilder.Entity("WebAPI.User", b =>
@@ -173,7 +212,11 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.GroceryItem", b =>
                 {
-                    b.HasOne("WebAPI.Plan", "Plan")
+                    b.HasOne("WebAPI.Ingredient")
+                        .WithMany("GroceryItems")
+                        .HasForeignKey("IngredientId");
+
+                    b.HasOne("WebAPI.Plan")
                         .WithMany("GroceryItems")
                         .HasForeignKey("PlanId");
 
@@ -184,6 +227,10 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.InventoryItem", b =>
                 {
+                    b.HasOne("WebAPI.Ingredient")
+                        .WithMany("InventoryItems")
+                        .HasForeignKey("IngredientId");
+
                     b.HasOne("WebAPI.User", "User")
                         .WithMany("InventoryItems")
                         .HasForeignKey("UserId");
@@ -194,6 +241,13 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.User", "User")
                         .WithMany("Plans")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("WebAPI.PlanIngredient", b =>
+                {
+                    b.HasOne("WebAPI.Ingredient")
+                        .WithMany("PlanIngredients")
+                        .HasForeignKey("IngredientId");
                 });
         }
     }

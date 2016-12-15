@@ -9,7 +9,7 @@ namespace WebAPI
     {
         [Key]
         public Guid BookmarkId { get; set; }
-
+        
         [Required]
         [ForeignKey("User")]
         public Guid UserId { get; set; }

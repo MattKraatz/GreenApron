@@ -4,10 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPI
 {
-    public class InventoryItem
+    public class PlanIngredient
     {
         [Key]
-        public Guid InventoryItemId { get; set; }
+        public Guid PlanIngredientId { get; set; }
+
+        [Required]
+        [ForeignKey("Plan")]
+        public Guid PlanId { get; set; }
 
         [Required]
         [ForeignKey("Ingredient")]
@@ -17,12 +21,7 @@ namespace WebAPI
         public double Amount { get; set; }
 
         [Required]
-        public string Unit { get; set; }
-
-        [Required]
-        [ForeignKey("User")]
-        public Guid UserId { get; set; }
-        public User User { get; set; }
+        public string unit { get; set; }
 
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

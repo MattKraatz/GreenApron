@@ -8,9 +8,10 @@ using WebAPI;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(GreenApronContext))]
-    partial class GreenApronContextModelSnapshot : ModelSnapshot
+    [Migration("20161215053913_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -56,6 +57,8 @@ namespace WebAPI.Migrations
 
                     b.Property<int>("IngredientId");
 
+                    b.Property<Guid?>("PlanId");
+
                     b.Property<string>("Unit")
                         .IsRequired();
 
@@ -65,6 +68,8 @@ namespace WebAPI.Migrations
 
                     b.HasIndex("IngredientId");
 
+                    b.HasIndex("PlanId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("GroceryItem");
@@ -72,7 +77,8 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Ingredient", b =>
                 {
-                    b.Property<int>("IngredientId");
+                    b.Property<int>("IngredientId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Aisle");
 
@@ -158,6 +164,8 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<Guid?>("GroceryItemId");
+
                     b.Property<int>("IngredientId");
 
                     b.Property<Guid>("PlanId");
@@ -167,9 +175,9 @@ namespace WebAPI.Migrations
 
                     b.HasKey("PlanIngredientId");
 
-                    b.HasIndex("IngredientId");
+                    b.HasIndex("GroceryItemId");
 
-                    b.HasIndex("PlanId");
+                    b.HasIndex("IngredientId");
 
                     b.ToTable("PlanIngredient");
                 });
@@ -213,6 +221,10 @@ namespace WebAPI.Migrations
                         .WithMany("GroceryItems")
                         .HasForeignKey("IngredientId");
 
+                    b.HasOne("WebAPI.Plan")
+                        .WithMany("GroceryItems")
+                        .HasForeignKey("PlanId");
+
                     b.HasOne("WebAPI.User", "User")
                         .WithMany("GroceryItems")
                         .HasForeignKey("UserId");
@@ -238,13 +250,13 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.PlanIngredient", b =>
                 {
+                    b.HasOne("WebAPI.GroceryItem")
+                        .WithMany("PlanIngredients")
+                        .HasForeignKey("GroceryItemId");
+
                     b.HasOne("WebAPI.Ingredient")
                         .WithMany("PlanIngredients")
                         .HasForeignKey("IngredientId");
-
-                    b.HasOne("WebAPI.Plan")
-                        .WithMany("PlanIngredients")
-                        .HasForeignKey("PlanId");
                 });
         }
     }

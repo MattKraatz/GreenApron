@@ -33,6 +33,6 @@ namespace WebAPI
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime DateCreated { get; set; }
 
-        public ICollection<GroceryItem> GroceryItems { get;set; }
+        public ICollection<PlanIngredient> PlanIngredients { get;set; }
     }
 }

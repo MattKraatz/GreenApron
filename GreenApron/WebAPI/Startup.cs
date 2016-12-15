@@ -31,6 +31,8 @@ namespace WebAPI
             // Add framework services.
             services.AddMvc();
 
+            services.AddCors();
+
             // Add entity framework
             services.AddDbContext<GreenApronContext>(options =>
                 options.UseSqlServer(Environment.GetEnvironmentVariable("GreenApronDB")));
@@ -41,6 +43,8 @@ namespace WebAPI
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseMvc();
         }

@@ -16,6 +16,8 @@ namespace WebAPI
         public DbSet<GroceryItem> GroceryItem { get; set; }
         public DbSet<InventoryItem> InventoryItem { get; set; }
         public DbSet<Bookmark> Bookmark { get; set; }
+        public DbSet<Ingredient> Ingredient { get; set; }
+        public DbSet<PlanIngredient> PlanIngredient { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,6 +45,14 @@ namespace WebAPI
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder.Entity<Bookmark>()
+                .Property(b => b.DateCreated)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<Ingredient>()
+                .Property(b => b.DateCreated)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder.Entity<PlanIngredient>()
                 .Property(b => b.DateCreated)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }

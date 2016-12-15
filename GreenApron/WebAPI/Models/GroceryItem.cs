@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,7 +11,8 @@ namespace WebAPI
         public Guid GroceryItemId { get; set; }
 
         [Required]
-        public string IngredientName { get; set; }
+        [ForeignKey("Ingredient")]
+        public int IngredientId { get; set; }
 
         [Required]
         public double Amount { get; set; }
@@ -18,15 +20,7 @@ namespace WebAPI
         [Required]
         public string Unit { get; set; }
 
-        public string Aisle { get; set; }
-
-        public string ImageURL { get; set; }
-
         public DateTime? DateCompleted { get; set; }
-
-        [ForeignKey("Plan")]
-        public Guid? PlanId { get; set; }
-        public Plan Plan { get; set; }
 
         [Required]
         [ForeignKey("User")]
