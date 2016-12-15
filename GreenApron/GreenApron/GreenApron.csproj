@@ -53,6 +53,10 @@
     <Compile Include="Models\Bookmark.cs" />
     <Compile Include="Models\BookmarkRequest.cs" />
     <Compile Include="Models\BookmarkResponse.cs" />
+    <Compile Include="Models\GroceryItem.cs" />
+    <Compile Include="Models\GroceryRequest.cs" />
+    <Compile Include="Models\GroceryResponse.cs" />
+    <Compile Include="Models\dbIngredient.cs" />
     <Compile Include="Models\JsonResponse.cs" />
     <Compile Include="Models\PlanRequest.cs" />
     <Compile Include="Models\Recipe.cs" />

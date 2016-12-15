@@ -211,7 +211,7 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.GroceryItem", b =>
                 {
-                    b.HasOne("WebAPI.Ingredient")
+                    b.HasOne("WebAPI.Ingredient", "Ingredient")
                         .WithMany("GroceryItems")
                         .HasForeignKey("IngredientId");
 

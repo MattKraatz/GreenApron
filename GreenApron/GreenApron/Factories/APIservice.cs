@@ -64,5 +64,37 @@ namespace GreenApron
                 throw new NotImplementedException();
             }
         }
+
+        public async Task<GroceryResponse> GetGroceryItems()
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/getall/" + App.AuthManager.loggedInUser.UserId.ToString(), string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<GroceryResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<JsonResponse> UpdateGroceryItems(GroceryRequest request)
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/update", string.Empty));
+            try
+            {
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(uri, content);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace WebAPI
         [Required]
         [ForeignKey("Ingredient")]
         public int IngredientId { get; set; }
+        public Ingredient Ingredient { get; set; }
 
         [Required]
         public double Amount { get; set; }

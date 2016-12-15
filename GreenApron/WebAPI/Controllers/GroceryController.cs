@@ -22,7 +22,8 @@ namespace WebAPI
         [HttpGet("{userId}")]
         public async Task<JsonResult> GetAll([FromRoute] Guid userId)
         {
-            var items = await _context.GroceryItem.Where(gi => gi.DateCompleted != null).ToListAsync();
+            var items = await _context.GroceryItem.Where(gi => gi.DateCompleted == null).Include(gi => gi.Ingredient).ToListAsync();
+            var test = items;
             if (items.Count < 1)
             {
                 return Json(new GroceryResponse { success = false, message = "No grocery items were found, have you added any? " });
@@ -34,10 +35,6 @@ namespace WebAPI
         // Updates grocery items that were purchased
         public async Task<JsonResult> Update([FromBody] GroceryRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return Json(new JsonResponse { success = false, message = "Something went wrong, please resubmit with all required fields." });
-            }
             foreach (GroceryItem item in request.items)
             {
                 // Find the grocery item record in the database, update it's DateCompleted property
