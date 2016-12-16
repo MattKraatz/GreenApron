@@ -2,5 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GreenApron.MealPlanHomePage">
-  <Label Text="Meal Plan Home Page" VerticalOptions="Center" HorizontalOptions="Center" />
+  <ContentPage.Content>
+    <StackLayout x:Name="layout">
+    </StackLayout>
+  </ContentPage.Content>
 </ContentPage>

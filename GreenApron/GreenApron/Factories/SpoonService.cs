@@ -43,5 +43,21 @@ namespace GreenApron
                 throw new NotImplementedException();
             }
         }
+
+        public async Task<Recipe> GetRecipeByIdAsync(int recipeId)
+        {
+            var uri = new Uri(string.Format(Keys.SpoonURI + "/recipes/" + recipeId + "/information", string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                var recipe = JsonConvert.DeserializeObject<Recipe>(JSONstring);
+                return recipe;
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
         [HttpGet("{userId}")]
         public async Task<JsonResult> GetAll([FromRoute] Guid userId)
         {
-            var items = await _context.InventoryItem.Where(ii => ii.Amount > 0).ToListAsync();
+            var items = await _context.InventoryItem.Where(ii => ii.Amount > 0).Include(ii => ii.Ingredient).ToListAsync();
             if (items.Count < 1)
             {
                 return Json(new InventoryResponse { success = false, message = "No inventory items were found, have you added any? " });

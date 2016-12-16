@@ -10,5 +10,6 @@ namespace GreenApron
     public interface ISpoonService
     {
         Task<List<Recipe>> GetRandomRecipeAsync();
+        Task<Recipe> GetRecipeByIdAsync(int recipeId);
     }
 }

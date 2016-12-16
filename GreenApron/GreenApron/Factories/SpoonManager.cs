@@ -21,5 +21,10 @@ namespace GreenApron
         {
             return _spoonService.GetRandomRecipeAsync();
         }
+
+        public Task<Recipe> GetRecipeByIdAsync(int recipeId)
+        {
+            return _spoonService.GetRecipeByIdAsync(recipeId);
+        }
     }
 }

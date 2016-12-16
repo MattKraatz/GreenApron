@@ -136,7 +136,7 @@ namespace WebAPI
         [HttpGet("{userId}")]
         public async Task<JsonResult> GetAll([FromRoute] Guid userId)
         {
-            var plans = await _context.Plan.Where(p => p.UserId == userId).ToListAsync();
+            var plans = await _context.Plan.Where(p => p.UserId == userId).Include(p => p.PlanIngredients).ToListAsync();
             if (plans.Count < 1)
             {
                 return Json(new PlanResponse { success = false, message = "No plans were found, have you added any?" });
@@ -146,7 +146,7 @@ namespace WebAPI
 
         // POST api/plan/complete/{planId}
         // Completes a plan, deducts amounts from inventory items
-        [HttpPost("{planId}")]
+        [HttpGet("{planId}")]
         public async Task<JsonResult> Complete([FromRoute] Guid planId)
         {
             var plan = await _context.Plan.SingleOrDefaultAsync(p => p.PlanId == planId);

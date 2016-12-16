@@ -96,5 +96,50 @@ namespace GreenApron
                 throw new NotImplementedException();
             }
         }
+
+        public async Task<InventoryResponse> GetInventoryItems()
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/getall/" + App.AuthManager.loggedInUser.UserId.ToString(), string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<InventoryResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<PlanResponse> GetActivePlans()
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/plan/getall/" + App.AuthManager.loggedInUser.UserId.ToString(), string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<PlanResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<JsonResponse> CompletePlan(Guid planId)
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/plan/complete/" + planId, string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

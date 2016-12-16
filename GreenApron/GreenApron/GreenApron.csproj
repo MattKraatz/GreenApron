@@ -57,8 +57,13 @@
     <Compile Include="Models\GroceryRequest.cs" />
     <Compile Include="Models\GroceryResponse.cs" />
     <Compile Include="Models\dbIngredient.cs" />
+    <Compile Include="Models\InventoryItem.cs" />
+    <Compile Include="Models\InventoryResponse.cs" />
     <Compile Include="Models\JsonResponse.cs" />
+    <Compile Include="Models\Plan.cs" />
+    <Compile Include="Models\PlanIngredient.cs" />
     <Compile Include="Models\PlanRequest.cs" />
+    <Compile Include="Models\PlanResponse.cs" />
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Factories\SpoonManager.cs" />
     <Compile Include="Factories\SpoonService.cs" />
@@ -94,6 +99,9 @@
     </Compile>
     <Compile Include="Views\AddToPlanFromRecipePage.xaml.cs">
       <DependentUpon>AddToPlanFromRecipePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlanPage.xaml.cs">
+      <DependentUpon>PlanPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RecipePage.xaml.cs">
       <DependentUpon>RecipePage.xaml</DependentUpon>
@@ -194,6 +202,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\AddToPlanFromRecipePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\PlanPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

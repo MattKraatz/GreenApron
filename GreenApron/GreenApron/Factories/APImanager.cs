@@ -39,5 +39,20 @@ namespace GreenApron
         {
             return _APIservice.UpdateGroceryItems(request);
         }
+
+        public Task<InventoryResponse> GetInventoryItems()
+        {
+            return _APIservice.GetInventoryItems();
+        }
+
+        public Task<PlanResponse> GetActivePlans()
+        {
+            return _APIservice.GetActivePlans();
+        }
+
+        public Task<JsonResponse> CompletePlan(Guid id)
+        {
+            return _APIservice.CompletePlan(id);
+        }
     }
 }

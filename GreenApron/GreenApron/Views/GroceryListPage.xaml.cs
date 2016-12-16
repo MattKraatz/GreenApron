@@ -45,7 +45,6 @@ namespace GreenApron
                 request.items.Add(item);
             }
             var response = await App.APImanager.UpdateGroceryItems(request);
-            var test = response;
             if (response.success)
             {
                 groceryItems.Clear();
