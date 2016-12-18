@@ -11,7 +11,7 @@ namespace GreenApron
 {
     public partial class HomeInventoryPage : ContentPage
     {
-        public ObservableCollection<InventoryItem> inventoryItems { get; private set; } = new ObservableCollection<InventoryItem>();
+        public ObservableCollection<InventoryListGroup> inventoryItems { get; private set; } = new ObservableCollection<InventoryListGroup>();
 
         public HomeInventoryPage()
         {
@@ -25,10 +25,24 @@ namespace GreenApron
             var response = await App.APImanager.GetInventoryItems();
             if (response.success)
             {
+                inventoryItems.Clear();
+                // Sort items by aisle for initial load
                 foreach (InventoryItem item in response.InventoryItems)
                 {
                     item.AmountUnit = item.Amount.ToString() + " " + item.Unit;
-                    inventoryItems.Add(item);
+                    // Find existing InventoryListGroup
+                    var groupCheck = inventoryItems.SingleOrDefault(g => g.Title == item.Ingredient.aisle);
+                    if (groupCheck == null)
+                    {
+                        inventoryItems.Add(new InventoryListGroup(item.Ingredient.aisle, item.Ingredient.aisle)
+                            {
+                                item
+                            });
+                    }
+                    else
+                    {
+                        groupCheck.Add(item);
+                    }
                 }
             }
             else

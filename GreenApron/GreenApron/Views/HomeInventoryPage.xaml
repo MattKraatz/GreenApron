@@ -2,11 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GreenApron.HomeInventoryPage">
-  <ListView x:Name="inventoryList" VerticalOptions="FillAndExpand">
-    <ListView.ItemTemplate>
-      <DataTemplate>
-        <TextCell Text="{Binding Ingredient.ingredientName}" Detail="{Binding AmountUnit}" />
-      </DataTemplate>
-    </ListView.ItemTemplate>
-  </ListView>
+  <ContentPage.Content>
+    <ListView x:Name="inventoryList" VerticalOptions="FillAndExpand"
+        GroupDisplayBinding="{Binding Title}"
+        GroupShortNameBinding="{Binding ShortName}"
+        IsGroupingEnabled="true">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <TextCell Text="{Binding Ingredient.ingredientName}" Detail="{Binding AmountUnit}" />
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </ContentPage.Content>
 </ContentPage>

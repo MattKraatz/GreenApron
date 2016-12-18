@@ -43,7 +43,6 @@ namespace GreenApron
                         groupCheck.Add(item);
                     }
                 }
-                var test = groceryItems;
             } else
             {
                 await DisplayAlert("Error", response.message, "Okay");

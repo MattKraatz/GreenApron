@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="Models\Ingredient.cs" />
     <Compile Include="Models\RecipeArray.cs" />
+    <Compile Include="ViewModels\InventoryListGroup.cs" />
     <Compile Include="ViewModels\GroceryListGroup.cs" />
     <Compile Include="Views\GroceryListPage.xaml.cs">
       <DependentUpon>GroceryListPage.xaml</DependentUpon>
