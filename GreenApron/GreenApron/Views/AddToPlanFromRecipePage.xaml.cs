@@ -30,19 +30,23 @@ namespace GreenApron
 
         public async void OnAddToPlanClicked(object sender, EventArgs e)
         {
-            var action = await DisplayActionSheet("Which Meal?", "Cancel", null, "Breakfast", "Lunch", "Dinner", "Snack", "Dessert");
-            // Post this Meal Plan to WebAPI
-            var newPlan = new PlanRequest { userId = App.AuthManager.loggedInUser.UserId, date = selectedDate, meal = action, recipe = App.SpoonManager.selectedRecipe };
-            JsonResponse response = await App.APImanager.AddPlan(newPlan);
-            // On Success, pop this page from Navigation
-            if (response.success)
+            var mealStrings = new[] { "Breakfast", "Lunch", "Dinner", "Snack", "Dessert" };
+            var action = await DisplayActionSheet("Which Meal?", "Cancel", null, mealStrings);
+            if (mealStrings.Contains(action))
             {
-                await Navigation.PopAsync();
-            }
-            else
-            {
-                // handle failure
-                await DisplayAlert("Error", response.message, "Okay");
+                // Post this Meal Plan to WebAPI
+                var newPlan = new PlanRequest { userId = App.AuthManager.loggedInUser.UserId, date = selectedDate, meal = action, recipe = App.SpoonManager.selectedRecipe };
+                JsonResponse response = await App.APImanager.AddPlan(newPlan);
+                // On Success, pop this page from Navigation
+                if (response.success)
+                {
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    // handle failure
+                    await DisplayAlert("Error", response.message, "Okay");
+                }
             }
         }
 

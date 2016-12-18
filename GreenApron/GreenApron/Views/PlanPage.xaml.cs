@@ -24,7 +24,6 @@ namespace GreenApron
 
         public async void OnCookedClicked(object sender, EventArgs e)
         {
-            var test = _activePlan.PlanId;
             // Call to the Database to Update the Plan and Update InventoryItems
             var response = await App.APImanager.CompletePlan(_activePlan.PlanId);
             if (response.success)

@@ -19,7 +19,6 @@ namespace GreenApron
         public MealPlanHomePage()
         {
             InitializeComponent();
-            calendar.ShowInlineEvents = true;
             calendar.OnCalendarTapped += OnCalendarTapped;
             layout.Children.Add(calendar);
             GetMealPlans();
@@ -31,9 +30,30 @@ namespace GreenApron
             foreach (Plan plan in response.plans)
             {
                 CalendarInlineEvent events = new CalendarInlineEvent();
-                events.StartTime = plan.Date;
-                events.EndTime = plan.Date;
-                events.Subject = plan.Meal + ": " + plan.RecipeName;
+                switch(plan.Meal)
+                {
+                    case "Breakfast":
+                        events.StartTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 7, 0, 0);
+                        events.EndTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 8, 0, 0);
+                        break;
+                    case "Lunch":
+                        events.StartTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 11, 0, 0);
+                        events.EndTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 12, 0, 0);
+                        break;
+                    case "Snack":
+                        events.StartTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 14, 0, 0);
+                        events.EndTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 15, 0, 0);
+                        break;
+                    case "Dinner":
+                        events.StartTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 18, 0, 0);
+                        events.EndTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 19, 0, 0);
+                        break;
+                    case "Dessert":
+                        events.StartTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 20, 0, 0);
+                        events.EndTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 21, 0, 0);
+                        break;
+                }
+                events.Subject = plan.Meal + " - " + plan.RecipeName;
                 collection.Add(events);
             }
             calendar.DataSource = collection;
@@ -42,14 +62,17 @@ namespace GreenApron
         public async void OnCalendarTapped(object sender, Syncfusion.SfCalendar.XForms.CalendarTappedEventArgs args)
         {
             selectedDate = args.datetime;
-            var planNames = response.plans.Where(p => p.Date.Date == selectedDate.Date).Select(p => p.Meal + ": " + p.RecipeName).ToArray();
-            var selectedMeal = await DisplayActionSheet("Which Meal?","Cancel","Go",planNames);
-            var plan = response.plans.SingleOrDefault(p => (p.Meal + ": " + p.RecipeName) == selectedMeal);
-            // Grab recipe from Spoonacular
-            plan.Recipe = await App.SpoonManager.GetRecipeByIdAsync(plan.RecipeId);
-            // Instantiate new recipe page with plan as context
-            var newPage = new PlanPage(plan);
-            await Navigation.PushAsync(newPage);
+            var planNames = response.plans.Where(p => p.Date.Date == selectedDate.Date).Select(p => p.Meal + " - " + p.RecipeName).ToArray();
+            var selectedMeal = await DisplayActionSheet("Which Meal?","Cancel",null,planNames);
+            if (planNames.Contains(selectedMeal))
+            {
+                var plan = response.plans.SingleOrDefault(p => (p.Meal + ": " + p.RecipeName) == selectedMeal);
+                // Grab recipe from Spoonacular
+                plan.Recipe = await App.SpoonManager.GetRecipeByIdAsync(plan.RecipeId);
+                // Instantiate new recipe page with plan as context
+                var newPage = new PlanPage(plan);
+                await Navigation.PushAsync(newPage);
+            }
         }
     }
 }
