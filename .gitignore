@@ -6,6 +6,8 @@
 Keys.cs
 .DS_Store
 */lib/
+*/GreenApronAPI-publish.ps1
+*/publish-module.psm1
 
 # User-specific files
 *.suo

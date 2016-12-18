@@ -6,7 +6,14 @@
   <ContentPage.Content>
     <StackLayout VerticalOptions="FillAndExpand">
       <Button Clicked="MarkAsBought" Text="Mark As Bought" TextColor="White" BackgroundColor="#77D065" />
-      <ListView x:Name="groceryList" VerticalOptions="FillAndExpand">
+      <ActivityIndicator
+                           IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           Color="Black" />
+      <ListView x:Name="groceryList" VerticalOptions="FillAndExpand"
+        GroupDisplayBinding="{Binding Title}"
+        GroupShortNameBinding="{Binding ShortName}"
+        IsGroupingEnabled="true">
         <ListView.ItemTemplate>
           <DataTemplate>
             <TextCell Text="{Binding Ingredient.ingredientName}" Detail="{Binding AmountUnit}" />

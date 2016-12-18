@@ -11,7 +11,7 @@ namespace GreenApron
 {
     public partial class GroceryListPage : ContentPage
     {
-        public ObservableCollection<GroceryItem> groceryItems { get; private set; } = new ObservableCollection<GroceryItem>();
+        public ObservableCollection<GroceryListGroup> groceryItems { get; private set; } = new ObservableCollection<GroceryListGroup>();
 
         public GroceryListPage()
         {
@@ -25,11 +25,25 @@ namespace GreenApron
             var response = await App.APImanager.GetGroceryItems();
             if (response.success)
             {
+                groceryItems.Clear();
                 foreach (GroceryItem item in response.GroceryItems)
                 {
                     item.AmountUnit = item.Amount.ToString() + " " + item.Unit;
-                    groceryItems.Add(item);
+                    // Find existing GroceryListGroup
+                    var groupCheck = groceryItems.SingleOrDefault(g => g.Title == item.Ingredient.aisle);
+                    if (groupCheck == null)
+                    {
+                        groceryItems.Add(new GroceryListGroup(item.Ingredient.aisle, item.Ingredient.aisle)
+                            {
+                                item
+                            });
+                    }
+                    else
+                    {
+                        groupCheck.Add(item);
+                    }
                 }
+                var test = groceryItems;
             } else
             {
                 await DisplayAlert("Error", response.message, "Okay");
@@ -40,9 +54,12 @@ namespace GreenApron
         {
             var request = new GroceryRequest();
             request.items = new List<GroceryItem>();
-            foreach (GroceryItem item in groceryItems)
+            foreach (GroceryListGroup group in groceryItems)
             {
-                request.items.Add(item);
+                foreach (GroceryItem item in group)
+                {
+                    request.items.Add(item);
+                }
             }
             var response = await App.APImanager.UpdateGroceryItems(request);
             if (response.success)
