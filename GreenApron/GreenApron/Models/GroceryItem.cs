@@ -14,5 +14,6 @@ namespace GreenApron
         public Guid UserId { get; set; }
         public User User { get; set; }
         public DateTime DateCreated { get; set; }
+        public bool Purchased { get; set; }
     }
 }

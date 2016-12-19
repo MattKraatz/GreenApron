@@ -6,6 +6,8 @@
   <ContentPage.Content>
     <StackLayout VerticalOptions="FillAndExpand">
       <Button Clicked="MarkAsBought" Text="Mark As Bought" TextColor="White" BackgroundColor="#77D065" />
+      <Button Clicked="OpenActionView" Text="Open Action View" TextColor="White" BackgroundColor="#77D065" />
+      <Label Text="Tap any item to edit it's quantity or to mark as purchased." />
       <ActivityIndicator
                            IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
@@ -13,7 +15,8 @@
       <ListView x:Name="groceryList" VerticalOptions="FillAndExpand"
         GroupDisplayBinding="{Binding Title}"
         GroupShortNameBinding="{Binding ShortName}"
-        IsGroupingEnabled="true">
+        IsGroupingEnabled="true"
+        ItemTapped="OnItemTapped">
         <ListView.ItemTemplate>
           <DataTemplate>
             <TextCell Text="{Binding Ingredient.ingredientName}" Detail="{Binding AmountUnit}" />

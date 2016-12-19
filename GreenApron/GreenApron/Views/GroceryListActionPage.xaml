@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GreenApron.GroceryListActionPage"
+             Title="Grocery List Action">
+  <ContentPage.Content>
+    <StackLayout VerticalOptions="FillAndExpand">
+      <Button Clicked="Update" Text="Update" TextColor="White" BackgroundColor="#77D065" />
+      <Button Clicked="Cancel" Text="Cancel" TextColor="White" BackgroundColor="#77D065" />
+      <ListView x:Name="groceryList" VerticalOptions="FillAndExpand"
+        GroupDisplayBinding="{Binding Title}"
+        GroupShortNameBinding="{Binding ShortName}"
+        IsGroupingEnabled="true"
+        ItemTapped="OnItemTapped"
+        HasUnevenRows="True">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell Height="80">
+              <StackLayout Orientation="Vertical">
+                <Label Text="{Binding Ingredient.ingredientName}" />
+                <StackLayout Orientation="Horizontal">
+                  <Entry BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" HorizontalOptions="FillAndExpand" Keyboard="Numeric" />
+                  <Stepper x:Name="qtyStepper" Maximum="1000" Value="{Binding Amount}" HorizontalOptions="FillAndExpand" />
+                  <Label Text="{Binding Unit}" HorizontalOptions="FillAndExpand" />
+                  <Switch IsToggled="{Binding Purchased}" HorizontalOptions="End" />
+                </StackLayout>
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>

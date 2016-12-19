@@ -24,8 +24,6 @@ namespace GreenApron
             var addButton = new Button { Text = "Add to Plan", BackgroundColor = Color.FromHex("#77D065"), TextColor = Color.White };
             addButton.Clicked += OnAddToPlanClicked;
             layout.Children.Add(addButton);
-            // TODO: Retrieve Active Meal Plans from WebAPI
-            // TODO: Attach Active Meal Plans to the Calendar
         }
 
         public async void OnAddToPlanClicked(object sender, EventArgs e)

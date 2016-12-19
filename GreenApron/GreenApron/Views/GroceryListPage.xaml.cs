@@ -48,6 +48,15 @@ namespace GreenApron
                 await DisplayAlert("Error", response.message, "Okay");
             }
         }
+        
+        public async void OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var ingredient = e.Item as GroceryItem;
+            var modal = new GroceryItemDetailModal(ingredient);
+            await Navigation.PushModalAsync(modal);
+            // Unselect the item after pushing the modal
+            groceryList.SelectedItem = null;
+        }
 
         public async void MarkAsBought(object sender, EventArgs e)
         {
@@ -68,6 +77,12 @@ namespace GreenApron
             {
                 await DisplayAlert("Error", response.message, "Okay");
             }
+        }
+
+        public async void OpenActionView(object sender, EventArgs e)
+        {
+            var page = new GroceryListActionPage(groceryItems);
+            await Navigation.PushAsync(page);
         }
     }
 }
