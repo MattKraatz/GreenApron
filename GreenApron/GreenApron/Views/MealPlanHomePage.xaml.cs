@@ -27,6 +27,7 @@ namespace GreenApron
         public async void GetMealPlans()
         {
             response = await App.APImanager.GetActivePlans();
+            // Add a calendar appointment for each plan retrieved from the WebAPI
             foreach (Plan plan in response.plans)
             {
                 CalendarInlineEvent events = new CalendarInlineEvent();
@@ -35,22 +36,27 @@ namespace GreenApron
                     case "Breakfast":
                         events.StartTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 7, 0, 0);
                         events.EndTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 8, 0, 0);
+                        events.Color = Color.Yellow;
                         break;
                     case "Lunch":
                         events.StartTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 11, 0, 0);
                         events.EndTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 12, 0, 0);
+                        events.Color = Color.Blue;
                         break;
                     case "Snack":
                         events.StartTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 14, 0, 0);
                         events.EndTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 15, 0, 0);
+                        events.Color = Color.Olive;
                         break;
                     case "Dinner":
                         events.StartTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 18, 0, 0);
                         events.EndTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 19, 0, 0);
+                        events.Color = Color.Red;
                         break;
                     case "Dessert":
                         events.StartTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 20, 0, 0);
                         events.EndTime = new DateTime(plan.Date.Year, plan.Date.Month, plan.Date.Day, 21, 0, 0);
+                        events.Color = Color.Teal;
                         break;
                 }
                 events.Subject = plan.Meal + " - " + plan.RecipeName;

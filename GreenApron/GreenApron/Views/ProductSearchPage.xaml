@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GreenApron.ProductSearchPage"
+             Title="Product Search">
+  <ContentPage.Content>
+    <StackLayout VerticalOptions="Start">
+      <SearchBar x:Name="productSearch" SearchButtonPressed="DoSearch" Placeholder="Asparagus, farfalle paste, etc." />
+      <ListView x:Name="productSearchList" VerticalOptions="FillAndExpand" SeparatorVisibility="None" ItemTapped="OnItemTapped">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ImageCell Text="{Binding title}" ImageSource="{Binding image}" />
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>

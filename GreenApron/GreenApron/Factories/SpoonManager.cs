@@ -26,5 +26,10 @@ namespace GreenApron
         {
             return _spoonService.GetRecipeByIdAsync(recipeId);
         }
+
+        public Task<List<Product>> GetProductByQuery(string productSearchString)
+        {
+            return _spoonService.GetProductByQuery(productSearchString);
+        }
     }
 }

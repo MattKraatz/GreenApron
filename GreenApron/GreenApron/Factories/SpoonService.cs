@@ -59,5 +59,26 @@ namespace GreenApron
                 throw new NotImplementedException();
             }
         }
+
+        public async Task<List<Product>> GetProductByQuery(string productSearchString)
+        {
+            var uri = new Uri(string.Format(Keys.SpoonURI + "/food/products/search?number=10&offset=0&query=" + productSearchString, string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                var productArray = JsonConvert.DeserializeObject<ProductResponse>(JSONstring);
+                var products = new List<Product>();
+                foreach (Product item in productArray.products)
+                {
+                    products.Add(item);
+                }
+                return products;
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

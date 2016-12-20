@@ -4,9 +4,10 @@
              x:Class="GreenApron.GroceryListPage"
              Title="Grocery List">
   <ContentPage.Content>
-    <StackLayout VerticalOptions="FillAndExpand">
+    <StackLayout VerticalOptions="Start">
       <Button Clicked="MarkAsBought" Text="Mark As Bought" TextColor="White" BackgroundColor="#77D065" />
       <Button Clicked="OpenActionView" Text="Open Action View" TextColor="White" BackgroundColor="#77D065" />
+      <Button Clicked="OpenProductSearch" Text="Add a Grocery Item" TextColor="White" BackgroundColor="#77D065" />
       <Label Text="Tap any item to edit it's quantity or to mark as purchased." />
       <ActivityIndicator
                            IsVisible="{Binding IsBusy}"

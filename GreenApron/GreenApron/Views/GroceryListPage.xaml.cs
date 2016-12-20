@@ -84,5 +84,11 @@ namespace GreenApron
             var page = new GroceryListActionPage(groceryItems);
             await Navigation.PushAsync(page);
         }
+
+        public async void OpenProductSearch(object sender, EventArgs e)
+        {
+            var page = new ProductSearchPage();
+            await Navigation.PushAsync(page);
+        }
     }
 }
