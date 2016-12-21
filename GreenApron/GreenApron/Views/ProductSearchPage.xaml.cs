@@ -21,6 +21,11 @@ namespace GreenApron
 
         public void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
+            // Open a modal for adding the provided product and set the recipe as binding context
+            var product = e.Item as Product;
+            var modal = new ProductDetailModal(product);
+            Navigation.PushModalAsync(modal);
+            // Deselect the tapped item
             productSearchList.SelectedItem = null;
         }
 
