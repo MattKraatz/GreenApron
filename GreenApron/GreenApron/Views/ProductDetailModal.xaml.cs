@@ -11,10 +11,13 @@ namespace GreenApron
 {
     public partial class ProductDetailModal : ContentPage
     {
-        public ProductDetailModal(Product item)
+        private string _context { get; set; }
+
+        public ProductDetailModal(Ingredient item, string ctx)
         {
             InitializeComponent();
             this.BindingContext = item;
+            _context = ctx;
             foreach (string unit in UnitOptions)
             {
                 unitPicker.Items.Add(unit);
@@ -25,9 +28,12 @@ namespace GreenApron
 
         public async void OnAddClicked(object sender, EventArgs e)
         {
-            var item = (Product)BindingContext;
-            var qty = Convert.ToDouble(qtyEntry.Text);
-            var unit = UnitOptions[unitPicker.SelectedIndex];
+            var item = (Ingredient)BindingContext;
+            item.amount = Convert.ToDouble(qtyEntry.Text);
+            if (unitPicker.SelectedIndex != -1)
+            {
+                item.unit = UnitOptions[unitPicker.SelectedIndex];
+            }
             // TODO: Call WebAPI endpoint that adds a GroceryItem
             await Navigation.PopModalAsync();
         }

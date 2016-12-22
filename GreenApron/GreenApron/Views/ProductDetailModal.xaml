@@ -5,6 +5,7 @@
              Title="Product Detail">
   <ContentPage.Content>
     <StackLayout VerticalOptions="FillAndExpand">
+      <Label Text="Binding name" HorizontalOptions="Start" />
       <StackLayout Orientation="Horizontal">
         <Label Text="Amount: " HorizontalOptions="Start" />
         <Entry x:Name="qtyEntry" BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" HorizontalOptions="Start" Keyboard="Numeric" />

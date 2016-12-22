@@ -60,16 +60,17 @@ namespace GreenApron
             }
         }
 
-        public async Task<List<Product>> GetProductByQuery(string productSearchString)
+        public async Task<List<Ingredient>> GetProductByQuery(string productSearchString)
         {
-            var uri = new Uri(string.Format(Keys.SpoonURI + "/food/products/search?number=10&offset=0&query=" + productSearchString, string.Empty));
+            var uri = new Uri(string.Format(Keys.SpoonURI + "/food/ingredients/autocomplete?metaInformation=true&number=10&query=" + productSearchString, string.Empty));
             try
             {
                 HttpResponseMessage response = await client.GetAsync(uri);
+                var test = response;
                 var JSONstring = await response.Content.ReadAsStringAsync();
-                var productArray = JsonConvert.DeserializeObject<ProductResponse>(JSONstring);
-                var products = new List<Product>();
-                foreach (Product item in productArray.products)
+                var productArray = JsonConvert.DeserializeObject<Ingredient[]>(JSONstring);
+                var products = new List<Ingredient>();
+                foreach (Ingredient item in productArray)
                 {
                     products.Add(item);
                 }

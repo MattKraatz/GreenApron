@@ -9,7 +9,7 @@
       <ListView x:Name="productSearchList" VerticalOptions="FillAndExpand" SeparatorVisibility="None" ItemTapped="OnItemTapped">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <ImageCell Text="{Binding title}" ImageSource="{Binding image}" />
+            <ImageCell Text="{Binding name}" ImageSource="{Binding image}" />
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>

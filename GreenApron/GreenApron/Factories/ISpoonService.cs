@@ -11,6 +11,6 @@ namespace GreenApron
     {
         Task<List<Recipe>> GetRandomRecipeAsync();
         Task<Recipe> GetRecipeByIdAsync(int recipeId);
-        Task<List<Product>> GetProductByQuery(string productSearchString);
+        Task<List<Ingredient>> GetProductByQuery(string productSearchString);
     }
 }

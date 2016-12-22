@@ -3,15 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GreenApron.HomeInventoryPage">
   <ContentPage.Content>
-    <ListView x:Name="inventoryList" VerticalOptions="FillAndExpand"
-        GroupDisplayBinding="{Binding Title}"
-        GroupShortNameBinding="{Binding ShortName}"
-        IsGroupingEnabled="true">
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <TextCell Text="{Binding Ingredient.ingredientName}" Detail="{Binding AmountUnit}" />
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
+    <StackLayout VerticalOptions="Start">
+      <Button Clicked="OpenProductSearch" Text="Add an Inventory Item" TextColor="White" BackgroundColor="#77D065" />
+      <ListView x:Name="inventoryList" VerticalOptions="FillAndExpand"
+          GroupDisplayBinding="{Binding Title}"
+          GroupShortNameBinding="{Binding ShortName}"
+          IsGroupingEnabled="true">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <TextCell Text="{Binding Ingredient.ingredientName}" Detail="{Binding AmountUnit}" />
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
   </ContentPage.Content>
 </ContentPage>

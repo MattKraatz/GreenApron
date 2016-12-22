@@ -50,5 +50,11 @@ namespace GreenApron
                 await DisplayAlert("Error", response.message, "Okay");
             }
         }
+
+        public async void OpenProductSearch(object sender, EventArgs e)
+        {
+            var page = new ProductSearchPage("inventory");
+            await Navigation.PushAsync(page);
+        }
     }
 }

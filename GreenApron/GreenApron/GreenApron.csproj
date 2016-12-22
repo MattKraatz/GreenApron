@@ -57,7 +57,6 @@
     <Compile Include="Models\HttpModels\GroceryRequest.cs" />
     <Compile Include="Models\HttpModels\GroceryResponse.cs" />
     <Compile Include="Models\dbIngredient.cs" />
-    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\InventoryItem.cs" />
     <Compile Include="Models\HttpModels\InventoryResponse.cs" />
     <Compile Include="Models\HttpModels\JsonResponse.cs" />
