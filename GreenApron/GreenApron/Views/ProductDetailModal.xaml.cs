@@ -24,7 +24,7 @@ namespace GreenApron
             }
         }
 
-        public string[] UnitOptions = new string[] { "Tablespoons", "Teaspoons", "Cups", "Pints", "Quarts", "Gallons", "Pounds", "Ounces" };
+        public string[] UnitOptions = new string[] { "tablespoons", "teaspoons", "cups", "pints", "quarts", "gallons", "lbs", "oz" };
 
         public async void OnAddClicked(object sender, EventArgs e)
         {
@@ -35,6 +35,13 @@ namespace GreenApron
                 item.unit = UnitOptions[unitPicker.SelectedIndex];
             }
             // TODO: Call WebAPI endpoint that adds a GroceryItem
+            if (_context == "grocery")
+            {
+                var response = App.APImanager.AddGroceryItem(item);
+            } else if (_context == "inventory")
+            {
+                var response = App.APImanager.AddInventoryItem(item);
+            }
             await Navigation.PopModalAsync();
         }
 

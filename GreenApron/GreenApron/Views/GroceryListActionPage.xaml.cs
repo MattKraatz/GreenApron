@@ -28,7 +28,20 @@ namespace GreenApron
 
         public async void Update(object sender, EventArgs e)
         {
-            // TODO: Post updates to WebAPI endpoint
+            var request = new GroceryRequest();
+            request.items = new List<GroceryItem>();
+            foreach (GroceryListGroup group in groceryItems)
+            {
+                foreach (GroceryItem item in group)
+                {
+                    if (item.Purchased)
+                    {
+                        item.DateCompleted = DateTime.Now;
+                    }
+                    request.items.Add(item);
+                }
+            }
+            var response = await App.APImanager.UpdateGroceryItems(request);
             await Navigation.PopAsync();
         }
 

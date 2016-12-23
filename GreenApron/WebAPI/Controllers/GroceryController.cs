@@ -11,6 +11,7 @@ namespace WebAPI
     public class GroceryController : Controller
     {
         private GreenApronContext _context { get; set; }
+        Random rand = new Random();
 
         public GroceryController(GreenApronContext context)
         {
@@ -32,16 +33,18 @@ namespace WebAPI
 
         // POST api/grocery/update
         // Updates grocery items that were purchased
+        [HttpPost]
         public async Task<JsonResult> Update([FromBody] GroceryRequest request)
         {
-            var test = request;
             foreach (GroceryItem item in request.items)
             {
                 // Find the grocery item record in the database, update it's DateCompleted property
                 var dbItem = await _context.GroceryItem.SingleOrDefaultAsync(gi => gi.GroceryItemId == item.GroceryItemId);
                 if (dbItem != null)
                 {
-                    dbItem.DateCompleted = DateTime.Now;
+                    dbItem.DateCompleted = item.DateCompleted;
+                    dbItem.Amount = item.Amount;
+                    dbItem.Unit = item.Unit;
                     _context.Entry(dbItem).State = EntityState.Modified;
                 }
                 // Look for an existing inventory item for the same ingredient
@@ -66,6 +69,64 @@ namespace WebAPI
                 return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
             }
             return Json(new JsonResponse { success = true, message = "Database updated successfully." });
+        }
+
+        // POST api/grocery/add
+        // Adds a new grocery item record, and a new ingredient record if necessary
+        [HttpPost("{userId}")]
+        public async Task<JsonResult> Add([FromBody] IngredientRequest item, [FromRoute] Guid userId)
+        {
+            // Find an existing ingredient item record in the database by Id or by name
+            var dbIngredient = await _context.Ingredient.SingleOrDefaultAsync(i => i.IngredientId == item.id || i.IngredientName == item.name);
+            Ingredient newIngredient = null;
+            if (dbIngredient == null)
+            {
+                // If no ingredient record is found, add a new one
+                newIngredient = new Ingredient() { Aisle = item.aisle, ImageURL = item.image, IngredientName = item.name };
+                if (item.id < 1)
+                {
+                    newIngredient.IngredientId = rand.Next(100000000, 999999999);
+                } else
+                {
+                    newIngredient.IngredientId = item.id;
+                }
+                _context.Ingredient.Add(newIngredient);
+                _context.Database.OpenConnection();
+                try
+                {
+                    // Execute Identity Insert command to inject Spoonacular's primary key
+                    await _context.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT dbo.Ingredient ON");
+                    await _context.SaveChangesAsync();
+                    await _context.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT dbo.Ingredient OFF");
+                }
+                catch
+                {
+                    return Json(new JsonResponse { success = false, message = "Something went wrong while saving an ingredient to the database, please try again." });
+                }
+                finally
+                {
+                    _context.Database.CloseConnection();
+                }
+            }
+            // Add a grocery item record to the database
+            var newGroceryItem = new GroceryItem { Amount = item.amount, Unit = item.unit, UserId = userId };
+            if (newIngredient != null)
+            {
+                newGroceryItem.IngredientId = newIngredient.IngredientId;
+            } else
+            {
+                newGroceryItem.IngredientId = item.id;
+            }
+            _context.GroceryItem.Add(newGroceryItem);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
+            }
+            return Json(new JsonResponse { success = true, message = "Grocery Item added successfully." });
         }
     }
 }

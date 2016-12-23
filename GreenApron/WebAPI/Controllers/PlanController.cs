@@ -47,7 +47,7 @@ namespace WebAPI
                 var testy = planIngredient;
                 Ingredient newIngredient = new Ingredient();
                 // Add this ingredient to the database, if it doesn't already exist
-                var dbIngredient = await _context.Ingredient.SingleOrDefaultAsync(i => i.IngredientId == planIngredient.id);
+                var dbIngredient = await _context.Ingredient.SingleOrDefaultAsync(i => i.IngredientId == planIngredient.id || i.IngredientName == planIngredient.name);
                 if (dbIngredient == null)
                 {
                     if (planIngredient.id < 1)

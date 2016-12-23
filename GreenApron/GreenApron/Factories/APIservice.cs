@@ -141,5 +141,39 @@ namespace GreenApron
                 throw new NotImplementedException();
             }
         }
+
+        public async Task<JsonResponse> AddInventoryItem(Ingredient item)
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/add/" + App.AuthManager.loggedInUser.UserId, string.Empty));
+            try
+            {
+                var json = JsonConvert.SerializeObject(item);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(uri, content);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<JsonResponse> AddGroceryItem(Ingredient item)
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/add/" + App.AuthManager.loggedInUser.UserId, string.Empty));
+            try
+            {
+                var json = JsonConvert.SerializeObject(item);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(uri, content);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

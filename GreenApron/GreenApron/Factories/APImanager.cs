@@ -50,6 +50,16 @@ namespace GreenApron
             return _APIservice.GetActivePlans();
         }
 
+        internal object AddGroceryItem(Ingredient item)
+        {
+            return _APIservice.AddGroceryItem(item);
+        }
+
+        internal object AddInventoryItem(Ingredient item)
+        {
+            return _APIservice.AddInventoryItem(item);
+        }
+
         public Task<JsonResponse> CompletePlan(Guid id)
         {
             return _APIservice.CompletePlan(id);

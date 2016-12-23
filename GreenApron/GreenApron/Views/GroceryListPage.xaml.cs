@@ -66,6 +66,7 @@ namespace GreenApron
             {
                 foreach (GroceryItem item in group)
                 {
+                    item.DateCompleted = DateTime.Now;
                     request.items.Add(item);
                 }
             }

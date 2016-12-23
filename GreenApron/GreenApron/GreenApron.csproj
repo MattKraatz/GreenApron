@@ -64,7 +64,6 @@
     <Compile Include="Models\PlanIngredient.cs" />
     <Compile Include="Models\HttpModels\PlanRequest.cs" />
     <Compile Include="Models\HttpModels\PlanResponse.cs" />
-    <Compile Include="Models\ProductResponse.cs" />
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Factories\SpoonManager.cs" />
     <Compile Include="Factories\SpoonService.cs" />
