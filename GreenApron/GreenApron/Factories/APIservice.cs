@@ -175,5 +175,52 @@ namespace GreenApron
                 throw new NotImplementedException();
             }
         }
+
+        public async Task<JsonResponse> UpdateInventoryItems(InventoryRequest request)
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/update", string.Empty));
+            try
+            {
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(uri, content);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<JsonResponse> DeleteInventoryItem(Guid inventoryItemId)
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/delete/" + inventoryItemId, string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<JsonResponse> DeleteGroceryItem(Guid groceryItemId)
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/delete/" + groceryItemId, string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

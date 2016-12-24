@@ -11,6 +11,7 @@ namespace WebAPI.Controllers
     public class InventoryController : Controller
     {
         private GreenApronContext _context { get; set; }
+        public Random rand = new Random();
 
         public InventoryController(GreenApronContext context)
         {
@@ -88,6 +89,55 @@ namespace WebAPI.Controllers
                 return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
             }
             return Json(new JsonResponse { success = true, message = "Grocery Item added successfully." });
+        }
+
+        // POST api/inventory/update
+        // Updates inventory items
+        [HttpPost]
+        public async Task<JsonResult> Update([FromBody] InventoryRequest request)
+        {
+            foreach (InventoryItem item in request.items)
+            {
+                // Find the inventory item record in the database, update amount and unit properties
+                var dbItem = await _context.InventoryItem.SingleOrDefaultAsync(ii => ii.InventoryItemId == item.InventoryItemId);
+                if (dbItem != null)
+                {
+                    dbItem.Amount = item.Amount;
+                    dbItem.Unit = item.Unit;
+                    _context.Entry(dbItem).State = EntityState.Modified;
+                }
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
+            }
+            return Json(new JsonResponse { success = true, message = "Database updated successfully." });
+        }
+
+        // GET api/inventory/delete/{id}
+        // Deletes inventory item
+        [HttpGet("{id}")]
+        public async Task<JsonResult> Delete([FromRoute] Guid id)
+        {
+            // Find the inventory item record in the database
+            var dbItem = await _context.InventoryItem.SingleOrDefaultAsync(ii => ii.InventoryItemId == id);
+            if (dbItem != null)
+            {
+                _context.InventoryItem.Remove(dbItem);
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
+            }
+            return Json(new JsonResponse { success = true, message = "Database updated successfully." });
         }
     }
 }

@@ -14,6 +14,7 @@ namespace GreenApron
         public double Amount { get; set; }
         public string Unit { get; set; }
         public string AmountUnit { get; set; }
+        public bool Empty { get; set; } = false;
         public Guid UserId { get; set; }
         public User User { get; set; }
         public DateTime DateCreated { get; set; }

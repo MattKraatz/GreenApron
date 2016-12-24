@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:GreenApron;assembly=GreenApron"
              x:Class="GreenApron.HomeInventoryPage">
   <ContentPage.Content>
     <StackLayout VerticalOptions="Start">
+      <Button Clicked="EditInventory" Text="Edit Inventory" TextColor="White" BackgroundColor="#77D065" />
       <Button Clicked="OpenProductSearch" Text="Add an Inventory Item" TextColor="White" BackgroundColor="#77D065" />
       <ListView x:Name="inventoryList" VerticalOptions="FillAndExpand"
           GroupDisplayBinding="{Binding Title}"
@@ -11,7 +13,15 @@
           IsGroupingEnabled="true">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <TextCell Text="{Binding Ingredient.ingredientName}" Detail="{Binding AmountUnit}" />
+            <ViewCell Height="80">
+              <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Vertical">
+                  <Label Text="{Binding Ingredient.ingredientName}" />
+                  <Label Text="{Binding Unit}" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+                  <local:InventorySwitch IsToggled="{Binding Empty}" Toggled="ToggleHandler" HorizontalOptions="End" InventoryItem="{Binding .}" />
+              </StackLayout>
+            </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>

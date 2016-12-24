@@ -56,5 +56,44 @@ namespace GreenApron
             var page = new ProductSearchPage("inventory");
             await Navigation.PushAsync(page);
         }
+
+        public async void EditInventory(object sender, EventArgs e)
+        {
+            var page = new InventoryActionPage(inventoryItems);
+            await Navigation.PushAsync(page);
+        }
+
+        public async void ToggleHandler(object sender, ToggledEventArgs e)
+        {
+            if (e.Value)
+            {
+                var rebuy = await DisplayActionSheet("Do you want to rebuy?", "Cancel", null, new string[] { "Yes", "No"});
+                if (rebuy == "Yes")
+                {
+                    // Add a grocery item
+
+                }
+                var switchItem = (InventorySwitch)sender;
+                var item = switchItem.InventoryItem;
+                foreach (InventoryListGroup group in inventoryItems)
+                {
+                    foreach (InventoryItem ii in group)
+                    {
+                        if (ii.InventoryItemId == item.InventoryItemId)
+                        {
+                            // Remove the inventory item from the observable collection
+                            group.Remove(ii);
+                            break;
+                        }
+                    }
+                }
+                // Remove the inventory item from the WebAPI
+                var response = await App.APImanager.DeleteInventoryItem(item.InventoryItemId);
+                if (!response.success)
+                {
+                    await DisplayAlert("Error", response.message, "Okay");
+                }
+            }
+        }
     }
 }

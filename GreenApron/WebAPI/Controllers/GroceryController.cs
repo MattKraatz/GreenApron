@@ -128,5 +128,27 @@ namespace WebAPI
             }
             return Json(new JsonResponse { success = true, message = "Grocery Item added successfully." });
         }
+
+        // GET api/inventory/delete/{id}
+        // Deletes inventory item
+        [HttpGet("{id}")]
+        public async Task<JsonResult> Delete([FromRoute] Guid id)
+        {
+            // Find the inventory item record in the database
+            var dbItem = await _context.GroceryItem.SingleOrDefaultAsync(ii => ii.GroceryItemId == id);
+            if (dbItem != null)
+            {
+                _context.GroceryItem.Remove(dbItem);
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
+            }
+            return Json(new JsonResponse { success = true, message = "Database updated successfully." });
+        }
     }
 }

@@ -23,8 +23,22 @@ namespace GreenApron
         public async void OnUpdateClicked(object sender, EventArgs e)
         {
             var item = (GroceryItem)BindingContext;
-            // TODO: Call WebAPI endpoint that updates a single GroceryItem by Id
-            await Navigation.PopModalAsync();
+            var request = new GroceryRequest();
+            request.items = new List<GroceryItem>();
+            if (item.Purchased)
+            {
+                item.DateCompleted = DateTime.Now;
+            }
+            request.items.Add(item);
+            var response = await App.APImanager.UpdateGroceryItems(request);
+            if (response.success)
+            {
+                await Navigation.PopModalAsync();
+            }
+            else
+            {
+                await DisplayAlert("Error", response.message, "Okay");
+            }
         }
 
         public async void OnCancelClicked(object sender, EventArgs e)

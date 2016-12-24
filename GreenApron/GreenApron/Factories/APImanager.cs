@@ -50,12 +50,17 @@ namespace GreenApron
             return _APIservice.GetActivePlans();
         }
 
-        internal object AddGroceryItem(Ingredient item)
+        public Task<JsonResponse> AddGroceryItem(Ingredient item)
         {
             return _APIservice.AddGroceryItem(item);
         }
 
-        internal object AddInventoryItem(Ingredient item)
+        public Task<JsonResponse> UpdateInventoryItems(InventoryRequest request)
+        {
+            return _APIservice.UpdateInventoryItems(request);
+        }
+
+        public Task<JsonResponse> AddInventoryItem(Ingredient item)
         {
             return _APIservice.AddInventoryItem(item);
         }
@@ -63,6 +68,16 @@ namespace GreenApron
         public Task<JsonResponse> CompletePlan(Guid id)
         {
             return _APIservice.CompletePlan(id);
+        }
+
+        public Task<JsonResponse> DeleteInventoryItem(Guid inventoryItemId)
+        {
+            return _APIservice.DeleteInventoryItem(inventoryItemId);
+        }
+
+        public Task<JsonResponse> DeleteGroceryItem(Guid groceryItemId)
+        {
+            return _APIservice.DeleteGroceryItem(groceryItemId);
         }
     }
 }
