@@ -67,14 +67,19 @@ namespace GreenApron
         {
             if (e.Value)
             {
+                var switchItem = (InventorySwitch)sender;
+                var item = switchItem.InventoryItem;
                 var rebuy = await DisplayActionSheet("Do you want to rebuy?", "Cancel", null, new string[] { "Yes", "No"});
                 if (rebuy == "Yes")
                 {
                     // Add a grocery item
-
+                    var newGI = new Ingredient() { aisle = item.Ingredient.aisle, amount = item.Amount, unit = item.Unit, image = item.Ingredient.imageURL, name = item.Ingredient.ingredientName };
+                    var response2 = await App.APImanager.AddGroceryItem(newGI);
+                    if (!response2.success)
+                    {
+                        await DisplayAlert("Error", response2.message, "Okay");
+                    }
                 }
-                var switchItem = (InventorySwitch)sender;
-                var item = switchItem.InventoryItem;
                 foreach (InventoryListGroup group in inventoryItems)
                 {
                     foreach (InventoryItem ii in group)
