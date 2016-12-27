@@ -57,8 +57,6 @@ namespace GreenApron
         public void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var recipe = e.Item as RecipePreview;
-            // Do I need this?
-            // App.SpoonManager.selectedRecipe = recipe;
             var recipePage = new RecipePage(recipe.id);
             Navigation.PushAsync(recipePage);
         }

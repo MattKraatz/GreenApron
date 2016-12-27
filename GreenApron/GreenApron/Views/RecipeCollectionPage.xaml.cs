@@ -38,7 +38,11 @@ namespace GreenApron
 
         public void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            DisplayAlert("Alert", "You tapped a bookmark dude.", "Okay");
+            var bookmark = e.Item as Bookmark;
+            var recipePage = new RecipePage(bookmark.RecipeId);
+            Navigation.PushAsync(recipePage);
+            // Deselect the tapped item
+            bookmarkList.SelectedItem = null;
         }
     }
 }
