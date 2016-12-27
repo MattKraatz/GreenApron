@@ -12,10 +12,12 @@ namespace GreenApron
     public partial class AddToPlanFromRecipePage : ContentPage
     {
         public DateTime selectedDate { get; set; }
+        public Recipe selectedRecipe { get; set; }
 
-        public AddToPlanFromRecipePage()
+        public AddToPlanFromRecipePage(Recipe recipe)
         {
             InitializeComponent();
+            selectedRecipe = recipe;
             // Instantiate Calendar and add to View
             SfCalendar calendar = new SfCalendar();
             calendar.OnCalendarTapped += CacheSelectedDate;
@@ -33,7 +35,7 @@ namespace GreenApron
             if (mealStrings.Contains(action))
             {
                 // Post this Meal Plan to WebAPI
-                var newPlan = new PlanRequest { userId = App.AuthManager.loggedInUser.UserId, date = selectedDate, meal = action, recipe = App.SpoonManager.selectedRecipe };
+                var newPlan = new PlanRequest { userId = App.AuthManager.loggedInUser.UserId, date = selectedDate, meal = action, recipe = selectedRecipe };
                 JsonResponse response = await App.APImanager.AddPlan(newPlan);
                 // On Success, pop this page from Navigation
                 if (response.success)

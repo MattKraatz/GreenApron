@@ -66,14 +66,16 @@
     <Compile Include="Models\PlanIngredient.cs" />
     <Compile Include="Models\HttpModels\PlanRequest.cs" />
     <Compile Include="Models\HttpModels\PlanResponse.cs" />
-    <Compile Include="Models\Recipe.cs" />
+    <Compile Include="Models\SpoonacularModels\Recipe.cs" />
     <Compile Include="Factories\SpoonManager.cs" />
     <Compile Include="Factories\SpoonService.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Ingredient.cs" />
-    <Compile Include="Models\RecipeArray.cs" />
+    <Compile Include="Models\SpoonacularModels\Ingredient.cs" />
+    <Compile Include="Models\SpoonacularModels\RecipeArray.cs" />
+    <Compile Include="Models\SpoonacularModels\RecipePreview.cs" />
+    <Compile Include="Models\SpoonacularModels\RecipeResult.cs" />
     <Compile Include="ViewModels\InventoryListGroup.cs" />
     <Compile Include="ViewModels\GroceryListGroup.cs" />
     <Compile Include="Views\InventoryActionPage.xaml.cs">

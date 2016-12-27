@@ -23,7 +23,7 @@ namespace GreenApron
             client.DefaultRequestHeaders.Add("X-Mashape-Key", Keys.SpoonKey);
         }
 
-        public async Task<List<Recipe>> GetRandomRecipeAsync()
+        public async Task<List<Recipe>> GetRandomRecipesAsync()
         {
             var uri = new Uri(string.Format(Keys.SpoonURI + "/recipes/random?limitLicense=false&number=1", string.Empty));
             try
@@ -37,6 +37,22 @@ namespace GreenApron
                     recipes.Add(item);
                 }
                 return recipes;
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<RecipeResult> GetRecipesByQueryAsync(string query)
+        {
+            var uri = new Uri(string.Format(Keys.SpoonURI + "/recipes/search?instructionsRequired=true&limitLicense=true&number=10&offset=0&query=" + query, string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                var results = JsonConvert.DeserializeObject<RecipeResult>(JSONstring);
+                return results;
             }
             catch
             {

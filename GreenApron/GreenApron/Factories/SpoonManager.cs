@@ -10,7 +10,6 @@ namespace GreenApron
     public class SpoonManager
     {
         ISpoonService _spoonService;
-        public Recipe selectedRecipe;
         
         public SpoonManager(ISpoonService service)
         {
@@ -19,7 +18,7 @@ namespace GreenApron
 
         public Task<List<Recipe>> GetRandomRecipeAsync()
         {
-            return _spoonService.GetRandomRecipeAsync();
+            return _spoonService.GetRandomRecipesAsync();
         }
 
         public Task<Recipe> GetRecipeByIdAsync(int recipeId)
@@ -30,6 +29,11 @@ namespace GreenApron
         public Task<List<Ingredient>> GetProductByQuery(string productSearchString)
         {
             return _spoonService.GetProductByQuery(productSearchString);
+        }
+
+        public Task<RecipeResult> GetRecipesByQueryAsync(string query)
+        {
+            return _spoonService.GetRecipesByQueryAsync(query);
         }
     }
 }
