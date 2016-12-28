@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPI
 {
-    public class GroceryItem
+    public class GroceryItem : IPantryItem
     {
         [Key]
         public Guid GroceryItemId { get; set; }

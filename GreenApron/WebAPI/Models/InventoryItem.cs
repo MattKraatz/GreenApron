@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPI
 {
-    public class InventoryItem
+    public class InventoryItem : IPantryItem
     {
         [Key]
         public Guid InventoryItemId { get; set; }

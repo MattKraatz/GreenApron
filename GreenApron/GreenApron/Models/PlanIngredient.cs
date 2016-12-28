@@ -10,7 +10,7 @@ namespace GreenApron
         public Guid PlanId { get; set; }
         public int IngredientId { get; set; }
         public double Amount { get; set; }
-        public string unit { get; set; }
+        public string Unit { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }

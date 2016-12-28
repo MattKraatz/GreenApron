@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -71,15 +72,17 @@ namespace WebAPI
                     }
                     catch
                     {
-                        return Json(new JsonResponse { success = false, message = "Something went wrong while saving your grocery items to the database, please try again." });
+                        return Json(new JsonResponse { success = false, message = "Something went wrong while saving your ingredients to the database, please try again." });
                     }
                     finally
                     {
                         _context.Database.CloseConnection();
                     }
                 };
+                // Normalize the ingredient unit name
+                planIngredient.unit = Normalizer.UnitName(planIngredient.unit);
                 // Add a PlanIngredient record for this ingredient
-                var newPlanIngredient = new PlanIngredient { PlanId = newPlan.PlanId, Amount = planIngredient.amount, unit = planIngredient.unit };
+                var newPlanIngredient = new PlanIngredient { PlanId = newPlan.PlanId, Amount = planIngredient.amount, Unit = planIngredient.unit };
                 if (newIngredient.IngredientId > 0)
                 {
                     newPlanIngredient.IngredientId = newIngredient.IngredientId;
@@ -94,27 +97,66 @@ namespace WebAPI
                 }
                 catch
                 {
-                    return Json(new JsonResponse { success = false, message = "Something went wrong while saving your grocery items to the database, please try again." });
+                    return Json(new JsonResponse { success = false, message = "Something went wrong while saving your plan ingredients to the database, please try again." });
                 }
                 // Sum up total requirement for this ingredient for all active plans
                 // Currently assumes all ingredients share the same unit of measurement
-                var totalRequirement = await _context.PlanIngredient.Where(pi => _context.Plan.Where(p => DateTime.Compare(p.Date, DateTime.Now) >= 0).SingleOrDefault(p => p.PlanId == pi.PlanId) != null).Where(pi => pi.IngredientId == planIngredient.id).SumAsync(pi => pi.Amount);
+                List<IPantryItem> totalRequirement = await _context.PlanIngredient.Where(pi => _context.Plan.Where(p => DateTime.Compare(p.Date, DateTime.Now) >= 0).SingleOrDefault(p => p.PlanId == pi.PlanId) != null).Where(pi => pi.IngredientId == planIngredient.id).ToListAsync<IPantryItem>();
+                // Normalize total ingredient requirement
+                IngredientComparitor req = Normalizer.IPantry(totalRequirement);
+
                 // Sum up total existing inventory for this ingredient
-                var totalInventory = await _context.InventoryItem.Where(ii => ii.IngredientId == planIngredient.id).SumAsync(ii => ii.Amount);
-                if (totalInventory < totalRequirement)
+                List<IPantryItem> totalInventory = await _context.InventoryItem.Where(ii => ii.IngredientId == planIngredient.id).ToListAsync<IPantryItem>();
+                // Normalize total ingredient requirement
+                IngredientComparitor inv = new IngredientComparitor();
+                if (totalInventory.Count > 0)
                 {
-                    var groceryQty = totalRequirement - totalInventory;
-                    // Find an existing GroceryItem record for this ingredient, if it exists, modify it with the new quantity
-                    var groceryItem = await _context.GroceryItem.SingleOrDefaultAsync(gi => gi.IngredientId == planIngredient.id);
-                    if (groceryItem != null)
+                    inv = Normalizer.IPantry(totalInventory);
+                } else
+                {
+                    inv.Amount = 0;
+                    inv.Count = 0;
+                }
+
+                // Check whether totalInventory and totalRequirement are the same type first
+                if (inv.Amount < req.Amount || inv.Count < req.Count)
+                {
+                    // Find any existing GroceryItem record for this ingredient, if it exists, modify it with the new quantity
+                    List<GroceryItem> groceryItems = await _context.GroceryItem.Where(gi => gi.IngredientId == planIngredient.id).ToListAsync<GroceryItem>();
+                    if (groceryItems.Count > 0)
                     {
-                        groceryItem.Amount = groceryQty;
-                        _context.Entry(groceryItem).State = EntityState.Modified;
+                        foreach (GroceryItem item in groceryItems)
+                        {
+                            switch (item.Unit)
+                            {
+                                case "pinch": case "dash": case "ounce": case "cup": case "pint": case "quart": case "gallon": case "teaspoon": case "tablespoon":
+                                    var display = DisplayUnit.FromOunces(req.Amount);
+                                    item.Amount = display.Amount;
+                                    item.Unit = display.Unit;
+                                    req.Amount = 0;
+                                    break;
+                                case "pound":
+                                    item.Amount = req.Amount;
+                                    req.Amount = 0;
+                                    break;
+                                default:
+                                    item.Amount = req.Count;
+                                    req.Count = 0;
+                                    break;
+                            }
+                            _context.Entry(item).State = EntityState.Modified;
+                        }
                     }
                     // Else add a new GroceryItem record
-                    else
+                    if (req.Amount > 0)
                     {
-                        var newGroceryItem = new GroceryItem { IngredientId = planIngredient.id, Amount = totalRequirement, Unit = planIngredient.unit, UserId = plan.userId };
+                        var display = DisplayUnit.FromOunces(req.Amount);
+                        var newGroceryItem = new GroceryItem { IngredientId = req.IngredientId, Amount = display.Amount, Unit = display.Unit, UserId = plan.userId };
+                        _context.GroceryItem.Add(newGroceryItem);
+                    }
+                    if (req.Count > 0)
+                    {
+                        var newGroceryItem = new GroceryItem { IngredientId = req.IngredientId, Amount = req.Count, Unit = req.CountUnit, UserId = plan.userId };
                         _context.GroceryItem.Add(newGroceryItem);
                     }
                 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAPI
 {
-    public class PlanIngredient
+    public class PlanIngredient : IPantryItem
     {
         [Key]
         public Guid PlanIngredientId { get; set; }
@@ -21,7 +21,7 @@ namespace WebAPI
         public double Amount { get; set; }
 
         [Required]
-        public string unit { get; set; }
+        public string Unit { get; set; }
 
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
