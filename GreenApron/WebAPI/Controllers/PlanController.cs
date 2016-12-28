@@ -11,11 +11,12 @@ namespace WebAPI
     public class PlanController : Controller
     {
         private GreenApronContext _context { get; set; }
-        Random rand = new Random();
+        private IngredientManager _ingManager { get; set; }
 
         public PlanController(GreenApronContext context)
         {
             _context = context;
+            _ingManager = new IngredientManager(_context);
         }
 
         // POST api/plan/addplan
@@ -45,51 +46,17 @@ namespace WebAPI
             // Loop over recipe ingredients and add grocery items for each
             foreach (extIngredient planIngredient in plan.recipe.extendedIngredients)
             {
-                var testy = planIngredient;
-                Ingredient newIngredient = new Ingredient();
                 // Add this ingredient to the database, if it doesn't already exist
-                var dbIngredient = await _context.Ingredient.SingleOrDefaultAsync(i => i.IngredientId == planIngredient.id || i.IngredientName == planIngredient.name);
-                if (dbIngredient == null)
+                Ingredient ingredient = await _ingManager.CheckDB(planIngredient);
+                // Handle database error
+                if (ingredient.IngredientId == -1)
                 {
-                    if (planIngredient.id < 1)
-                    {
-                        newIngredient.IngredientId = rand.Next(100000000, 999999999);
-                    }
-                    else
-                    {
-                        newIngredient.IngredientId = planIngredient.id;
-                    }
-                    newIngredient.IngredientName = planIngredient.name;
-                    newIngredient.Aisle = planIngredient.aisle;
-                    newIngredient.ImageURL = planIngredient.image;
-                    _context.Ingredient.Add(newIngredient);
-                    _context.Database.OpenConnection();
-                    try
-                    {
-                        await _context.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT dbo.Ingredient ON");
-                        await _context.SaveChangesAsync();
-                        await _context.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT dbo.Ingredient OFF");
-                    }
-                    catch
-                    {
-                        return Json(new JsonResponse { success = false, message = "Something went wrong while saving your ingredients to the database, please try again." });
-                    }
-                    finally
-                    {
-                        _context.Database.CloseConnection();
-                    }
-                };
+                    return Json(new JsonResponse { success = false, message = "Something went wrong while saving your ingredients to the database, please try again." });
+                }
                 // Normalize the ingredient unit name
                 planIngredient.unit = Normalizer.UnitName(planIngredient.unit);
                 // Add a PlanIngredient record for this ingredient
-                var newPlanIngredient = new PlanIngredient { PlanId = newPlan.PlanId, Amount = planIngredient.amount, Unit = planIngredient.unit };
-                if (newIngredient.IngredientId > 0)
-                {
-                    newPlanIngredient.IngredientId = newIngredient.IngredientId;
-                } else
-                {
-                    newPlanIngredient.IngredientId = dbIngredient.IngredientId;
-                }
+                var newPlanIngredient = new PlanIngredient { PlanId = newPlan.PlanId, Amount = planIngredient.amount, Unit = planIngredient.unit, IngredientId = ingredient.IngredientId };
                 _context.PlanIngredient.Add(newPlanIngredient);
                 try
                 {
@@ -148,10 +115,14 @@ namespace WebAPI
                         }
                     }
                     // Else add a new GroceryItem record
-                    if (req.Amount > 0)
+                    if (req.Amount > 0 && req.Unit != "pound")
                     {
                         var display = DisplayUnit.FromOunces(req.Amount);
                         var newGroceryItem = new GroceryItem { IngredientId = req.IngredientId, Amount = display.Amount, Unit = display.Unit, UserId = plan.userId };
+                        _context.GroceryItem.Add(newGroceryItem);
+                    } else if (req.Amount > 0 && req.Unit == "pound")
+                    {
+                        var newGroceryItem = new GroceryItem { IngredientId = req.IngredientId, Amount = req.Amount, Unit = req.Unit, UserId = plan.userId };
                         _context.GroceryItem.Add(newGroceryItem);
                     }
                     if (req.Count > 0)

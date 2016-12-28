@@ -21,7 +21,7 @@ namespace WebAPI
                 case "ozs":
                 case "ounce":
                 case "ounces":
-                    output = "ounce";
+                    output = Units.Ounce;
                     break;
                 // Teaspoon
                 case "t":
@@ -29,7 +29,7 @@ namespace WebAPI
                 case "tsps":
                 case "teaspoon":
                 case "teaspoons":
-                    output = "tsp";
+                    output = Units.Teaspoon;
                     break;
                 // Tablespoon
                 case "tb":
@@ -37,13 +37,13 @@ namespace WebAPI
                 case "tablespoon":
                 case "tablespoons":
                 case "tbl":
-                    output = "tbs";
+                    output = Units.Tablespoon;
                     break;
                 // Cup
                 case "c":
                 case "cup":
                 case "cups":
-                    output = "cup";
+                    output = Units.Cup;
                     break;
                 // Pint
                 case "p":
@@ -51,13 +51,13 @@ namespace WebAPI
                 case "pts":
                 case "pint":
                 case "pints":
-                    output = "pint";
+                    output = Units.Pint;
                     break;
                 // Quart
                 case "qt":
                 case "quart":
                 case "quarts":
-                    output = "quart";
+                    output = Units.Quart;
                     break;
                 // Gallon
                 case "g":
@@ -65,14 +65,14 @@ namespace WebAPI
                 case "gals":
                 case "gallon":
                 case "gallons":
-                    output = "gallon";
+                    output = Units.Gallon;
                     break;
                 // Pound
                 case "lb":
                 case "lbs":
                 case "pound":
                 case "pounds":
-                    output = "pound";
+                    output = Units.Pound;
                     break;
                 default:
                     output = unitName.ToLower();

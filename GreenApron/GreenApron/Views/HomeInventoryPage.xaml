@@ -19,6 +19,7 @@
                   <Label Text="{Binding Ingredient.ingredientName}" />
                   <Label Text="{Binding Unit}" HorizontalOptions="FillAndExpand" />
                 </StackLayout>
+                  <Label Text="{Binding Amount}" HorizontalOptions="FillAndExpand" />
                   <local:InventorySwitch IsToggled="{Binding Empty}" Toggled="ToggleHandler" HorizontalOptions="End" InventoryItem="{Binding .}" />
               </StackLayout>
             </ViewCell>

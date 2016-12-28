@@ -11,11 +11,12 @@ namespace WebAPI
     public class GroceryController : Controller
     {
         private GreenApronContext _context { get; set; }
-        Random rand = new Random();
+        private IngredientManager _ingManager { get; set; }
 
         public GroceryController(GreenApronContext context)
         {
             _context = context;
+            _ingManager = new IngredientManager(_context);
         }
 
         // GET api/grocery/getall/{userId}
@@ -44,7 +45,7 @@ namespace WebAPI
                 {
                     dbItem.DateCompleted = item.DateCompleted;
                     dbItem.Amount = item.Amount;
-                    dbItem.Unit = item.Unit;
+                    dbItem.Unit = (item.Unit == null) ? "" : item.Unit;
                     _context.Entry(dbItem).State = EntityState.Modified;
                 }
                 // Look for an existing inventory item for the same ingredient
@@ -57,6 +58,10 @@ namespace WebAPI
                 } else
                 {
                     var newInventoryItem = new InventoryItem { IngredientId = item.IngredientId, UserId = item.UserId, Amount = item.Amount, Unit = item.Unit };
+                    if (newInventoryItem.Unit == null)
+                    {
+                        newInventoryItem.Unit = "";
+                    }
                     _context.InventoryItem.Add(newInventoryItem);
                 }
             }
@@ -74,49 +79,18 @@ namespace WebAPI
         // POST api/grocery/add
         // Adds a new grocery item record, and a new ingredient record if necessary
         [HttpPost("{userId}")]
-        public async Task<JsonResult> Add([FromBody] IngredientRequest item, [FromRoute] Guid userId)
+        public async Task<JsonResult> Add([FromBody] extIngredient item, [FromRoute] Guid userId)
         {
-            // Find an existing ingredient item record in the database by Id or by name
-            var dbIngredient = await _context.Ingredient.SingleOrDefaultAsync(i => i.IngredientId == item.id || i.IngredientName == item.name);
-            Ingredient newIngredient = null;
-            if (dbIngredient == null)
+            // Add this ingredient to the database, if it doesn't already exist
+            Ingredient ingredient = await _ingManager.CheckDB(item);
+            // Handle database error
+            if (ingredient.IngredientId == -1)
             {
-                // If no ingredient record is found, add a new one
-                newIngredient = new Ingredient() { Aisle = item.aisle, ImageURL = item.image, IngredientName = item.name };
-                if (item.id < 1)
-                {
-                    newIngredient.IngredientId = rand.Next(100000000, 999999999);
-                } else
-                {
-                    newIngredient.IngredientId = item.id;
-                }
-                _context.Ingredient.Add(newIngredient);
-                _context.Database.OpenConnection();
-                try
-                {
-                    // Execute Identity Insert command to inject Spoonacular's primary key
-                    await _context.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT dbo.Ingredient ON");
-                    await _context.SaveChangesAsync();
-                    await _context.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT dbo.Ingredient OFF");
-                }
-                catch
-                {
-                    return Json(new JsonResponse { success = false, message = "Something went wrong while saving an ingredient to the database, please try again." });
-                }
-                finally
-                {
-                    _context.Database.CloseConnection();
-                }
+                return Json(new JsonResponse { success = false, message = "Something went wrong while saving your ingredients to the database, please try again." });
             }
             // Add a grocery item record to the database
-            var newGroceryItem = new GroceryItem { Amount = item.amount, Unit = item.unit, UserId = userId };
-            if (newIngredient != null)
-            {
-                newGroceryItem.IngredientId = newIngredient.IngredientId;
-            } else
-            {
-                newGroceryItem.IngredientId = item.id;
-            }
+            var newGroceryItem = new GroceryItem { Amount = item.amount, UserId = userId, IngredientId = ingredient.IngredientId };
+            newGroceryItem.Unit = (item.unit == null) ? "" : item.unit;
             _context.GroceryItem.Add(newGroceryItem);
             try
             {
