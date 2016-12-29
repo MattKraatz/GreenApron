@@ -29,6 +29,10 @@ namespace WebAPI.Controllers
             {
                 return Json(new InventoryResponse { success = false, message = "No inventory items were found, have you added any? " });
             }
+            foreach (InventoryItem item in items)
+            {
+                item.Plans = await _ingManager.AttachPlanAsync(item.IngredientId);
+            }
             return Json(new InventoryResponse { success = true, message = "Inventory Item(s) retrieved successfully", InventoryItems = items });
         }
 

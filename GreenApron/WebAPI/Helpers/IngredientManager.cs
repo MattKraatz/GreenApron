@@ -56,5 +56,17 @@ namespace WebAPI
             };
             return dbIngredient;
         }
+
+        public async Task<Plan[]> AttachPlanAsync(int id)
+        {
+                var plans = from p in _context.Plan
+                            join pi in _context.PlanIngredient on p.PlanId equals pi.PlanId
+                            where pi.IngredientId == id
+                            where p.DateCompleted == null
+                            where DateTime.Compare(p.Date, DateTime.Today) > 0
+                            select p;
+                var output = await plans.ToArrayAsync();
+            return output;
+        }
     }
 }

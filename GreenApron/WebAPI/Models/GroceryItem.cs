@@ -31,5 +31,8 @@ namespace WebAPI
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime DateCreated { get; set; }
+
+        [NotMapped]
+        public Plan[] Plans { get; set; }
     }
 }

@@ -29,6 +29,10 @@ namespace WebAPI
             {
                 return Json(new GroceryResponse { success = false, message = "No grocery items were found, have you added any? " });
             }
+            foreach (GroceryItem item in items)
+            {
+                item.Plans = await _ingManager.AttachPlanAsync(item.IngredientId);
+            }
             return Json(new GroceryResponse { success = true, message = "Grocery Item(s) retrieved successfully", GroceryItems = items });
         }
 
