@@ -4,30 +4,34 @@
              x:Class="GreenApron.RecipePage"
              Title="Recipe Detail">
   <ContentPage.Content>
-      <StackLayout Padding="5">
-          <ScrollView>
+      <StackLayout>
+          <ScrollView Padding="0,5,5,0">
               <StackLayout VerticalOptions="StartAndExpand">
-                  <StackLayout Orientation="Horizontal">
-                      <Label Text="{Binding servings, StringFormat='{0:F0} servings'}"
-                             FontSize="Medium"
+                  <StackLayout Orientation="Horizontal" Padding="20, 0">
+                      <Label Text="{Binding servings, StringFormat='{0:F0} Servings'}"
+                             FontSize="Large"
                              FontAttributes="Bold"
-                             TextColor="#FF5652"
+                             TextColor="#008A09"
                              VerticalTextAlignment="Center"
                              HorizontalOptions="Start"
                              x:Name="servings" />
                       <StackLayout HorizontalOptions="EndAndExpand">
                           <Label Text="{Binding preparationMinutes, StringFormat='Prep: {0:F0} minutes'}"
+                                 VerticalTextAlignment="Center" TextColor="#AF0400"
                                  x:Name="prepMin" />
                           <Label Text="{Binding cookingMinutes, StringFormat='Cook: {0:F0} minutes'}"
+                                 VerticalTextAlignment="Center" TextColor="#AF0400"
                                  x:Name="cookMin" />
                       </StackLayout>
-                  </StackLayout>d
+                  </StackLayout>
                   <Image Source="{Binding image}" />
-                  <StackLayout Margin="5" VerticalOptions="FillAndExpand">
-                      <Label Text="Instructions:" TextColor="#008A09" HorizontalTextAlignment="Center"/>
+                  <StackLayout VerticalOptions="FillAndExpand" Padding="10,5,10,0">
+                      <Label Text="Instructions:" TextColor="#008A09" FontSize="Medium"
+                             HorizontalTextAlignment="Center"/>
                       <Label Text="{Binding instructions}" />
-                      <Label Text="Ingredients:" TextColor="#008A09" HorizontalTextAlignment="Center"/>
-                        <ListView x:Name="ingredientsList">
+                      <Label Text="Ingredients:" TextColor="#008A09" FontSize="Medium"
+                             HorizontalTextAlignment="Center"/>
+                        <ListView x:Name="ingredientsList" ItemTapped="HandleTap">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
@@ -46,11 +50,11 @@
                     </StackLayout>
               </StackLayout>
           </ScrollView>
-          <StackLayout Orientation="Horizontal">
-              <Button Text="Add To Plan" TextColor="White" BackgroundColor="#77D065" Clicked="OnAddToPlanClicked"
-                      HorizontalOptions="FillAndExpand"/>
-              <Button Text="Bookmark" TextColor="White" BackgroundColor="#77D065" Clicked="OnBookmarkClicked"
-                      HorizontalOptions="FillAndExpand"/>
+          <StackLayout Orientation="Horizontal" Margin="10, 0, 10, 10">
+              <Button Text="Add To Plan" TextColor="White" BackgroundColor="#50F75B" Clicked="OnAddToPlanClicked"
+                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+              <Button Text="Bookmark" TextColor="White" BackgroundColor="#50F75B" Clicked="OnBookmarkClicked"
+                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
           </StackLayout>
       </StackLayout>
   </ContentPage.Content>

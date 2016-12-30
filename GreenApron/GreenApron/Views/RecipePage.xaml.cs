@@ -60,8 +60,13 @@ namespace GreenApron
             ingredientsList.ItemsSource = recipe.extendedIngredients;
             ingredientsList.RowHeight = 20;
             ingredientsList.HeightRequest = (20 * recipe.extendedIngredients.Count()) + 1;
-
+            
             this.BindingContext = recipe;
+        }
+
+        public void HandleTap(object sender, EventArgs e)
+        {
+            ingredientsList.SelectedItem = null;
         }
     }
 }
