@@ -17,6 +17,7 @@ namespace GreenApron
         {
             InitializeComponent();
             groceryList.ItemsSource = groceryItems;
+            groceryList.HeightRequest = 1000;
             GetGroceryItems();
         }
 
@@ -28,7 +29,7 @@ namespace GreenApron
                 groceryItems.Clear();
                 foreach (GroceryItem item in response.GroceryItems)
                 {
-                    item.AmountUnit = item.Amount.ToString() + " " + item.Unit;
+                    item.Count = item.Plans.Count();
                     // Find existing GroceryListGroup
                     var groupCheck = groceryItems.SingleOrDefault(g => g.Title == item.Ingredient.aisle);
                     if (groupCheck == null)

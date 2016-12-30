@@ -17,6 +17,7 @@ namespace GreenApron
         {
             InitializeComponent();
             inventoryList.ItemsSource = inventoryItems;
+            inventoryList.HeightRequest = 1000;
             GetInventoryItems();
         }
 
@@ -30,6 +31,7 @@ namespace GreenApron
                 foreach (InventoryItem item in response.InventoryItems)
                 {
                     item.AmountUnit = item.Amount.ToString() + " " + item.Unit;
+                    item.Count = item.Plans.Count();
                     // Find existing InventoryListGroup
                     var groupCheck = inventoryItems.SingleOrDefault(g => g.Title == item.Ingredient.aisle);
                     if (groupCheck == null)
@@ -49,6 +51,11 @@ namespace GreenApron
             {
                 await DisplayAlert("Error", response.message, "Okay");
             }
+        }
+
+        public void OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            inventoryList.SelectedItem = null;
         }
 
         public async void OpenProductSearch(object sender, EventArgs e)
