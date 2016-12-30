@@ -59,6 +59,7 @@ namespace GreenApron
             var recipe = e.Item as RecipePreview;
             var recipePage = new RecipePage(recipe.id);
             Navigation.PushAsync(recipePage);
+            recipeSearchList.SelectedItem = null;
         }
     }
 }
