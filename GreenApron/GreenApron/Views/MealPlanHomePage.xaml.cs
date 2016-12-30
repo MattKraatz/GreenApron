@@ -39,15 +39,9 @@ namespace GreenApron
             //calendar.DataSource = collection;
         }
 
-        public async void OnAddaPlanClicked(object sender, EventArgs e)
-        {
-            var page = new RecipeSearchPage();
-            await Navigation.PushAsync(page);
-        }
-
         public async void OnAddClicked(DateTime date)
         {
-            var page = new RecipeSearchPage();
+            var page = new RecipeSearchPage(date);
             await Navigation.PushAsync(page);
         }
 
@@ -75,7 +69,7 @@ namespace GreenApron
 
         public void PrintDays(List<Plan> plans)
         {
-            for (var i = 0; i < 30; i ++)
+            for (var i = 0; i < 15; i ++)
             {
                 var today = DateTime.Today.AddDays(i);
                 // Create a label for the date
@@ -99,7 +93,8 @@ namespace GreenApron
                     PrintPlans(todayPlans, "Dessert");
                 }
                 var addButton = new Button { Text = "Add a Plan", TextColor = Color.White, BackgroundColor = Color.FromHex("#50F75B") };
-                addButton.GestureRecognizers.Add(new TapGestureRecognizer { Command = new Command(() => OnAddClicked(today)) });
+                addButton.Command = new Command<DateTime>(OnAddClicked);
+                addButton.CommandParameter = today;
                 scrollStack.Children.Add(addButton);
             }
         }

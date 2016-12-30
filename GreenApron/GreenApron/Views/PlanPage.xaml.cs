@@ -18,6 +18,12 @@ namespace GreenApron
         public PlanPage(Plan plan)
         {
             InitializeComponent();
+            BindPlan(plan);
+        }
+
+        public async void BindPlan(Plan plan)
+        {
+            plan.Recipe = await App.SpoonManager.GetRecipeByIdAsync(plan.RecipeId);
             this.BindingContext = plan;
             _activePlan = plan;
         }

@@ -11,18 +11,54 @@ namespace GreenApron
 {
     public partial class RecipePage : ContentPage
     {
+        private DateTime _activeDate { get; set; }
+
         public RecipePage(int id)
         {
             InitializeComponent();
             RetrieveRecipe(id);
         }
 
+        public RecipePage(int id, DateTime activeDate)
+        {
+            InitializeComponent();
+            RetrieveRecipe(id);
+            _activeDate = activeDate;
+        }
+
         public async void OnAddToPlanClicked(object sender, EventArgs e)
         {
             if (this.BindingContext != null)
             {
-                var page = new AddToPlanFromRecipePage(this.BindingContext as Recipe);
-                await Navigation.PushAsync(page);
+                var recipe = this.BindingContext as Recipe;
+                if (_activeDate == null)
+                {
+                    var page = new AddToPlanFromRecipePage(recipe);
+                    await Navigation.PushAsync(page);
+                } else
+                {
+                    var mealStrings = new[] { "Breakfast", "Lunch", "Dinner", "Snack", "Dessert" };
+                    var action = await DisplayActionSheet("Which Meal?", "Cancel", null, mealStrings);
+                    if (mealStrings.Contains(action))
+                    {
+                        // Post this Meal Plan to WebAPI
+                        var newPlan = new PlanRequest { userId = App.AuthManager.loggedInUser.UserId, date = _activeDate, meal = action, recipe = recipe };
+                        JsonResponse response = await App.APImanager.AddPlan(newPlan);
+                        // On Success, pop this page from Navigation
+                        if (response.success)
+                        {
+                            var navStack = this.Navigation.NavigationStack;
+                            // Remove the search page before popping, jumps back to Meal Plan home page
+                            Navigation.RemovePage(navStack[navStack.Count - 2]);
+                            await Navigation.PopAsync();
+                        }
+                        else
+                        {
+                            // handle failure
+                            await DisplayAlert("Error", response.message, "Okay");
+                        }
+                    }
+                }
             }
         }
 

@@ -12,11 +12,19 @@ namespace GreenApron
     public partial class RecipeSearchPage : ContentPage
     {
         public ObservableCollection<RecipePreview> recipePageItems { get; private set; } = new ObservableCollection<RecipePreview>();
+        private DateTime _activeDate { get; set; }
 
         public RecipeSearchPage()
         {
             InitializeComponent();
             recipeSearchList.ItemsSource = recipePageItems;
+        }
+
+        public RecipeSearchPage(DateTime activeDate)
+        {
+            InitializeComponent();
+            recipeSearchList.ItemsSource = recipePageItems;
+            _activeDate = activeDate;
         }
 
         public async void DoSearch(object sender, EventArgs args)
@@ -57,7 +65,7 @@ namespace GreenApron
         public void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var recipe = e.Item as RecipePreview;
-            var recipePage = new RecipePage(recipe.id);
+            var recipePage = new RecipePage(recipe.id, _activeDate);
             Navigation.PushAsync(recipePage);
             recipeSearchList.SelectedItem = null;
         }
