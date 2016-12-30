@@ -72,7 +72,7 @@ namespace GreenApron
             var selectedMeal = await DisplayActionSheet("Which Meal?","Cancel",null,planNames);
             if (planNames.Contains(selectedMeal))
             {
-                var plan = response.plans.SingleOrDefault(p => (p.Meal + ": " + p.RecipeName) == selectedMeal);
+                var plan = response.plans.FirstOrDefault(p => (p.Meal + " - " + p.RecipeName) == selectedMeal);
                 // Grab recipe from Spoonacular
                 plan.Recipe = await App.SpoonManager.GetRecipeByIdAsync(plan.RecipeId);
                 // Instantiate new recipe page with plan as context

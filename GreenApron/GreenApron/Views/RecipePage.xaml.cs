@@ -48,6 +48,19 @@ namespace GreenApron
         public async void RetrieveRecipe(int id)
         {
             var recipe = await App.SpoonManager.GetRecipeByIdAsync(id);
+            CleanPage(recipe);
+        }
+
+        public void CleanPage(Recipe recipe)
+        {
+            this.Title = (recipe.title.Length > 0) ? recipe.title : "Recipe Detail";
+            servings.IsVisible = recipe.servings > 0;
+            prepMin.IsVisible = recipe.preparationMinutes > 0;
+            cookMin.IsVisible = recipe.cookingMinutes > 0;
+            ingredientsList.ItemsSource = recipe.extendedIngredients;
+            ingredientsList.RowHeight = 20;
+            ingredientsList.HeightRequest = (20 * recipe.extendedIngredients.Count()) + 1;
+
             this.BindingContext = recipe;
         }
     }
