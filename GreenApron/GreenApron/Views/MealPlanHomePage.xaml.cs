@@ -29,14 +29,29 @@ namespace GreenApron
         public async void GetMealPlans()
         {
             response = await App.APImanager.GetActivePlans();
-            // Print the page with meal plans
-            PrintDays(response.plans);
+            if (response.success)
+            {
+                // Print the page with meal plans
+                PrintDays(response.plans);
+            } else
+            {
+                await DisplayAlert("Error", response.message, "Okay");
+                var addButton = new Button { Text = "Add a Plan", TextColor = Color.White, BackgroundColor = Color.FromHex("#50F75B") };
+                addButton.Command = new Command(OnAddClicked);
+                scrollStack.Children.Add(addButton);
+            }
             //// Add Appointments to the calendar
             //foreach (Plan plan in response.plans)
             //{
             //    AddAppointment(plan);
             //}
             //calendar.DataSource = collection;
+        }
+
+        public async void OnAddClicked()
+        {
+            var page = new RecipeSearchPage();
+            await Navigation.PushAsync(page);
         }
 
         public async void OnAddClicked(DateTime date)
@@ -125,7 +140,7 @@ namespace GreenApron
                                 VerticalOptions = LayoutOptions.Start,
                                 Children =
                                 {
-                                    new Image { HeightRequest = 50, WidthRequest = 80, Source = "https://spoonacular.com/cdn/recipes_100x100/Creamy-Tomato-Tortellini-Soup-548458.jpg" }
+                                    new Image { HeightRequest = 50, WidthRequest = 80, Source = plan.RecipeImage }
                                 }
                             },
                             new StackLayout

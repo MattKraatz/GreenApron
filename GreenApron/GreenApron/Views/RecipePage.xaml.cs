@@ -11,7 +11,7 @@ namespace GreenApron
 {
     public partial class RecipePage : ContentPage
     {
-        private DateTime _activeDate { get; set; }
+        private DateTime? _activeDate { get; set; }
 
         public RecipePage(int id)
         {
@@ -19,7 +19,7 @@ namespace GreenApron
             RetrieveRecipe(id);
         }
 
-        public RecipePage(int id, DateTime activeDate)
+        public RecipePage(int id, DateTime? activeDate)
         {
             InitializeComponent();
             RetrieveRecipe(id);
@@ -31,10 +31,13 @@ namespace GreenApron
             if (this.BindingContext != null)
             {
                 var recipe = this.BindingContext as Recipe;
+                // If this page was instantiated from meal planning home, it would already have a date attached
+                // If no date is attached, show the calendar view
                 if (_activeDate == null)
                 {
                     var page = new AddToPlanFromRecipePage(recipe);
                     await Navigation.PushAsync(page);
+                // If a date is attached, just jump straight to posting the new plan
                 } else
                 {
                     var mealStrings = new[] { "Breakfast", "Lunch", "Dinner", "Snack", "Dessert" };

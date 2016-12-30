@@ -5,7 +5,7 @@
              Title="My Meal Plans">
   <ContentPage.Content>
     <StackLayout x:Name="mainStack">
-        <ScrollView>
+        <ScrollView Padding="10,5,5,10">
             <StackLayout x:Name="scrollStack">
                 
             </StackLayout>

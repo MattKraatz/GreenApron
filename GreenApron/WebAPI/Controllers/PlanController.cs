@@ -30,7 +30,7 @@ namespace WebAPI
                 return Json(new JsonResponse { success = false, message = "Something went wrong, please resubmit with all required fields." });
             }
             // Create Plan record and save to database
-            var newPlan = new Plan { Date = plan.date, Meal = plan.meal, ServingsYield = plan.servingsYield, RecipeName = plan.recipe.title, RecipeId = plan.recipe.id, UserId = plan.userId};
+            var newPlan = new Plan { Date = plan.date, Meal = plan.meal, ServingsYield = plan.servingsYield, RecipeName = plan.recipe.title, RecipeId = plan.recipe.id, RecipeImage = plan.recipe.image, UserId = plan.userId};
             _context.Plan.Add(newPlan);
             try
             {

@@ -24,6 +24,8 @@ namespace WebAPI
         [Required]
         public int RecipeId { get; set; }
 
+        public string RecipeImage { get; set; }
+
         [Required]
         [ForeignKey("User")]
         public Guid UserId { get; set; }

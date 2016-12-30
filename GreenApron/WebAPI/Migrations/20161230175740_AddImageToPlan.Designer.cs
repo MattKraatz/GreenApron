@@ -8,9 +8,10 @@ using WebAPI;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(GreenApronContext))]
-    partial class GreenApronContextModelSnapshot : ModelSnapshot
+    [Migration("20161230175740_AddImageToPlan")]
+    partial class AddImageToPlan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")

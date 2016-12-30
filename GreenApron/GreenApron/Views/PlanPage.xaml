@@ -2,22 +2,64 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GreenApron.PlanPage"
-             Title="{Binding Meal}">
+             Title="{Binding Date, StringFormat='{0:dddd, dd MMMM}'}">
   <ContentPage.Content>
-    <ScrollView>
       <StackLayout>
-        <Label Text="{Binding RecipeName}" HorizontalOptions="Center" />
-        <Label Text="{Binding Recipe.preparationMinutes,
-             StringFormat='Prep Time: {0:F0} minutes'}" />
-        <Label Text="{Binding Recipe.cookingMinutes,
-             StringFormat='Cook Time: {0:F0} minutes'}" />
-        <Image Source="{Binding Recipe.image}" />
-        <Label Text="{Binding Recipe.sourceName,
-             StringFormat='Source: {0:F0}'}" />
-        <Label Text="{Binding Recipe.instructions,
-             StringFormat='Instructions: {0:F0}'}" />
-        <Button Text="I Cooked It!" TextColor="White" BackgroundColor="#77D065" Clicked="OnCookedClicked" />
+          <ScrollView Padding="0,5,5,0">
+              <StackLayout VerticalOptions="StartAndExpand">
+                  <StackLayout Orientation="Horizontal" Padding="20, 0">
+                      <Label Text="{Binding Meal, StringFormat='{0:F0}  '}"
+                         FontSize="Large" FontAttributes="Bold"
+                         TextColor="#00DE0E"
+                         VerticalTextAlignment="Center"
+                         HorizontalOptions="Start" />
+                      <Label Text="{Binding Recipe.servings, StringFormat='{0:F0} Servings'}"
+                             FontSize="Medium"
+                             TextColor="#008A09"
+                             VerticalTextAlignment="Center"
+                             HorizontalOptions="Start"
+                             x:Name="servings" />
+                      <StackLayout HorizontalOptions="EndAndExpand">
+                          <Label Text="{Binding Recipe.preparationMinutes, StringFormat='Prep: {0:F0} minutes'}"
+                                 VerticalTextAlignment="Center" TextColor="#AF0400"
+                                 x:Name="prepMin" />
+                          <Label Text="{Binding Recipe.cookingMinutes, StringFormat='Cook: {0:F0} minutes'}"
+                                 VerticalTextAlignment="Center" TextColor="#AF0400"
+                                 x:Name="cookMin" />
+                      </StackLayout>
+                  </StackLayout>
+                  <Image Source="{Binding Recipe.image}" />
+                  <StackLayout VerticalOptions="FillAndExpand" Padding="10,5,10,0">
+                      <Label Text="Instructions:" TextColor="#008A09" FontSize="Medium"
+                             HorizontalTextAlignment="Center"/>
+                      <Label Text="{Binding Recipe.instructions}" />
+                      <Label Text="Ingredients:" TextColor="#008A09" FontSize="Medium"
+                             HorizontalTextAlignment="Center"/>
+                      <ListView x:Name="ingredientsList" ItemTapped="HandleTap">
+                          <ListView.ItemTemplate>
+                              <DataTemplate>
+                                  <ViewCell>
+                                      <StackLayout Orientation="Horizontal">
+                                          <Label Text="{Binding amount}" FontAttributes="Bold"
+                                                  HorizontalOptions="Start" />
+                                          <Label Text="{Binding unit}"
+                                                  HorizontalOptions="Start" />
+                                          <Label Text="{Binding name}"
+                                                  HorizontalOptions="EndAndExpand" />
+                                      </StackLayout>
+                                  </ViewCell>
+                              </DataTemplate>
+                          </ListView.ItemTemplate>
+                      </ListView>
+                  </StackLayout>
+              </StackLayout>
+          </ScrollView>
+          <StackLayout Orientation="Horizontal" Margin="10, 0, 10, 10">
+              <Button Text="Delete Plan" TextColor="White" BackgroundColor="#50F75B" Clicked="OnDeleteClicked"
+                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+              <Button Text="I Made It!" TextColor="White" BackgroundColor="#50F75B" Clicked="OnCookedClicked"
+                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+          </StackLayout>
       </StackLayout>
-    </ScrollView>
   </ContentPage.Content>
 </ContentPage>

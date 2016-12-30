@@ -12,7 +12,7 @@ namespace GreenApron
     public partial class RecipeSearchPage : ContentPage
     {
         public ObservableCollection<RecipePreview> recipePageItems { get; private set; } = new ObservableCollection<RecipePreview>();
-        private DateTime _activeDate { get; set; }
+        private DateTime? _activeDate { get; set; }
 
         public RecipeSearchPage()
         {
