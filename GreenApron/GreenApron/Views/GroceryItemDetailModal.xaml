@@ -5,21 +5,34 @@
              Title="Grocery Item Detail">
   <ContentPage.Content>
     <StackLayout VerticalOptions="FillAndExpand">
+        <ContentView Padding="0,15,0,5">
+            <Label Text="{Binding Ingredient.ingredientName}" HorizontalTextAlignment="Center"
+               FontSize="Large" FontAttributes="Bold" />
+        </ContentView>
+        <Image x:Name="ingredientImage" Source="{Binding Ingredient.imageURL}" Aspect="AspectFit" HeightRequest="100" />
+        <ContentView Padding="0,5,0,5">
+            <Label Text="Update Qty" TextColor="#008A09" FontSize="Medium" HorizontalTextAlignment="Center" />
+        </ContentView>
       <Slider Minimum="0" Maximum="500" x:Name="slider" Value="{Binding Amount, Mode=TwoWay}" />
       <StackLayout Orientation="Horizontal">
-        <Label Text="Amount: " HorizontalOptions="Start" />
-        <Entry BindingContext="{x:Reference slider}" Text="{Binding Value}" HorizontalOptions="FillAndExpand" Keyboard="Numeric" />
-        <Stepper BindingContext="{x:Reference slider}" Value="{Binding Value}" HorizontalOptions="FillAndExpand" />
-        <Label Text="{Binding Unit}" HorizontalOptions="End" />
-      </StackLayout> 
-      <StackLayout Orientation="Horizontal">
-        <Label Text="Purchased" />
+        <Stepper BindingContext="{x:Reference slider}" Value="{Binding Value}" HorizontalOptions="CenterAndExpand" />
+          <Entry BindingContext="{x:Reference slider}" Text="{Binding Value}" HorizontalOptions="EndAndExpand"
+               HorizontalTextAlignment="Center" Keyboard="Numeric" WidthRequest="60" />
+          <Label Text="{Binding Unit}" HorizontalOptions="End" WidthRequest="60" VerticalTextAlignment="End" />
+      </StackLayout>
+      <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Padding="0,10,5,0">
+        <Label Text="Purchased" VerticalTextAlignment="Center" />
         <Switch IsToggled="{Binding Purchased}" />
       </StackLayout>
-      <Label Text="Actions" />
-      <Button Text="Update" Clicked="OnUpdateClicked" TextColor="White" BackgroundColor="#00DE0E" />
-      <Button Text="Delete" Clicked="OnDeleteClicked" TextColor="White" BackgroundColor="#00DE0E" />
-      <Button Text="Cancel" Clicked="OnCancelClicked" TextColor="White" BackgroundColor="#00DE0E" />
+        <StackLayout VerticalOptions="EndAndExpand">
+            <Button Text="Update" Clicked="OnUpdateClicked" TextColor="White" BackgroundColor="#00DE0E" />
+            <StackLayout Orientation="Horizontal">
+                <Button Clicked="OnCancelClicked" Text="Cancel" TextColor="White"
+                        BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                <Button Clicked="OnDeleteClicked" Text="Delete" TextColor="White"
+                        BackgroundColor="#FF0700" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+            </StackLayout>
+        </StackLayout>
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>

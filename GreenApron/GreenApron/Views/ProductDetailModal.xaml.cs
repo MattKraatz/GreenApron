@@ -24,7 +24,7 @@ namespace GreenApron
             }
         }
 
-        public string[] UnitOptions = new string[] { "tablespoons", "teaspoons", "cups", "pints", "quarts", "gallons", "lbs", "oz" };
+        public string[] UnitOptions = new string[] { "tablespoons", "teaspoons", "ounces", "cups", "gallons", "pounds" };
 
         public async void OnAddClicked(object sender, EventArgs e)
         {

@@ -15,7 +15,7 @@
             <Label Text="Got it" FontAttributes="Bold" WidthRequest="50"
                     HorizontalOptions="End" />
         </StackLayout>
-      <ListView x:Name="groceryList" VerticalOptions="FillAndExpand" HeightRequest="1000"
+      <ListView x:Name="groceryList" VerticalOptions="FillAndExpand" HeightRequest="1000" Margin="0"
         GroupDisplayBinding="{Binding Title}"
         GroupShortNameBinding="{Binding ShortName}"
         IsGroupingEnabled="true"

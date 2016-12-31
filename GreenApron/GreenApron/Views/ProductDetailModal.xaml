@@ -3,18 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GreenApron.ProductDetailModal"
              Title="Product Detail">
-  <ContentPage.Content>
-    <StackLayout VerticalOptions="FillAndExpand">
-      <Label Text="Binding name" HorizontalOptions="Start" />
-      <StackLayout Orientation="Horizontal">
-        <Label Text="Amount: " HorizontalOptions="Start" />
-        <Entry x:Name="qtyEntry" BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" HorizontalOptions="Start" Keyboard="Numeric" />
-        <Stepper x:Name="qtyStepper" Maximum="1000" HorizontalOptions="Start" />
-        <Picker x:Name="unitPicker" Title="Unit" HorizontalOptions="FillAndExpand"/>
-      </StackLayout> 
-      <Label Text="Actions" />
-      <Button Text="Add" Clicked="OnAddClicked" TextColor="White" BackgroundColor="#00DE0E" />
-      <Button Text="Cancel" Clicked="OnCancelClicked" TextColor="White" BackgroundColor="#00DE0E" />
-    </StackLayout>
-  </ContentPage.Content>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <ContentView Padding="0,15,0,5">
+                <Label Text="{Binding name}" HorizontalTextAlignment="Center"
+                   FontSize="Large" FontAttributes="Bold" />
+            </ContentView>
+            <Image x:Name="ingredientImage" Source="{Binding image, StringFormat='https://spoonacular.com/cdn/ingredients_100x100/{0:N}'}" Aspect="AspectFit" HeightRequest="100" />
+            <ContentView Padding="0,5,0,5">
+                <Label Text="Amount" TextColor="#008A09" FontSize="Medium" HorizontalTextAlignment="Center" />
+            </ContentView>
+            <StackLayout Orientation="Horizontal">
+                <Stepper x:Name="qtyStepper" Maximum="160" Value="0" HorizontalOptions="CenterAndExpand" />
+                <Entry BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" HorizontalOptions="EndAndExpand"
+                     x:Name="qtyEntry" HorizontalTextAlignment="Center" Keyboard="Numeric" WidthRequest="60" />
+                <Picker x:Name="unitPicker" Title="Unit" HorizontalOptions="End" WidthRequest="100"/>
+            </StackLayout>
+                <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                    <Button Clicked="OnCancelClicked" Text="Cancel" TextColor="White"
+                            BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                    <Button Clicked="OnAddClicked" Text="Add" TextColor="White"
+                            BackgroundColor="#FF0700" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>
