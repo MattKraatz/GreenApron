@@ -25,15 +25,9 @@ namespace GreenApron
             });
             masterPageItems.Add(new MasterPageItem
             {
-                Title = "Meal Planning",
+                Title = "My Meal Plans",
                 IconSource = "",
                 TargetType = typeof(MealPlanHomePage)
-            });
-            masterPageItems.Add(new MasterPageItem
-            {
-                Title = "Grocery List",
-                IconSource = "",
-                TargetType = typeof(GroceryListPage)
             });
             masterPageItems.Add(new MasterPageItem
             {
@@ -43,7 +37,7 @@ namespace GreenApron
             });
             masterPageItems.Add(new MasterPageItem
             {
-                Title = "Bookmarked Recipes",
+                Title = "My Recipe Book",
                 IconSource = "",
                 TargetType = typeof(RecipeCollectionPage)
             });
@@ -52,6 +46,12 @@ namespace GreenApron
                 Title = "My Pantry",
                 IconSource = "",
                 TargetType = typeof(HomeInventoryPage)
+            });
+            masterPageItems.Add(new MasterPageItem
+            {
+                Title = "My Grocery List",
+                IconSource = "",
+                TargetType = typeof(GroceryListPage)
             });
 
             listView.ItemsSource = masterPageItems;

@@ -10,6 +10,16 @@ namespace GreenApron
 		public HomePage()
 		{
 			InitializeComponent();
+            CheckLogin();
 		}
+
+        public async void CheckLogin()
+        {
+            if (App.AuthManager.loggedInUser == null)
+            {
+                var login = new LoginPage();
+                await Navigation.PushModalAsync(login);
+            }
+        }
 	}
 }

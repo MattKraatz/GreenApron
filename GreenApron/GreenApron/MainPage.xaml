@@ -9,7 +9,7 @@
   <MasterDetailPage.Detail>
     <NavigationPage>
       <x:Arguments>
-        <local:LoginPage />
+        <local:HomePage />
       </x:Arguments>
     </NavigationPage>
   </MasterDetailPage.Detail>

@@ -12,9 +12,9 @@
                  FontSize="26" />
           <Label Text="Please Login or Register" />
           <Label Text="Username" />
-          <Entry Text="{Binding Username}" />
+          <Entry x:Name="userEntry" Text="{Binding Username}" />
           <Label Text="Password" />
-          <Entry Text="{Binding Password}"
+          <Entry x:Name="passEntry" Text="{Binding Password}"
                  IsPassword="True" />
           <Button Text="Login" TextColor="White"
                   BackgroundColor="#77D065"
