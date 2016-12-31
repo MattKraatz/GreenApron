@@ -14,7 +14,7 @@ namespace GreenApron
             InitializeComponent();
             // set viewmodel for this page
             BindingContext = new User();
-            userEntry.Completed += (s, e) => passEntry.Focus();
+            AttachFocusEvents();
         }
 
 		private async void DoLogin(object sender, EventArgs e)
@@ -62,5 +62,14 @@ namespace GreenApron
                 }
             }   
 		}
+
+        private void AttachFocusEvents()
+        {
+            userEntry.Completed += (s, e) => passEntry.Focus();
+            userReg.Completed += (s, e) => passReg.Focus();
+            passReg.Completed += (s, e) => confReg.Focus();
+            confReg.Completed += (s, e) => firstReg.Focus();
+            firstReg.Completed += (s, e) => lastReg.Focus();
+        }
     }
 }

@@ -28,17 +28,17 @@
 		  <Label Text="Green Apron Registration"
 				 FontSize="26"
                  HorizontalOptions="Center" />
-          <Entry Placeholder="Username"
+          <Entry x:Name="userReg" Placeholder="Username"
                  Text="{Binding Path=Username}"/>
-          <Entry Placeholder="Password"
+          <Entry x:Name="passReg" Placeholder="Password"
                  Text="{Binding Path=Password}"
                  IsPassword="true"/>
-          <Entry Placeholder="Confirm Password"
+          <Entry x:Name="confReg" Placeholder="Confirm Password"
                  Text="{Binding Path=ConfirmPassword}"
                  IsPassword="true"/>
-		  <Entry Placeholder="First Name"
+		  <Entry x:Name="firstReg" Placeholder="First Name"
                  Text="{Binding Path=FirstName}"/>
-          <Entry Placeholder="Last Name"
+          <Entry x:Name="lastReg" Placeholder="Last Name"
                  Text="{Binding Path=LastName}"/>
           <Button Text="Register" TextColor="White"
                   BackgroundColor="#77D065"
