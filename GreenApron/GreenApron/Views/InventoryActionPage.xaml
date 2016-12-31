@@ -2,10 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GreenApron.InventoryActionPage"
-             Title="Inventory List Action">
+             Title="Edit My Pantry">
   <ContentPage.Content>
-    <StackLayout VerticalOptions="FillAndExpand">
-        <StackLayout Orientation="Horizontal" BackgroundColor="#cccccc">
+    <StackLayout VerticalOptions="Fill" Margin="0">
+        <StackLayout Orientation="Horizontal" BackgroundColor="#cccccc" Margin="0">
             <ContentView Padding="10,0,0,0" WidthRequest="100"
                          HorizontalOptions="FillAndExpand">
                 <Label Text="Qty" FontAttributes="Bold" />
@@ -46,7 +46,7 @@
           <ListView.GroupHeaderTemplate>
               <DataTemplate>
                   <ViewCell>
-                      <StackLayout Padding="10,0,0,0" VerticalOptions="EndAndExpand">
+                      <StackLayout Padding="10,5" VerticalOptions="EndAndExpand">
                           <Label Text="{Binding Title}" TextColor="#AF0400" VerticalTextAlignment="End" />
                       </StackLayout>
                   </ViewCell>
