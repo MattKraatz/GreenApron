@@ -26,12 +26,12 @@
             <ViewCell>
                 <StackLayout Orientation="Horizontal">
                     <StackLayout WidthRequest="60">
-                        <Entry BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" HorizontalTextAlignment="Center" TextColor="#008A09" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Numeric" />
+                        <Entry BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" FontSize="Large" HorizontalTextAlignment="Center" TextColor="#008A09" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Numeric" />
                         <Label Text="{Binding Unit}" VerticalOptions="End" HorizontalOptions="End" HorizontalTextAlignment="Center" />
                     </StackLayout>
                     <StackLayout Orientation="Vertical">
                         <ContentView Padding="3,0,0,0">
-                            <Label Text="{Binding Ingredient.ingredientName}" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                            <Label Text="{Binding Ingredient.ingredientName}" FontSize="Medium" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" />
                         </ContentView>
                         <StackLayout Orientation="Horizontal">
                             <Stepper x:Name="qtyStepper" Maximum="1000" Value="{Binding Amount}" HorizontalOptions="FillAndExpand" />

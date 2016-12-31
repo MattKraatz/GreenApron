@@ -20,37 +20,37 @@ namespace GreenApron
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "Home",
-                IconSource = "",
+                IconSource = "restaurant.png",
                 TargetType = typeof(HomePage)
             });
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "My Meal Plans",
-                IconSource = "",
+                IconSource = "calendar.png",
                 TargetType = typeof(MealPlanHomePage)
             });
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "Recipe Search",
-                IconSource = "",
+                IconSource = "search.png",
                 TargetType = typeof(RecipeSearchPage)
             });
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "My Recipe Book",
-                IconSource = "",
+                IconSource = "book.png",
                 TargetType = typeof(RecipeCollectionPage)
             });
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "My Pantry",
-                IconSource = "",
+                IconSource = "web.png",
                 TargetType = typeof(HomeInventoryPage)
             });
             masterPageItems.Add(new MasterPageItem
             {
                 Title = "My Grocery List",
-                IconSource = "",
+                IconSource = "commerce.png",
                 TargetType = typeof(GroceryListPage)
             });
 

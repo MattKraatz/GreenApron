@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:GreenApron;assembly=GreenApron" 
-             x:Class="GreenApron.HomePage">
+             x:Class="GreenApron.HomePage"
+             Title="Home">
 	<ContentPage.Content>
-		<Label Text="Welcome to GreenApron!" 
-			   VerticalTextAlignment="Center"
-			   HorizontalTextAlignment="Center"/>
+        <Label Text="Welcome to GreenApron!"
+                TextColor="#00DE0E"
+                FontSize="Large"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"/>
 	</ContentPage.Content>
 </ContentPage>

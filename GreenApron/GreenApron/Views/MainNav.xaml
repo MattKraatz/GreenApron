@@ -2,15 +2,26 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:GreenApron;assembly=GreenApron"
+             BackgroundColor="#00DE0E"
              Padding="0,40,0,0"
              x:Class="GreenApron.MainNav"
              Title="GreenApron">
   <ContentPage.Content>
-    <StackLayout VerticalOptions="FillAndExpand">
+    <StackLayout VerticalOptions="FillAndExpand" Padding="10,0,0,0">
+        <ContentView Padding="0,10,0,10">
+            <Label Text="Green Apron" FontSize="Large" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" />
+        </ContentView>
       <ListView x:Name="listView" VerticalOptions="FillAndExpand" SeparatorVisibility="None">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <ImageCell Text="{Binding Title}" ImageSource="{Binding IconSource}" />
+              <ViewCell>
+                  <StackLayout Orientation="Horizontal" Padding="5,10">
+                      <Image Source="{Binding IconSource}" Aspect="AspectFit" />
+                      <ContentView Padding="10,0,0,0">
+                          <Label Text="{Binding Title}" TextColor="White" FontSize="Medium" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                      </ContentView>
+                  </StackLayout>
+              </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
