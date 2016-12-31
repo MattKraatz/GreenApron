@@ -16,7 +16,7 @@
                   <Label Text="Plans" FontAttributes="Bold" WidthRequest="50"
                           HorizontalOptions="EndAndExpand" />
               </StackLayout>
-              <ContentView Padding="10,0" VerticalOptions="FillAndExpand">
+              <ContentView VerticalOptions="FillAndExpand">
                   <ListView x:Name="groceryList"
                         RowHeight="35"
                         GroupDisplayBinding="{Binding Title}"
