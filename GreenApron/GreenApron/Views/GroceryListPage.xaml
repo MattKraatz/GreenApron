@@ -54,11 +54,11 @@
                   <Label Text="Tap any item to update it" HorizontalTextAlignment="Center" />
                   <StackLayout Orientation="Horizontal">
                       <Button Clicked="MarkAsBought" Text="Got It All" TextColor="White"
-                              BackgroundColor="#77D065" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                              BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
                       <Button Clicked="OpenActionView" Text="Quick Edit" TextColor="White"
-                              BackgroundColor="#77D065" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                              BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
                   </StackLayout>
-                  <Button Clicked="OpenProductSearch" Text="New Grocery Item" TextColor="White" BackgroundColor="#77D065" />
+                  <Button Clicked="OpenProductSearch" Text="New Grocery Item" TextColor="White" BackgroundColor="#00DE0E" />
               </StackLayout>
           </StackLayout>
       </StackLayout>

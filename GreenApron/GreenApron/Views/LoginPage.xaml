@@ -17,7 +17,7 @@
           <Entry x:Name="passEntry" Text="{Binding Password}"
                  IsPassword="True" />
           <Button Text="Login" TextColor="White"
-                  BackgroundColor="#77D065"
+                  BackgroundColor="#00DE0E"
                   Clicked="DoLogin"/>
         </StackLayout>
         </ContentPage.Content>
@@ -41,7 +41,7 @@
           <Entry x:Name="lastReg" Placeholder="Last Name"
                  Text="{Binding Path=LastName}"/>
           <Button Text="Register" TextColor="White"
-                  BackgroundColor="#77D065"
+                  BackgroundColor="#00DE0E"
                   Clicked="DoRegistration"/>
         </StackLayout>
       </ContentPage>

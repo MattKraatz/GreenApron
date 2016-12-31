@@ -55,9 +55,9 @@
 
         <StackLayout Orientation="Horizontal" Padding="5, 0, 0, 5" VerticalOptions="End">
             <Button Clicked="EditInventory" Text="Quick Edit" TextColor="White"
-                    BackgroundColor="#77D065" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                    BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
             <Button Clicked="OpenProductSearch" Text="New Item" TextColor="White"
-                    BackgroundColor="#77D065" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                    BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
         </StackLayout>
         
     </StackLayout>

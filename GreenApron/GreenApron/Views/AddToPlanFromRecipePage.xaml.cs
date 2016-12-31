@@ -23,7 +23,7 @@ namespace GreenApron
             calendar.OnCalendarTapped += CacheSelectedDate;
             layout.Children.Add(calendar);
             // Instantiate Add to Plan button and add to View
-            var addButton = new Button { Text = "Add to Plan", BackgroundColor = Color.FromHex("#77D065"), TextColor = Color.White };
+            var addButton = new Button { Text = "Add to Plan", BackgroundColor = Color.FromHex("#00DE0E"), TextColor = Color.White };
             addButton.Clicked += OnAddToPlanClicked;
             layout.Children.Add(addButton);
         }

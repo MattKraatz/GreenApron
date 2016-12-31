@@ -5,9 +5,17 @@
              Title="Inventory List Action">
   <ContentPage.Content>
     <StackLayout VerticalOptions="FillAndExpand">
-      <Button Clicked="Update" Text="Update" TextColor="White" BackgroundColor="#77D065" />
-      <Button Clicked="Cancel" Text="Cancel" TextColor="White" BackgroundColor="#77D065" />
-      <ListView x:Name="inventoryList" VerticalOptions="FillAndExpand"
+        <StackLayout Orientation="Horizontal" BackgroundColor="#cccccc">
+            <ContentView Padding="10,0,0,0" WidthRequest="100"
+                         HorizontalOptions="FillAndExpand">
+                <Label Text="Qty" FontAttributes="Bold" />
+            </ContentView>
+            <Label Text="Empty" FontAttributes="Bold" WidthRequest="50"
+                    HorizontalOptions="EndAndExpand" />
+            <Label Text="Rebuy" FontAttributes="Bold" WidthRequest="50"
+                    HorizontalOptions="End" />
+        </StackLayout>
+      <ListView x:Name="inventoryList" VerticalOptions="FillAndExpand" HeightRequest="1000"
         GroupDisplayBinding="{Binding Title}"
         GroupShortNameBinding="{Binding ShortName}"
         IsGroupingEnabled="true"
@@ -15,20 +23,42 @@
         HasUnevenRows="True">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <ViewCell Height="80">
-              <StackLayout Orientation="Vertical">
-                <Label Text="{Binding Ingredient.ingredientName}" />
+            <ViewCell>
                 <StackLayout Orientation="Horizontal">
-                  <Entry BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" HorizontalOptions="FillAndExpand" Keyboard="Numeric" />
-                  <Stepper x:Name="qtyStepper" Maximum="1000" Value="{Binding Amount}" HorizontalOptions="FillAndExpand" />
-                  <Label Text="{Binding Unit}" HorizontalOptions="FillAndExpand" />
-                  <Switch IsToggled="{Binding Purchased}" HorizontalOptions="End" />
+                    <StackLayout WidthRequest="60">
+                        <Entry BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" FontSize="Large" HorizontalTextAlignment="Center" TextColor="#008A09" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Numeric" />
+                        <Label Text="{Binding Unit}" VerticalOptions="End" HorizontalOptions="End" HorizontalTextAlignment="Center" />
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical">
+                        <ContentView Padding="3,0,0,0">
+                            <Label Text="{Binding Ingredient.ingredientName}" FontSize="Medium" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                        </ContentView>
+                        <StackLayout Orientation="Horizontal">
+                            <Stepper x:Name="qtyStepper" Maximum="1000" Value="{Binding Amount}" HorizontalOptions="FillAndExpand" />
+                            <Switch IsToggled="{Binding Empty}" HorizontalOptions="EndAndExpand" />
+                            <Switch IsToggled="{Binding Rebuy}" HorizontalOptions="End" />
+                        </StackLayout>
+                    </StackLayout>
                 </StackLayout>
-              </StackLayout>
             </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
+          <ListView.GroupHeaderTemplate>
+              <DataTemplate>
+                  <ViewCell>
+                      <StackLayout Padding="10,0,0,0" VerticalOptions="EndAndExpand">
+                          <Label Text="{Binding Title}" TextColor="#AF0400" VerticalTextAlignment="End" />
+                      </StackLayout>
+                  </ViewCell>
+              </DataTemplate>
+          </ListView.GroupHeaderTemplate>
       </ListView>
+        <StackLayout Orientation="Horizontal">
+            <Button Clicked="Cancel" Text="Cancel" TextColor="White"
+                    BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+            <Button Clicked="Update" Text="Save Changes" TextColor="White"
+                    BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+        </StackLayout>
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>

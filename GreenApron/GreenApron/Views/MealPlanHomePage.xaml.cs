@@ -87,16 +87,21 @@ namespace GreenApron
             for (var i = 0; i < 15; i ++)
             {
                 var today = DateTime.Today.AddDays(i);
+
                 // Create a label for the date
                 var dateLabel = new Label
                 {
                     Text = today.ToString("dddd, dd MMMM"),
-                    TextColor = Color.FromHex("#008A09"),
+                    TextColor = Color.White,
                     HorizontalTextAlignment = TextAlignment.Center,
-                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
+                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
+                    BackgroundColor = Color.FromHex("#50F75B")
                 };
+                // Add padding
+                var view = new ContentView() { Margin = new Thickness(0,5) };
+                view.Content = dateLabel;
                 // Add Date label to the stack
-                scrollStack.Children.Add(dateLabel);
+                scrollStack.Children.Add(view);
 
                 var todayPlans = plans.Where(p => p.Date.Date == today.Date).ToList();
                 if (todayPlans.Count > 0)
@@ -107,7 +112,7 @@ namespace GreenApron
                     PrintPlans(todayPlans, "Dinner");
                     PrintPlans(todayPlans, "Dessert");
                 }
-                var addButton = new Button { Text = "Add a Plan", TextColor = Color.White, BackgroundColor = Color.FromHex("#50F75B") };
+                var addButton = new Button { Text = "Add a Plan", TextColor = Color.White, BackgroundColor = Color.FromHex("#00DE0E"), HorizontalOptions = LayoutOptions.Center };
                 addButton.Command = new Command<DateTime>(OnAddClicked);
                 addButton.CommandParameter = today;
                 scrollStack.Children.Add(addButton);

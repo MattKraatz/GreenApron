@@ -13,8 +13,8 @@
         <Picker x:Name="unitPicker" Title="Unit" HorizontalOptions="FillAndExpand"/>
       </StackLayout> 
       <Label Text="Actions" />
-      <Button Text="Add" Clicked="OnAddClicked" TextColor="White" BackgroundColor="#77D065" />
-      <Button Text="Cancel" Clicked="OnCancelClicked" TextColor="White" BackgroundColor="#77D065" />
+      <Button Text="Add" Clicked="OnAddClicked" TextColor="White" BackgroundColor="#00DE0E" />
+      <Button Text="Cancel" Clicked="OnCancelClicked" TextColor="White" BackgroundColor="#00DE0E" />
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>
