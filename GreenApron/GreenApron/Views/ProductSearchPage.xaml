@@ -9,7 +9,7 @@
       <ListView x:Name="productSearchList" VerticalOptions="FillAndExpand" SeparatorVisibility="None" ItemTapped="OnItemTapped">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <ImageCell Text="{Binding name}" ImageSource="{Binding image}" />
+            <ImageCell Text="{Binding name}" ImageSource="{Binding image, StringFormat='https://spoonacular.com/cdn/ingredients_100x100/{0:N}'}" />
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>

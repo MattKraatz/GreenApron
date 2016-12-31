@@ -8,17 +8,19 @@
           <ScrollView Padding="0,5,5,0">
               <StackLayout VerticalOptions="StartAndExpand">
                   <StackLayout Orientation="Horizontal" Padding="20, 0">
-                      <Label Text="{Binding Meal, StringFormat='{0:F0}  '}"
-                         FontSize="Large" FontAttributes="Bold"
+                      <Label Text="{Binding Meal, StringFormat='{0:F0}'}"
+                         FontSize="Medium" FontAttributes="Bold"
                          TextColor="#00DE0E"
                          VerticalTextAlignment="Center"
                          HorizontalOptions="Start" />
-                      <Label Text="{Binding Recipe.servings, StringFormat='{0:F0} Servings'}"
+                      <ViewCell Padding="5,0">
+                          <Label Text="{Binding Recipe.servings, StringFormat='{0:F0} Servings'}"
                              FontSize="Medium"
                              TextColor="#008A09"
                              VerticalTextAlignment="Center"
                              HorizontalOptions="Start"
                              x:Name="servings" />
+                      </ViewCell>
                       <StackLayout HorizontalOptions="EndAndExpand">
                           <Label Text="{Binding Recipe.preparationMinutes, StringFormat='Prep: {0:F0} minutes'}"
                                  VerticalTextAlignment="Center" TextColor="#AF0400"
