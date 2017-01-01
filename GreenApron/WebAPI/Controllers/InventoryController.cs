@@ -81,9 +81,22 @@ namespace WebAPI.Controllers
                 var dbItem = await _context.InventoryItem.SingleOrDefaultAsync(ii => ii.InventoryItemId == item.InventoryItemId);
                 if (dbItem != null)
                 {
-                    dbItem.Amount = item.Amount;
-                    dbItem.Unit = item.Unit;
-                    _context.Entry(dbItem).State = EntityState.Modified;
+                    if (item.Rebuy)
+                    {
+                        // Add a grocery item record to the database
+                        var newGroceryItem = new GroceryItem { Amount = item.Amount, UserId = dbItem.UserId, IngredientId = dbItem.IngredientId };
+                        newGroceryItem.Unit = (dbItem.Unit == null) ? "" : dbItem.Unit;
+                        _context.GroceryItem.Add(newGroceryItem);
+                    }
+                    if (item.Empty)
+                    {
+                        _context.InventoryItem.Remove(dbItem);
+                    }
+                    else
+                    {
+                        dbItem.Amount = item.Amount;
+                        _context.Entry(dbItem).State = EntityState.Modified;
+                    }
                 }
             }
             try

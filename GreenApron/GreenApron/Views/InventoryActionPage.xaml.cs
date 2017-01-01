@@ -38,6 +38,7 @@ namespace GreenApron
                 }
             }
             var response = await App.APImanager.UpdateInventoryItems(request);
+            await DisplayAlert("Response", response.message, "Okay");
             await Navigation.PopAsync();
         }
 

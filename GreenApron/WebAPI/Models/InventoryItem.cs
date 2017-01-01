@@ -32,5 +32,11 @@ namespace WebAPI
 
         [NotMapped]
         public Plan[] Plans { get; set; }
+
+        [NotMapped]
+        public bool Empty { get; set; }
+
+        [NotMapped]
+        public bool Rebuy { get; set; }
     }
 }
