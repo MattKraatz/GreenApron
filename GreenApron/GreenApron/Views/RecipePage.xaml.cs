@@ -12,6 +12,8 @@ namespace GreenApron
     public partial class RecipePage : ContentPage
     {
         private DateTime? _activeDate { get; set; }
+        private bool _bookmarked { get; set; }
+        private Guid _bookmarkId { get; set; }
 
         public RecipePage(int id)
         {
@@ -71,17 +73,39 @@ namespace GreenApron
         {
             if (this.BindingContext != null)
             {
-                var recipe = this.BindingContext as Recipe;
-                var newBookmark = new BookmarkRequest { userId = App.AuthManager.loggedInUser.UserId, RecipeId = recipe.id, Title = recipe.title, ImageURL = recipe.image };
-                var response = await App.APImanager.AddBookmark(newBookmark);
-                if (response.success)
+                if (!_bookmarked)
                 {
-                    await DisplayAlert("Success", "Bookmark Added Successfully", "Okay");
-                }
-                else
+                    var recipe = this.BindingContext as Recipe;
+                    var newBookmark = new BookmarkRequest { userId = App.AuthManager.loggedInUser.UserId, RecipeId = recipe.id, Title = recipe.title, ImageURL = recipe.image };
+                    var response = await App.APImanager.AddBookmark(newBookmark);
+                    if (response.success)
+                    {
+                        await DisplayAlert("Success", "Bookmark Added Successfully", "Okay");
+                        _bookmarked = true;
+                        var test = response;
+                        _bookmarkId = response.bookmarks[0].BookmarkId;
+                        UpdateBookMarkButton();
+                    }
+                    else
+                    {
+                        // handle failure
+                        await DisplayAlert("Error", response.message, "Okay");
+                    }
+                } else
                 {
-                    // handle failure
-                    await DisplayAlert("Error", response.message, "Okay");
+                    // TODO: Call WebAPI endpoint to delete this bookmark
+                    var response = await App.APImanager.DeleteBookmark(_bookmarkId);
+                    if (response.success)
+                    {
+                        _bookmarked = false;
+                        _bookmarkId = Guid.Empty;
+                        UpdateBookMarkButton();
+                    }
+                    else
+                    {
+                        // handle failure
+                        await DisplayAlert("Error", response.message, "Okay");
+                    }
                 }
             }
         }
@@ -92,9 +116,30 @@ namespace GreenApron
             CleanPage(recipe);
         }
 
-        public void CheckBookmark(int id)
+        public async void CheckBookmark(int id)
         {
-            // TODO: Write a WebAPI Endpoint that accepts a recipe Id and user Id and returns true or false
+            // Call a WebAPI Endpoint that accepts a recipe Id and user Id and returns true or false
+            var bookmark = new BookmarkRequest { RecipeId = id, userId = App.AuthManager.loggedInUser.UserId, ImageURL = "check", Title = "check" };
+            var response = await App.APImanager.CheckBookmark(bookmark);
+            if (response.success)
+            {
+                _bookmarked = true;
+                _bookmarkId = response.bookmarks[0].BookmarkId;
+                UpdateBookMarkButton();
+            }
+        }
+
+        public void UpdateBookMarkButton()
+        {
+            if (_bookmarked)
+            {
+                bookmarkButton.Text = "Bookmarked!";
+                bookmarkButton.BackgroundColor = Color.FromHex("#008A09");
+            } else
+            {
+                bookmarkButton.Text = "Bookmark";
+                bookmarkButton.BackgroundColor = Color.FromHex("#50F75B");
+            }
         }
 
         public void CleanPage(Recipe recipe)

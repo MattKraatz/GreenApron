@@ -19,13 +19,13 @@ namespace WebAPI
 
         // POST api/bookmark/addbookmark
         [HttpPost]
-        public async Task<JsonResult> AddBookmark([FromBody] BookmarkRequest bookmark)
+        public async Task<BookmarkResponse> AddBookmark([FromBody] BookmarkRequest bookmark)
         {
             // Check ModelState
             if (!ModelState.IsValid)
             {
                 // If invalid, return error message
-                return Json(new JsonResponse { success = false, message = "Something went wrong, please resubmit with all required fields." });
+                return new BookmarkResponse { success = false, message = "Something went wrong, please resubmit with all required fields." };
             }
             // Create Bookmark record and save to database
             var newBookmark = new Bookmark { UserId = bookmark.userId, RecipeId = bookmark.RecipeId, Title = bookmark.Title, ImageURL = bookmark.ImageURL };
@@ -36,9 +36,12 @@ namespace WebAPI
             }
             catch
             {
-                return Json(new JsonResponse { success = false, message = "Something went wrong while saving your plan to the database, please try again." });
+                return new BookmarkResponse { success = false, message = "Something went wrong while saving your plan to the database, please try again." };
             }
-            return Json( new JsonResponse { success = true, message = "Bookmark saved successfully"});
+            var response = new BookmarkResponse { success = true, message = "Bookmark saved successfully" };
+            response.bookmarks = new List<Bookmark>();
+            response.bookmarks.Add(newBookmark);
+            return response;
         }
 
         // GET api/bookmark/{uid}
@@ -51,6 +54,39 @@ namespace WebAPI
                 return new BookmarkResponse { success = false, message = "No bookmarks were found, have you added any?" };
             }
             return new BookmarkResponse { success = true, message = "Bookmark(s) retrieved successfully.", bookmarks = bookmarks};
+        }
+
+        // POST api/bookmark/check
+        [HttpPost]
+        public async Task<JsonResponse> Check([FromBody] BookmarkRequest bookmark)
+        {
+            var check = await _context.Bookmark.Where(b => b.UserId == bookmark.userId).Where(b => b.RecipeId == bookmark.RecipeId).ToListAsync();
+            if (check.Count > 0)
+            {
+                return new BookmarkResponse { success = true, message = "Already bookmarked.", bookmarks = check };
+            }
+            return new JsonResponse { success = false, message = "Not bookmarked. " };
+        }
+
+        // GET api/bookmark/delete
+        [HttpGet("{id}")]
+        public async Task<JsonResponse> Delete([FromRoute] Guid id)
+        {
+            // Find the bookmark record in the database
+            var dbItem = await _context.Bookmark.SingleOrDefaultAsync(b => b.BookmarkId == id);
+            if (dbItem != null)
+            {
+                _context.Bookmark.Remove(dbItem);
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
+            }
+            return new JsonResponse { success = true, message = "Database updated successfully." };
         }
     }
 }

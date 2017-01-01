@@ -33,7 +33,7 @@ namespace GreenApron
             }
         }
 
-        public async Task<JsonResponse> AddBookmark(BookmarkRequest bookmark)
+        public async Task<BookmarkResponse> AddBookmark(BookmarkRequest bookmark)
         {
             var uri = new Uri(string.Format(Keys.WebAPI + "/bookmark/addbookmark", string.Empty));
             try
@@ -42,7 +42,7 @@ namespace GreenApron
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(uri, content);
                 var JSONstring = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+                return JsonConvert.DeserializeObject<BookmarkResponse>(JSONstring);
             }
             catch
             {
@@ -211,6 +211,38 @@ namespace GreenApron
         public async Task<JsonResponse> DeleteGroceryItem(Guid groceryItemId)
         {
             var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/delete/" + groceryItemId, string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<BookmarkResponse> CheckBookmark(BookmarkRequest bookmark)
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/bookmark/check", string.Empty));
+            try
+            {
+                var json = JsonConvert.SerializeObject(bookmark);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(uri, content);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<BookmarkResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<JsonResponse> DeleteBookmark(Guid id)
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/bookmark/delete/" + id, string.Empty));
             try
             {
                 HttpResponseMessage response = await client.GetAsync(uri);

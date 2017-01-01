@@ -7,7 +7,7 @@ namespace GreenApron
     public interface IAPIservice
     {
         Task<JsonResponse> AddPlan(PlanRequest plan);
-        Task<JsonResponse> AddBookmark(BookmarkRequest bookmark);
+        Task<BookmarkResponse> AddBookmark(BookmarkRequest bookmark);
         Task<BookmarkResponse> GetBookmarks();
         Task<GroceryResponse> GetGroceryItems();
         Task<JsonResponse> UpdateGroceryItems(GroceryRequest request);
@@ -19,5 +19,8 @@ namespace GreenApron
         Task<JsonResponse> UpdateInventoryItems(InventoryRequest request);
         Task<JsonResponse> DeleteInventoryItem(Guid inventoryItemId);
         Task<JsonResponse> DeleteGroceryItem(Guid groceryItemId);
+        Task<BookmarkResponse> CheckBookmark(BookmarkRequest bookmark);
+        Task<JsonResponse> DeleteBookmark(Guid id);
+
     }
 }

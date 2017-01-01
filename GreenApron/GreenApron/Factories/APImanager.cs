@@ -20,7 +20,7 @@ namespace GreenApron
             return _APIservice.AddPlan(plan);
         }
 
-        public Task<JsonResponse> AddBookmark(BookmarkRequest bookmark)
+        public Task<BookmarkResponse> AddBookmark(BookmarkRequest bookmark)
         {
             return _APIservice.AddBookmark(bookmark);
         }
@@ -78,6 +78,16 @@ namespace GreenApron
         public Task<JsonResponse> DeleteGroceryItem(Guid groceryItemId)
         {
             return _APIservice.DeleteGroceryItem(groceryItemId);
+        }
+
+        public Task<BookmarkResponse> CheckBookmark(BookmarkRequest bookmark)
+        {
+            return _APIservice.CheckBookmark(bookmark);
+        }
+
+        public Task<JsonResponse> DeleteBookmark(Guid id)
+        {
+            return _APIservice.DeleteBookmark(id);
         }
     }
 }
