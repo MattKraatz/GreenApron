@@ -21,6 +21,6 @@ namespace GreenApron
         Task<JsonResponse> DeleteGroceryItem(Guid groceryItemId);
         Task<BookmarkResponse> CheckBookmark(BookmarkRequest bookmark);
         Task<JsonResponse> DeleteBookmark(Guid id);
-
+        Task<JsonResponse> DeletePlan(Guid id);
     }
 }

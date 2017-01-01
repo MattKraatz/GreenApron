@@ -89,5 +89,10 @@ namespace GreenApron
         {
             return _APIservice.DeleteBookmark(id);
         }
+
+        public Task<JsonResponse> DeletePlan(Guid id)
+        {
+            return _APIservice.DeletePlan(id);
+        }
     }
 }

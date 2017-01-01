@@ -57,7 +57,7 @@
               </StackLayout>
           </ScrollView>
           <StackLayout Orientation="Horizontal" Margin="10, 0, 10, 10">
-              <Button Text="Delete Plan" TextColor="White" BackgroundColor="#50F75B" Clicked="OnDeleteClicked"
+              <Button Text="Delete" TextColor="White" BackgroundColor="#FF0700" Clicked="OnDeleteClicked"
                       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
               <Button Text="I Made It!" TextColor="White" BackgroundColor="#50F75B" Clicked="OnCookedClicked"
                       HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>

@@ -254,5 +254,20 @@ namespace GreenApron
                 throw new NotImplementedException();
             }
         }
+
+        public async Task<JsonResponse> DeletePlan(Guid id)
+        {
+            var uri = new Uri(string.Format(Keys.WebAPI + "/plan/delete/" + id, string.Empty));
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(uri);
+                var JSONstring = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
+            }
+            catch
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

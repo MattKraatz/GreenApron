@@ -47,7 +47,14 @@ namespace GreenApron
 
         public async void OnDeleteClicked(object sender, EventArgs e)
         {
-            await DisplayAlert("Development", "You still need to implement this", "Okay");
+            var response = await App.APImanager.DeletePlan(_activePlan.PlanId);
+            if (response.success)
+            {
+                await Navigation.PopAsync();
+            } else
+            {
+                await DisplayAlert("Error", response.message, "Okay");
+            }
         }
 
         public async void OnCookedClicked(object sender, EventArgs e)

@@ -42,7 +42,7 @@ namespace WebAPI
             }
 
             // Retrieve all active plans to be used in the following loop
-            var activePlans = await _context.Plan.Where(p => DateTime.Compare(p.Date, DateTime.Now) >= 0).Select(p => p.PlanId).ToListAsync();
+            var activePlans = await _context.Plan.Where(p => DateTime.Compare(p.Date, DateTime.Now) >= 0).Where(p=> p.DateCompleted == null).Select(p => p.PlanId).ToListAsync();
             // Loop over recipe ingredients and add grocery items for each
             foreach (extIngredient planIngredient in plan.recipe.extendedIngredients)
             {
@@ -68,7 +68,7 @@ namespace WebAPI
                 }
                 // Sum up total requirement for this ingredient for all active plans
                 // Currently assumes all ingredients share the same unit of measurement
-                List<IPantryItem> totalRequirement = await _context.PlanIngredient.Where(pi => _context.Plan.Where(p => DateTime.Compare(p.Date, DateTime.Now) >= 0).SingleOrDefault(p => p.PlanId == pi.PlanId) != null).Where(pi => pi.IngredientId == planIngredient.id).ToListAsync<IPantryItem>();
+                List<IPantryItem> totalRequirement = await _context.PlanIngredient.Where(pi => _context.Plan.Where(p => DateTime.Compare(p.Date, DateTime.Now) >= 0).Where(p => p.DateCompleted == null).SingleOrDefault(p => p.PlanId == pi.PlanId) != null).Where(pi => pi.IngredientId == planIngredient.id).ToListAsync<IPantryItem>();
                 // Normalize total ingredient requirement
                 IngredientComparitor req = Normalizer.IPantry(totalRequirement);
 
@@ -149,7 +149,9 @@ namespace WebAPI
         [HttpGet("{userId}")]
         public async Task<JsonResult> GetAll([FromRoute] Guid userId)
         {
-            var plans = await _context.Plan.Where(p => p.UserId == userId).Include(p => p.PlanIngredients).ToListAsync();
+            var plans = await _context.Plan.Where(p => DateTime.Compare(p.Date, DateTime.Now) >= 0)
+                .Where(p => p.UserId == userId).Where(p => p.DateCompleted == null)
+                .Include(p => p.PlanIngredients).ToListAsync();
             if (plans.Count < 1)
             {
                 return Json(new PlanResponse { success = false, message = "No plans were found, have you added any?" });
@@ -192,6 +194,40 @@ namespace WebAPI
                 return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
             }
             return Json(new JsonResponse { success = true, message = "Plan updated successfully" });
+        }
+
+        // GET api/plan/delete
+        [HttpGet("{id}")]
+        public async Task<JsonResponse> Delete([FromRoute] Guid id)
+        {
+            // Find the plan record in the database
+            var dbItem = await _context.Plan.SingleOrDefaultAsync(p => p.PlanId == id);
+            if (dbItem != null)
+            {
+                var planIngreds = await _context.PlanIngredient.Where(pi => pi.PlanId == id).ToListAsync();
+                foreach (PlanIngredient ingred in planIngreds)
+                {
+                    _context.PlanIngredient.Remove(ingred);
+                }
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch
+                {
+                    return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
+                }
+                _context.Plan.Remove(dbItem);
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
+            }
+            return new JsonResponse { success = true, message = "Database updated successfully." };
         }
     }
 }
