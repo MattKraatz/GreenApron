@@ -50,14 +50,30 @@ namespace GreenApron
 
         public async void OnAddClicked()
         {
+            var tab = new TabbedPage();
+            tab.Title = "New Plan";
+
             var page = new RecipeSearchPage();
-            await Navigation.PushAsync(page);
+            var page2 = new RecipeCollectionPage();
+
+            tab.Children.Add(page);
+            tab.Children.Add(page2);
+
+            await Navigation.PushAsync(tab);
         }
 
         public async void OnAddClicked(DateTime date)
         {
+            var tab = new TabbedPage();
+            tab.Title = date.ToString("dddd, dd MMMM");
+
             var page = new RecipeSearchPage(date);
-            await Navigation.PushAsync(page);
+            var page2 = new RecipeCollectionPage(date);
+
+            tab.Children.Add(page);
+            tab.Children.Add(page2);
+
+            await Navigation.PushAsync(tab);
         }
 
         public async void OnEditClicked(Plan plan)

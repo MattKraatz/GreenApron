@@ -17,13 +17,15 @@ namespace GreenApron
         {
             InitializeComponent();
             RetrieveRecipe(id);
+            CheckBookmark(id);
         }
 
         public RecipePage(int id, DateTime? activeDate)
         {
             InitializeComponent();
-            RetrieveRecipe(id);
             _activeDate = activeDate;
+            RetrieveRecipe(id);
+            CheckBookmark(id);
         }
 
         public async void OnAddToPlanClicked(object sender, EventArgs e)
@@ -88,6 +90,11 @@ namespace GreenApron
         {
             var recipe = await App.SpoonManager.GetRecipeByIdAsync(id);
             CleanPage(recipe);
+        }
+
+        public void CheckBookmark(int id)
+        {
+            // TODO: Write a WebAPI Endpoint that accepts a recipe Id and user Id and returns true or false
         }
 
         public void CleanPage(Recipe recipe)

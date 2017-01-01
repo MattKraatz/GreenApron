@@ -12,11 +12,20 @@ namespace GreenApron
     public partial class RecipeCollectionPage : ContentPage
     {
         public ObservableCollection<Bookmark> bookmarkItems { get; private set; } = new ObservableCollection<Bookmark>();
+        private DateTime? _activeDate { get; set; }
 
         public RecipeCollectionPage()
         {
             InitializeComponent();
             bookmarkList.ItemsSource = bookmarkItems;
+            GetBookmarks();
+        }
+
+        public RecipeCollectionPage(DateTime activeDate)
+        {
+            InitializeComponent();
+            bookmarkList.ItemsSource = bookmarkItems;
+            _activeDate = activeDate;
             GetBookmarks();
         }
 
@@ -39,7 +48,7 @@ namespace GreenApron
         public void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var bookmark = e.Item as Bookmark;
-            var recipePage = new RecipePage(bookmark.RecipeId);
+            var recipePage = new RecipePage(bookmark.RecipeId, _activeDate);
             Navigation.PushAsync(recipePage);
             // Deselect the tapped item
             bookmarkList.SelectedItem = null;
