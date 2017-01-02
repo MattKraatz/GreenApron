@@ -71,11 +71,21 @@ namespace GreenApron
             busy.IsVisible = true;
             busy.IsRunning = true;
             var item = (GroceryItem)BindingContext;
-            var itemId = item.GroceryItemId;
-            // TODO: Call WebAPI endpoint that deletes a single GroceryItem by Id
+            item.Deleted = true;
+            var request = new GroceryRequest();
+            request.items = new List<GroceryItem>();
+            request.items.Add(item);
+            var response = await App.APImanager.UpdateGroceryItems(request);
             busy.IsVisible = false;
             busy.IsRunning = false;
-            await Navigation.PopModalAsync();
+            if (response.success)
+            {
+                await Navigation.PopModalAsync();
+            }
+            else
+            {
+                await DisplayAlert("Error", response.message, "Okay");
+            }
         }
 
         // Slider helper, from https://forums.xamarin.com/discussion/80468/how-to-add-steps-to-my-slider
