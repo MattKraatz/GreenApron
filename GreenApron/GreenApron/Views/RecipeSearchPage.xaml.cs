@@ -31,7 +31,11 @@ namespace GreenApron
         {
             if (recipeSearch.Text.Length > 1)
             {
+                busy.IsVisible = true;
+                busy.IsRunning = true;
                 var response = await App.SpoonManager.GetRecipesByQueryAsync(recipeSearch.Text);
+                busy.IsVisible = false;
+                busy.IsRunning = false;
                 if (response.totalResults > 0)
                 {
                     recipePageItems.Clear();
