@@ -20,7 +20,7 @@ namespace GreenApron
             bookmarkList.ItemsSource = bookmarkItems;
             GetBookmarks();
         }
-
+        
         public RecipeCollectionPage(DateTime activeDate)
         {
             InitializeComponent();
