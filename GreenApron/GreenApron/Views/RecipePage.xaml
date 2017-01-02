@@ -7,6 +7,7 @@
       <StackLayout>
           <ScrollView Padding="0,5,5,0">
               <StackLayout VerticalOptions="StartAndExpand">
+                  <ActivityIndicator x:Name="busy" Color="#00F911" />
                   <StackLayout Orientation="Horizontal" Padding="20, 0">
                       <Label Text="{Binding servings, StringFormat='{0:F0} Servings'}"
                              FontSize="Large"
@@ -27,9 +28,11 @@
                   <Image Source="{Binding image}" />
                   <StackLayout VerticalOptions="FillAndExpand" Padding="10,5,10,0">
                       <Label Text="Instructions:" TextColor="#008A09" FontSize="Medium"
+                             x:Name="instructionsLabel" IsVisible="false"
                              HorizontalTextAlignment="Center"/>
                       <Label Text="{Binding instructions}" />
                       <Label Text="Ingredients:" TextColor="#008A09" FontSize="Medium"
+                             x:Name="ingredientsLabel" IsVisible="false"
                              HorizontalTextAlignment="Center"/>
                         <ListView x:Name="ingredientsList" ItemTapped="HandleTap">
                             <ListView.ItemTemplate>

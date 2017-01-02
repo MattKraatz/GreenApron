@@ -2,11 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GreenApron.PlanPage"
-             Title="{Binding Date, StringFormat='{0:dddd, dd MMMM}'}">
+             Title="{Binding Date, StringFormat='{0:dddd, MMMM dd}'}">
   <ContentPage.Content>
       <StackLayout>
           <ScrollView Padding="0,5,5,0">
               <StackLayout VerticalOptions="StartAndExpand">
+                  <ActivityIndicator x:Name="busy" Color="#00F911"
+                                     IsRunning="true" />
+                  <Label Text="{Binding RecipeName, StringFormat='{0:F0}'}"
+                         FontSize="Large" TextColor="#00DE0E"
+                         VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand" />
                   <StackLayout Orientation="Horizontal" Padding="20, 0">
                       <Label Text="{Binding Meal, StringFormat='{0:F0}'}"
                          FontSize="Medium" FontAttributes="Bold"
@@ -32,11 +37,11 @@
                   </StackLayout>
                   <Image Source="{Binding Recipe.image}" />
                   <StackLayout VerticalOptions="FillAndExpand" Padding="10,5,10,0">
-                      <Label Text="Instructions:" TextColor="#008A09" FontSize="Medium"
-                             HorizontalTextAlignment="Center"/>
+                      <Label x:Name="instructionsLabel" Text="Instructions:" TextColor="#008A09" FontSize="Medium"
+                             IsVisible="false" HorizontalTextAlignment="Center"/>
                       <Label Text="{Binding Recipe.instructions}" />
-                      <Label Text="Ingredients:" TextColor="#008A09" FontSize="Medium"
-                             HorizontalTextAlignment="Center"/>
+                      <Label x:Name="ingredientsLabel" Text="Ingredients:" TextColor="#008A09" FontSize="Medium"
+                             IsVisible="false" HorizontalTextAlignment="Center"/>
                       <ListView x:Name="ingredientsList" ItemTapped="HandleTap">
                           <ListView.ItemTemplate>
                               <DataTemplate>

@@ -53,6 +53,9 @@
               </DataTemplate>
           </ListView.GroupHeaderTemplate>
       </ListView>
+        <StackLayout VerticalOptions="EndAndExpand">
+            <ActivityIndicator x:Name="busy" Color="#00F911" />
+        </StackLayout>
         <StackLayout Orientation="Horizontal">
             <Button Clicked="Cancel" Text="Cancel" TextColor="White"
                     BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />

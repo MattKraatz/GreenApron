@@ -35,7 +35,11 @@ namespace GreenApron
         {
             if (productSearch.Text.Length > 1)
             {
+                busy.IsVisible = true;
+                busy.IsRunning = true;
                 var response = await App.SpoonManager.GetProductByQuery(productSearch.Text);
+                busy.IsVisible = false;
+                busy.IsRunning = false;
                 if (response.Count > 0)
                 {
                     productSearchItems.Clear();

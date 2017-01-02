@@ -5,6 +5,9 @@
              Title="Pick a Date">
   <ContentPage.Content>
     <StackLayout x:Name="layout" VerticalOptions="FillAndExpand">
+        <StackLayout VerticalOptions="EndAndExpand">
+            <ActivityIndicator x:Name="busy" Color="#00F911" IsRunning="true" />
+        </StackLayout>
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>

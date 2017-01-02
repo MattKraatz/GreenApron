@@ -6,7 +6,8 @@
   <ContentPage.Content>
     <StackLayout VerticalOptions="Start">
       <SearchBar x:Name="productSearch" SearchButtonPressed="DoSearch" Placeholder="Asparagus, farfalle paste, etc." />
-      <ListView x:Name="productSearchList" VerticalOptions="FillAndExpand" SeparatorVisibility="None" ItemTapped="OnItemTapped">
+        <ActivityIndicator x:Name="busy" Color="#00F911" />
+        <ListView x:Name="productSearchList" VerticalOptions="FillAndExpand" SeparatorVisibility="None" ItemTapped="OnItemTapped">
         <ListView.ItemTemplate>
           <DataTemplate>
             <ImageCell Text="{Binding name}" ImageSource="{Binding image, StringFormat='https://spoonacular.com/cdn/ingredients_100x100/{0:N}'}" />

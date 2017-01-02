@@ -49,6 +49,9 @@
                   </ListView>
               </StackLayout>
              </ScrollView>
+          <StackLayout VerticalOptions="EndAndExpand">
+              <ActivityIndicator x:Name="busy" Color="#00F911" IsVisible="false" />
+          </StackLayout>
         <StackLayout VerticalOptions="EndAndExpand">
             <Button Text="Update" Clicked="OnUpdateClicked" TextColor="White" BackgroundColor="#00DE0E" />
             <StackLayout Orientation="Horizontal">

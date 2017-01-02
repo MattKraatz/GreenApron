@@ -6,20 +6,21 @@
     <TabbedPage.Children>
       <ContentPage Title="Login">
         <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="20"
-                 VerticalOptions="Center">
-          <Label Text="Welcome to Green Apron"
-                 FontSize="26" />
-          <Label Text="Please Login or Register" />
-          <Label Text="Username" />
-          <Entry x:Name="userEntry" Text="{Binding Username}" />
-          <Label Text="Password" />
-          <Entry x:Name="passEntry" Text="{Binding Password}"
-                 IsPassword="True" />
-          <Button Text="Login" TextColor="White"
-                  BackgroundColor="#00DE0E"
-                  Clicked="DoLogin"/>
-        </StackLayout>
+            <StackLayout Spacing="20" Padding="20"
+                     VerticalOptions="Center">
+                <Label Text="Welcome to Green Apron"
+                       FontSize="26" />
+                <Label Text="Please Login or Register" />
+                <Label Text="Username" />
+                <Entry x:Name="userEntry" Text="{Binding Username}" />
+                <Label Text="Password" />
+                <Entry x:Name="passEntry" Text="{Binding Password}"
+                       IsPassword="True" />
+                <ActivityIndicator x:Name="busy" Color="#00F911" IsVisible="false" />
+                <Button Text="Login" TextColor="White"
+                        BackgroundColor="#00DE0E"
+                        Clicked="DoLogin"/>
+            </StackLayout>
         </ContentPage.Content>
       </ContentPage>
       <ContentPage Title="Register">

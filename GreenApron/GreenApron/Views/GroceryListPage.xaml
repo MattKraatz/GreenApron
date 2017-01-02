@@ -5,6 +5,7 @@
              Title="My Grocery List">
   <ContentPage.Content>
       <StackLayout Padding="0" Margin="0">
+          <ActivityIndicator x:Name="busy" Color="#00F911" IsRunning="true" />
           <StackLayout VerticalOptions="Start">
               <StackLayout Orientation="Horizontal" BackgroundColor="#cccccc">
                   <ContentView Padding="10,0,0,0" WidthRequest="100"

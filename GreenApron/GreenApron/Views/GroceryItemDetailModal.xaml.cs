@@ -38,6 +38,8 @@ namespace GreenApron
 
         public async void OnUpdateClicked(object sender, EventArgs e)
         {
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             var item = (GroceryItem)BindingContext;
             var request = new GroceryRequest();
             request.items = new List<GroceryItem>();
@@ -47,6 +49,8 @@ namespace GreenApron
             }
             request.items.Add(item);
             var response = await App.APImanager.UpdateGroceryItems(request);
+            busy.IsVisible = false;
+            busy.IsRunning = false;
             if (response.success)
             {
                 await Navigation.PopModalAsync();
@@ -64,9 +68,13 @@ namespace GreenApron
 
         public async void OnDeleteClicked(object sender, EventArgs e)
         {
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             var item = (GroceryItem)BindingContext;
             var itemId = item.GroceryItemId;
             // TODO: Call WebAPI endpoint that deletes a single GroceryItem by Id
+            busy.IsVisible = false;
+            busy.IsRunning = false;
             await Navigation.PopModalAsync();
         }
 

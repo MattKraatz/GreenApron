@@ -16,7 +16,7 @@ namespace GreenApron
             InitializeComponent();
             this.BindingContext = item;
             slider.Maximum = item.Amount * 8;
-            StepValue = 0.125;
+            StepValue = 1;
             slider.ValueChanged += OnSliderValueChanged;
             ListPlans(item.Plans);
         }
@@ -38,11 +38,15 @@ namespace GreenApron
 
         public async void OnUpdateClicked(object sender, EventArgs e)
         {
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             var item = (InventoryItem)BindingContext;
             var request = new InventoryRequest();
             request.items = new List<InventoryItem>();
             request.items.Add(item);
             var response = await App.APImanager.UpdateInventoryItems(request);
+            busy.IsVisible = false;
+            busy.IsRunning = false;
             if (response.success)
             {
                 await Navigation.PopModalAsync();
@@ -60,9 +64,13 @@ namespace GreenApron
 
         public async void OnDeleteClicked(object sender, EventArgs e)
         {
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             var item = (InventoryItem)BindingContext;
             var itemId = item.InventoryItemId;
             // TODO: Call WebAPI endpoint that deletes a single InventoryItem by Id
+            busy.IsVisible = false;
+            busy.IsRunning = false;
             await Navigation.PopModalAsync();
         }
 

@@ -18,7 +18,11 @@ namespace GreenApron
         {
             InitializeComponent();
             bookmarkList.ItemsSource = bookmarkItems;
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             GetBookmarks();
+            busy.IsVisible = false;
+            busy.IsRunning = false;
         }
         
         public RecipeCollectionPage(DateTime activeDate)
@@ -26,7 +30,11 @@ namespace GreenApron
             InitializeComponent();
             bookmarkList.ItemsSource = bookmarkItems;
             _activeDate = activeDate;
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             GetBookmarks();
+            busy.IsVisible = false;
+            busy.IsRunning = false;
         }
 
         public async void GetBookmarks()

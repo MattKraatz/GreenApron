@@ -24,6 +24,8 @@ namespace GreenApron
         public async void GetGroceryItems()
         {
             var response = await App.APImanager.GetGroceryItems();
+            busy.IsRunning = false;
+            busy.IsVisible = false;
             if (response.success)
             {
                 groceryItems.Clear();
@@ -61,6 +63,8 @@ namespace GreenApron
 
         public async void MarkAsBought(object sender, EventArgs e)
         {
+            busy.IsRunning = true;
+            busy.IsVisible = true;
             var request = new GroceryRequest();
             request.items = new List<GroceryItem>();
             foreach (GroceryListGroup group in groceryItems)
@@ -72,6 +76,8 @@ namespace GreenApron
                 }
             }
             var response = await App.APImanager.UpdateGroceryItems(request);
+            busy.IsRunning = false;
+            busy.IsVisible = false;
             if (response.success)
             {
                 groceryItems.Clear();

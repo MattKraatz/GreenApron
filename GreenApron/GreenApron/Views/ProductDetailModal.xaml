@@ -19,6 +19,9 @@
                      x:Name="qtyEntry" HorizontalTextAlignment="Center" Keyboard="Numeric" WidthRequest="60" />
                 <Picker x:Name="unitPicker" Title="Unit" HorizontalOptions="End" WidthRequest="100"/>
             </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand">
+                <ActivityIndicator x:Name="busy" Color="#00F911" IsVisible="false" />
+            </StackLayout>
                 <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
                     <Button Clicked="OnCancelClicked" Text="Cancel" TextColor="White"
                             BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />

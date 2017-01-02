@@ -6,7 +6,6 @@
              Title="My Pantry">
   <ContentPage.Content>
     <StackLayout VerticalOptions="Start" Padding="0" Margin="0">
-        
         <StackLayout Orientation="Horizontal" BackgroundColor="#cccccc">
             <ContentView Padding="10,0,0,0" WidthRequest="100"
                          HorizontalOptions="Start">
@@ -17,7 +16,7 @@
             <Label Text="Plans" FontAttributes="Bold" WidthRequest="50"
                     HorizontalOptions="EndAndExpand" />
         </StackLayout>
-
+        <ActivityIndicator x:Name="busy" Color="#00F911" IsRunning="true" />
         <ContentView Padding="10,0" VerticalOptions="StartAndExpand">
             <ListView x:Name="inventoryList"
                   RowHeight="35"

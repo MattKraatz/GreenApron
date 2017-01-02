@@ -45,6 +45,8 @@ namespace GreenApron
         public async void GetMealPlans()
         {
             var response = await App.APImanager.GetActivePlans();
+            busy.IsRunning = false;
+            busy.IsVisible = false;
             if (response.success)
             {
                 // Add Appointments to the calendar

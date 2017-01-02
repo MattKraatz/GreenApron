@@ -56,6 +56,12 @@ namespace GreenApron
             ingredientsList.HeightRequest = (20 * plan.Recipe.extendedIngredients.Count()) + 1;
 
             this.BindingContext = plan;
+
+            busy.IsVisible = false;
+            busy.IsRunning = false;
+
+            ingredientsLabel.IsVisible = true;
+            instructionsLabel.IsVisible = true;
         }
 
         public void HandleTap(object sender, EventArgs e)

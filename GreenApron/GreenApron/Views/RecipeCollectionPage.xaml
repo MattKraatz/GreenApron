@@ -4,22 +4,25 @@
              x:Class="GreenApron.RecipeCollectionPage"
              Title="My Recipe Book">
   <ContentPage.Content>
-    <ListView x:Name="bookmarkList" VerticalOptions="FillAndExpand" ItemTapped="OnItemTapped">
-      <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal">
-                        <Image Source="{Binding ImageURL}" Aspect="AspectFit" HorizontalOptions="Start" />
-                        <StackLayout>
-                            <Label Text="{Binding Title}" FontAttributes="Bold"
-                                   VerticalTextAlignment="Center" HorizontalOptions="Start" />
-                        </StackLayout>
-                        <Label Text="{Binding DateCreated, StringFormat='{0:MMMM dd, yyyy}'}"
-                               VerticalTextAlignment="Center" HorizontalOptions="EndAndExpand" />
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
+      <StackLayout>
+          <ActivityIndicator x:Name="busy" Color="#00F911" />
+          <ListView x:Name="bookmarkList" VerticalOptions="FillAndExpand" ItemTapped="OnItemTapped">
+              <ListView.ItemTemplate>
+                  <DataTemplate>
+                      <ViewCell>
+                          <StackLayout Orientation="Horizontal">
+                              <Image Source="{Binding ImageURL}" Aspect="AspectFit" HorizontalOptions="Start" />
+                              <StackLayout>
+                                  <Label Text="{Binding Title}" FontAttributes="Bold"
+                                         VerticalTextAlignment="Center" HorizontalOptions="Start" />
+                              </StackLayout>
+                              <Label Text="{Binding DateCreated, StringFormat='{0:MMMM dd, yyyy}'}"
+                                     VerticalTextAlignment="Center" HorizontalOptions="EndAndExpand" />
+                          </StackLayout>
+                      </ViewCell>
+                  </DataTemplate>
+              </ListView.ItemTemplate>
+          </ListView>
+      </StackLayout>
   </ContentPage.Content>
 </ContentPage>

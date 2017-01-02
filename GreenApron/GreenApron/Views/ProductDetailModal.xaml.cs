@@ -28,6 +28,8 @@ namespace GreenApron
 
         public async void OnAddClicked(object sender, EventArgs e)
         {
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             var item = (Ingredient)BindingContext;
             item.amount = Convert.ToDouble(qtyEntry.Text);
             if (unitPicker.SelectedIndex != -1)
@@ -42,6 +44,8 @@ namespace GreenApron
             {
                 var response = App.APImanager.AddInventoryItem(item);
             }
+            busy.IsVisible = false;
+            busy.IsRunning = false;
             await Navigation.PopModalAsync();
         }
 

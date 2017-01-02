@@ -19,6 +19,8 @@ namespace GreenApron
 
 		private async void DoLogin(object sender, EventArgs e)
 		{
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             // grab user input from page entry elements
             var creds = (User)BindingContext;
             // attempt registration

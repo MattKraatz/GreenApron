@@ -28,6 +28,8 @@ namespace GreenApron
 
         public async void Update(object sender, EventArgs e)
         {
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             var request = new GroceryRequest();
             request.items = new List<GroceryItem>();
             foreach (GroceryListGroup group in groceryItems)
@@ -42,6 +44,8 @@ namespace GreenApron
                 }
             }
             var response = await App.APImanager.UpdateGroceryItems(request);
+            busy.IsVisible = false;
+            busy.IsRunning = false;
             await Navigation.PopAsync();
         }
 

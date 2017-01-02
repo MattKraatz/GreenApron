@@ -29,8 +29,12 @@ namespace GreenApron
             {
                 // Print the page with meal plans
                 PrintDays(response.plans);
+                busy.IsRunning = false;
+                busy.IsVisible = false;
             } else
             {
+                busy.IsRunning = false;
+                busy.IsVisible = false;
                 await DisplayAlert("Error", response.message, "Okay");
                 var addButton = new Button { Text = "Add a Plan", TextColor = Color.White, BackgroundColor = Color.FromHex("#50F75B") };
                 addButton.Command = new Command(OnAddClicked);

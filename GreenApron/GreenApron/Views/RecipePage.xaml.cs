@@ -34,6 +34,8 @@ namespace GreenApron
         {
             if (this.BindingContext != null)
             {
+                busy.IsVisible = true;
+                busy.IsRunning = true;
                 var recipe = this.BindingContext as Recipe;
                 // If this page was instantiated from meal planning home, it would already have a date attached
                 // If no date is attached, show the calendar view
@@ -112,8 +114,12 @@ namespace GreenApron
 
         public async void RetrieveRecipe(int id)
         {
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             var recipe = await App.SpoonManager.GetRecipeByIdAsync(id);
             CleanPage(recipe);
+            busy.IsVisible = false;
+            busy.IsRunning = false;
         }
 
         public async void CheckBookmark(int id)
@@ -151,8 +157,11 @@ namespace GreenApron
             ingredientsList.ItemsSource = recipe.extendedIngredients;
             ingredientsList.RowHeight = 20;
             ingredientsList.HeightRequest = (20 * recipe.extendedIngredients.Count()) + 1;
-            
+
             this.BindingContext = recipe;
+
+            ingredientsLabel.IsVisible = true;
+            instructionsLabel.IsVisible = true;
         }
 
         public void HandleTap(object sender, EventArgs e)

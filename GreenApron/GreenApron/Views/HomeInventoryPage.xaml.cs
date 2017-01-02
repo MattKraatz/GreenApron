@@ -24,6 +24,8 @@ namespace GreenApron
         public async void GetInventoryItems()
         {
             var response = await App.APImanager.GetInventoryItems();
+            busy.IsRunning = false;
+            busy.IsVisible = false;
             if (response.success)
             {
                 inventoryItems.Clear();
@@ -71,44 +73,6 @@ namespace GreenApron
         {
             var page = new InventoryActionPage(inventoryItems);
             await Navigation.PushAsync(page);
-        }
-
-        public async void ToggleHandler(object sender, ToggledEventArgs e)
-        {
-            if (e.Value)
-            {
-                var switchItem = (InventorySwitch)sender;
-                var item = switchItem.InventoryItem;
-                var rebuy = await DisplayActionSheet("Do you want to rebuy?", "Cancel", null, new string[] { "Yes", "No"});
-                if (rebuy == "Yes")
-                {
-                    // Add a grocery item
-                    var newGI = new Ingredient() { aisle = item.Ingredient.aisle, amount = item.Amount, unit = item.Unit, image = item.Ingredient.imageURL, name = item.Ingredient.ingredientName };
-                    var response2 = await App.APImanager.AddGroceryItem(newGI);
-                    if (!response2.success)
-                    {
-                        await DisplayAlert("Error", response2.message, "Okay");
-                    }
-                }
-                foreach (InventoryListGroup group in inventoryItems)
-                {
-                    foreach (InventoryItem ii in group)
-                    {
-                        if (ii.InventoryItemId == item.InventoryItemId)
-                        {
-                            // Remove the inventory item from the observable collection
-                            group.Remove(ii);
-                            break;
-                        }
-                    }
-                }
-                // Remove the inventory item from the WebAPI
-                var response = await App.APImanager.DeleteInventoryItem(item.InventoryItemId);
-                if (!response.success)
-                {
-                    await DisplayAlert("Error", response.message, "Okay");
-                }
-            }
         }
     }
 }

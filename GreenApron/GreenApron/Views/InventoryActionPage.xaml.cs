@@ -28,6 +28,8 @@ namespace GreenApron
 
         public async void Update(object sender, EventArgs e)
         {
+            busy.IsVisible = true;
+            busy.IsRunning = true;
             var request = new InventoryRequest();
             request.items = new List<InventoryItem>();
             foreach (InventoryListGroup group in inventoryItems)
@@ -38,6 +40,8 @@ namespace GreenApron
                 }
             }
             var response = await App.APImanager.UpdateInventoryItems(request);
+            busy.IsRunning = false;
+            busy.IsVisible = false;
             await DisplayAlert("Response", response.message, "Okay");
             await Navigation.PopAsync();
         }
