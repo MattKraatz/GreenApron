@@ -47,26 +47,36 @@ namespace WebAPI
                 var dbItem = await _context.GroceryItem.SingleOrDefaultAsync(gi => gi.GroceryItemId == item.GroceryItemId);
                 if (dbItem != null)
                 {
-                    dbItem.DateCompleted = item.DateCompleted;
-                    dbItem.Amount = item.Amount;
-                    dbItem.Unit = (item.Unit == null) ? "" : item.Unit;
-                    _context.Entry(dbItem).State = EntityState.Modified;
-                }
-                // Look for an existing inventory item for the same ingredient
-                var dbInventoryItem = await _context.InventoryItem.SingleOrDefaultAsync(ii => ii.IngredientId == item.IngredientId);
-                if (dbInventoryItem != null)
-                {
-                    dbInventoryItem.Amount += item.Amount;
-                    _context.Entry(dbInventoryItem).State = EntityState.Modified;
-                // Otherwise add a new inventory item for this ingredient
-                } else
-                {
-                    var newInventoryItem = new InventoryItem { IngredientId = item.IngredientId, UserId = item.UserId, Amount = item.Amount, Unit = item.Unit };
-                    if (newInventoryItem.Unit == null)
+                    if (item.Purchased)
                     {
-                        newInventoryItem.Unit = "";
+                        dbItem.DateCompleted = item.DateCompleted;
+                        // Look for an existing inventory item for the same ingredient
+                        var dbInventoryItem = await _context.InventoryItem.SingleOrDefaultAsync(ii => ii.IngredientId == item.IngredientId);
+                        if (dbInventoryItem != null)
+                        {
+                            dbInventoryItem.Amount += item.Amount;
+                            _context.Entry(dbInventoryItem).State = EntityState.Modified;
+                            // Otherwise add a new inventory item for this ingredient
+                        }
+                        else
+                        {
+                            var newInventoryItem = new InventoryItem { IngredientId = item.IngredientId, UserId = item.UserId, Amount = item.Amount, Unit = item.Unit };
+                            if (newInventoryItem.Unit == null)
+                            {
+                                newInventoryItem.Unit = "";
+                            }
+                            _context.InventoryItem.Add(newInventoryItem);
+                        }
                     }
-                    _context.InventoryItem.Add(newInventoryItem);
+                    if (item.Deleted)
+                    {
+                        _context.GroceryItem.Remove(dbItem);
+                    }
+                    else
+                    {
+                        dbItem.Amount = item.Amount;
+                        _context.Entry(dbItem).State = EntityState.Modified;
+                    }
                 }
             }
             try
