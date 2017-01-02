@@ -78,6 +78,9 @@
     <Compile Include="Models\SpoonacularModels\RecipeResult.cs" />
     <Compile Include="ViewModels\InventoryListGroup.cs" />
     <Compile Include="ViewModels\GroceryListGroup.cs" />
+    <Compile Include="Views\PantryItemDetailModal.xaml.cs">
+      <DependentUpon>PantryItemDetailModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\InventoryActionPage.xaml.cs">
       <DependentUpon>InventoryActionPage.xaml</DependentUpon>
     </Compile>
@@ -245,7 +248,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Views\PantryItemDetailModal.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\ProductSearchPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

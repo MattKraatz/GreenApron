@@ -22,6 +22,24 @@ namespace GreenApron
             GetRecipe(plan);
         }
 
+        public PlanPage(Plan plan, bool modal)
+        {
+            InitializeComponent();
+            if (modal)
+            {
+                actionStack.Children.Clear();
+                var button = new Button
+                {
+                    Text = "Cancel", TextColor = Color.White, BackgroundColor = Color.FromHex("#FF0700"),
+                    HorizontalOptions = LayoutOptions.FillAndExpand, VerticalOptions = LayoutOptions.FillAndExpand
+                };
+                button.Clicked += OnCancelClicked;
+                actionStack.Children.Add(button);
+            }
+            _activePlan = plan;
+            GetRecipe(plan);
+        }
+
         public async void GetRecipe(Plan plan)
         {
             plan.Recipe = await App.SpoonManager.GetRecipeByIdAsync(plan.RecipeId);
@@ -43,6 +61,11 @@ namespace GreenApron
         public void HandleTap(object sender, EventArgs e)
         {
             ingredientsList.SelectedItem = null;
+        }
+
+        public async void OnCancelClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync();
         }
 
         public async void OnDeleteClicked(object sender, EventArgs e)

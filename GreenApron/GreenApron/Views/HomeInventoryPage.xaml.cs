@@ -55,6 +55,9 @@ namespace GreenApron
 
         public void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
+            var item = e.Item as InventoryItem;
+            var page = new PantryItemDetailModal(item);
+            Navigation.PushModalAsync(page);
             inventoryList.SelectedItem = null;
         }
 

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GreenApron.GroceryItemDetailModal"
-             Title="Grocery Item Detail">
+             x:Class="GreenApron.PantryItemDetailModal"
+             Title="Pantry Item Detail">
   <ContentPage.Content>
       <StackLayout>
           <ScrollView Padding="0,5,5,0" VerticalOptions="FillAndExpand">
@@ -21,10 +21,6 @@
                       <Entry BindingContext="{x:Reference slider}" Text="{Binding Value}" HorizontalOptions="EndAndExpand"
                            HorizontalTextAlignment="Center" Keyboard="Numeric" WidthRequest="60" />
                       <Label Text="{Binding Unit}" HorizontalOptions="End" WidthRequest="60" VerticalTextAlignment="End" />
-                  </StackLayout>
-                  <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Padding="0,10,5,0">
-                      <Label Text="Purchased" VerticalTextAlignment="Center" />
-                      <Switch IsToggled="{Binding Purchased}" />
                   </StackLayout>
                   <Label Text="Plans:" TextColor="#008A09" FontSize="Medium"
                              HorizontalTextAlignment="Center" />
