@@ -169,22 +169,37 @@ namespace WebAPI
             {
                 return Json(new JsonResponse { success = false, message = "Something went wrong, please refresh your client." });
             }
-            plan.DateCompleted = DateTime.Now;
-            _context.Entry(plan).State = EntityState.Modified;
             var planIngredients = await _context.PlanIngredient.Where(pi => pi.PlanId == plan.PlanId).ToListAsync();
-            foreach (PlanIngredient ingredient in planIngredients)
+            if (planIngredients.Count > 0)
             {
-                var inventoryItem = await _context.InventoryItem.SingleOrDefaultAsync(ii => ii.IngredientId == ingredient.IngredientId);
-                if (inventoryItem != null)
+                foreach (PlanIngredient ingredient in planIngredients)
                 {
-                    inventoryItem.Amount -= ingredient.Amount;
-                    if (inventoryItem.Amount < 0)
+                    _context.PlanIngredient.Remove(ingredient);
+                    var inventoryItem = await _context.InventoryItem.FirstOrDefaultAsync(ii => ii.IngredientId == ingredient.IngredientId && ii.Unit == ingredient.Unit);
+                    if (inventoryItem != null)
                     {
-                        inventoryItem.Amount = 0;
+                        if (inventoryItem.Amount - ingredient.Amount <= 0)
+                        {
+                            _context.InventoryItem.Remove(inventoryItem);
+                        }
+                        else
+                        {
+                            inventoryItem.Amount -= ingredient.Amount;
+                            _context.Entry(inventoryItem).State = EntityState.Modified;
+                        }
                     }
-                    _context.Entry(inventoryItem).State = EntityState.Modified;
+                }
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch
+                {
+                    return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
                 }
             }
+            plan.DateCompleted = DateTime.Now;
+            _context.Entry(plan).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();

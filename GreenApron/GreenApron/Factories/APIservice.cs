@@ -134,6 +134,7 @@ namespace GreenApron
             {
                 HttpResponseMessage response = await client.GetAsync(uri);
                 var JSONstring = await response.Content.ReadAsStringAsync();
+                var test = JSONstring;
                 return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
             }
             catch
