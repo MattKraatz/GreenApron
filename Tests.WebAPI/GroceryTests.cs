@@ -63,9 +63,7 @@ namespace Tests.WebAPI
             var request = new GroceryRequest();
             request.items = new List<GroceryItem>();
             request.items.Add(item);
-            var response = await _task.UpdateGrocery(request);
-            Assert.NotNull(response);
-            Assert.True(response.success);
+            await _task.UpdateGrocery(request);
             var itemsAgain = await _task.GetGrocery(user.user.UserId);
             Assert.NotNull(itemsAgain);
             Assert.True(itemsAgain.GroceryItems[0].Amount == item.Amount);
@@ -86,9 +84,7 @@ namespace Tests.WebAPI
             var request = new GroceryRequest();
             request.items = new List<GroceryItem>();
             request.items.Add(item);
-            var response = await _task.UpdateGrocery(request);
-            Assert.NotNull(response);
-            Assert.True(response.success);
+            await _task.UpdateGrocery(request);
             var itemsAgain = await _task.GetGrocery(user.user.UserId);
             Assert.NotNull(itemsAgain);
             Assert.False(itemsAgain.success);
@@ -105,9 +101,7 @@ namespace Tests.WebAPI
             var request = new GroceryRequest();
             request.items = new List<GroceryItem>();
             request.items.Add(item);
-            var response = await _task.UpdateGrocery(request);
-            Assert.NotNull(response);
-            Assert.True(response.success);
+            await _task.UpdateGrocery(request);
             var itemsAgain = await _task.GetGrocery(user.user.UserId);
             Assert.NotNull(itemsAgain);
             Assert.False(itemsAgain.success);
@@ -116,10 +110,6 @@ namespace Tests.WebAPI
             {
                 await _task.DeleteInventory(pant.InventoryItemId);
             }
-            var pantryAgain = await _task.GetInventory(user.user.UserId);
-            Assert.NotNull(pantryAgain);
-            Assert.False(pantryAgain.success);
-            await _task.DeleteGrocery(item.GroceryItemId);
         }
     }
 }
