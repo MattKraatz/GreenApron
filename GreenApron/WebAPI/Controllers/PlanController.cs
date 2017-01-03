@@ -21,13 +21,13 @@ namespace WebAPI
 
         // POST api/plan/addplan
         [HttpPost]
-        public async Task<JsonResult> AddPlan([FromBody] PlanRequest plan)
+        public async Task<JsonResponse> AddPlan([FromBody] PlanRequest plan)
         {
             // Check ModelState
             if (!ModelState.IsValid)
             {
                 // If invalid, return error message
-                return Json(new JsonResponse { success = false, message = "Something went wrong, please resubmit with all required fields." });
+                return new JsonResponse { success = false, message = "Something went wrong, please resubmit with all required fields." };
             }
             // Create Plan record and save to database
             var newPlan = new Plan { Date = plan.date, Meal = plan.meal, ServingsYield = plan.servingsYield, RecipeName = plan.recipe.title, RecipeId = plan.recipe.id, RecipeImage = plan.recipe.image, UserId = plan.userId};
@@ -38,7 +38,7 @@ namespace WebAPI
             }
             catch
             {
-                return Json(new JsonResponse { success = false, message = "Something went wrong while saving your plan to the database, please try again." });
+                return new JsonResponse { success = false, message = "Something went wrong while saving your plan to the database, please try again." };
             }
 
             // Retrieve all active plans to be used in the following loop
@@ -51,7 +51,7 @@ namespace WebAPI
                 // Handle database error
                 if (ingredient.IngredientId == -1)
                 {
-                    return Json(new JsonResponse { success = false, message = "Something went wrong while saving your ingredients to the database, please try again." });
+                    return new JsonResponse { success = false, message = "Something went wrong while saving your ingredients to the database, please try again." };
                 }
                 // Normalize the ingredient unit name
                 planIngredient.unit = Normalizer.UnitName(planIngredient.unit);
@@ -64,10 +64,9 @@ namespace WebAPI
                 }
                 catch
                 {
-                    return Json(new JsonResponse { success = false, message = "Something went wrong while saving your plan ingredients to the database, please try again." });
+                    return new JsonResponse { success = false, message = "Something went wrong while saving your plan ingredients to the database, please try again." };
                 }
                 // Sum up total requirement for this ingredient for all active plans
-                // Currently assumes all ingredients share the same unit of measurement
                 List<IPantryItem> totalRequirement = await _context.PlanIngredient.Where(pi => _context.Plan.Where(p => DateTime.Compare(p.Date, DateTime.Now) >= 0).Where(p => p.DateCompleted == null).SingleOrDefault(p => p.PlanId == pi.PlanId) != null).Where(pi => pi.IngredientId == planIngredient.id).ToListAsync<IPantryItem>();
                 // Normalize total ingredient requirement
                 IngredientComparitor req = Normalizer.IPantry(totalRequirement);
@@ -89,7 +88,7 @@ namespace WebAPI
                 if (inv.Amount < req.Amount || inv.Count < req.Count)
                 {
                     // Find any existing GroceryItem record for this ingredient, if it exists, modify it with the new quantity
-                    List<GroceryItem> groceryItems = await _context.GroceryItem.Where(gi => gi.IngredientId == planIngredient.id).ToListAsync<GroceryItem>();
+                    List<GroceryItem> groceryItems = await _context.GroceryItem.Where(gi => gi.DateCompleted == null).Where(gi => gi.IngredientId == planIngredient.id).ToListAsync<GroceryItem>();
                     if (groceryItems.Count > 0)
                     {
                         foreach (GroceryItem item in groceryItems)
@@ -138,36 +137,36 @@ namespace WebAPI
             }
             catch
             {
-                return Json(new JsonResponse { success = false, message = "Something went wrong while saving your grocery items to the database, please try again." });
+                return new JsonResponse { success = false, message = "Something went wrong while saving your grocery items to the database, please try again." };
             }
 
-            return Json( new JsonResponse { success = true, message = "Plan saved successfully"});
+            return new JsonResponse { success = true, message = "Plan saved successfully"};
         }
 
         // GET api/plan/getall/{userId}
         // Returns all active plans
         [HttpGet("{userId}")]
-        public async Task<JsonResult> GetAll([FromRoute] Guid userId)
+        public async Task<PlanResponse> GetAll([FromRoute] Guid userId)
         {
             var plans = await _context.Plan.Where(p => DateTime.Compare(p.Date, DateTime.Now) >= 0)
                 .Where(p => p.UserId == userId).Where(p => p.DateCompleted == null)
                 .Include(p => p.PlanIngredients).ToListAsync();
             if (plans.Count < 1)
             {
-                return Json(new PlanResponse { success = false, message = "No plans were found, have you added any?" });
+                return new PlanResponse { success = false, message = "No plans were found, have you added any?" };
             }
-            return Json(new PlanResponse { success = true, message = "Plan(s) retrieved successfully.", plans = plans });
+            return new PlanResponse { success = true, message = "Plan(s) retrieved successfully.", plans = plans };
         }
 
         // POST api/plan/complete/{planId}
         // Completes a plan, deducts amounts from inventory items
         [HttpGet("{planId}")]
-        public async Task<JsonResult> Complete([FromRoute] Guid planId)
+        public async Task<JsonResponse> Complete([FromRoute] Guid planId)
         {
             var plan = await _context.Plan.SingleOrDefaultAsync(p => p.PlanId == planId);
             if (plan == null)
             {
-                return Json(new JsonResponse { success = false, message = "Something went wrong, please refresh your client." });
+                return new JsonResponse { success = false, message = "Something went wrong, please refresh your client." };
             }
             var planIngredients = await _context.PlanIngredient.Where(pi => pi.PlanId == plan.PlanId).ToListAsync();
             if (planIngredients.Count > 0)
@@ -175,7 +174,7 @@ namespace WebAPI
                 foreach (PlanIngredient ingredient in planIngredients)
                 {
                     _context.PlanIngredient.Remove(ingredient);
-                    var inventoryItem = await _context.InventoryItem.FirstOrDefaultAsync(ii => ii.IngredientId == ingredient.IngredientId && ii.Unit == ingredient.Unit);
+                    var inventoryItem = await _context.InventoryItem.Where(ii => ii.IngredientId == ingredient.IngredientId).FirstOrDefaultAsync(ii => ii.Unit == ingredient.Unit);
                     if (inventoryItem != null)
                     {
                         if (inventoryItem.Amount - ingredient.Amount <= 0)
@@ -195,7 +194,7 @@ namespace WebAPI
                 }
                 catch
                 {
-                    return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
+                    return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
                 }
             }
             plan.DateCompleted = DateTime.Now;
@@ -206,9 +205,9 @@ namespace WebAPI
             }
             catch
             {
-                return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
+                return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
             }
-            return Json(new JsonResponse { success = true, message = "Plan updated successfully" });
+            return new JsonResponse { success = true, message = "Plan updated successfully" };
         }
 
         // GET api/plan/delete

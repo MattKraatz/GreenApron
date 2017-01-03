@@ -70,15 +70,17 @@ namespace Tests.WebAPI
 
 
         // BookmarkController Operations
-        public async Task<BookmarkResponse> AddBookmark(Guid userId)
+        public async Task<BookmarkResponse> AddBookmark()
         {
-            var mark = new BookmarkRequest { userId = userId, RecipeId = 556177, Title = "Ramen Noodle Coleslaw", ImageURL = "https://spoonacular.com/recipeImages/Ramen-Noodle-Coleslaw-556177.jpg" };
+            var user = await GetUser();
+            var mark = new BookmarkRequest { userId = user.user.UserId, RecipeId = 556177, Title = "Ramen Noodle Coleslaw", ImageURL = "https://spoonacular.com/recipeImages/Ramen-Noodle-Coleslaw-556177.jpg" };
             return await _bookCtrl.AddBookmark(mark);
         }
 
-        public async Task<BookmarkResponse> GetBookmarks(Guid userId)
+        public async Task<BookmarkResponse> GetBookmarks()
         {
-            return await _bookCtrl.GetAll(userId);
+            var user = await GetUser();
+            return await _bookCtrl.GetAll(user.user.UserId);
         }
 
         public async Task<JsonResponse> DeleteBookmark(Guid id)
@@ -86,16 +88,18 @@ namespace Tests.WebAPI
             return await _bookCtrl.Delete(id);
         }
 
-        public async Task<BookmarkResponse> CheckBookmark(Guid userId)
+        public async Task<BookmarkResponse> CheckBookmark()
         {
-            var mark = new BookmarkRequest { userId = userId, RecipeId = 556177, Title = "Ramen Noodle Coleslaw", ImageURL = "https://spoonacular.com/recipeImages/Ramen-Noodle-Coleslaw-556177.jpg" };
+            var user = await GetUser();
+            var mark = new BookmarkRequest { userId = user.user.UserId, RecipeId = 556177, Title = "Ramen Noodle Coleslaw", ImageURL = "https://spoonacular.com/recipeImages/Ramen-Noodle-Coleslaw-556177.jpg" };
             return await _bookCtrl.Check(mark);
         }
 
         // GroceryController Operations
-        public async Task<GroceryResponse> GetGrocery(Guid userId)
+        public async Task<GroceryResponse> GetGrocery()
         {
-            return await _grocCtrl.GetAll(userId);
+            var user = await GetUser();
+            return await _grocCtrl.GetAll(user.user.UserId);
         }
 
         public async Task<JsonResponse> UpdateGrocery(GroceryRequest update)
@@ -103,8 +107,9 @@ namespace Tests.WebAPI
             return await _grocCtrl.Update(update);
         }
 
-        public async Task<JsonResponse> AddGrocery(Guid userId)
+        public async Task<JsonResponse> AddGrocery()
         {
+            var user = await GetUser();
             var item = new extIngredient
             {
                 id = 2053,
@@ -114,7 +119,7 @@ namespace Tests.WebAPI
                 amount = 3,
                 unit = "tablespoons"
             };
-            return await _grocCtrl.Add(item, userId);
+            return await _grocCtrl.Add(item, user.user.UserId);
         }
 
         public async Task<JsonResponse> DeleteGrocery(Guid id)
@@ -123,9 +128,10 @@ namespace Tests.WebAPI
         }
 
         // InventoryController Operations
-        public async Task<InventoryResponse> GetInventory(Guid userId)
+        public async Task<InventoryResponse> GetInventory()
         {
-            return await _invCtrl.GetAll(userId);
+            var user = await GetUser();
+            return await _invCtrl.GetAll(user.user.UserId);
         }
 
         public async Task<JsonResponse> UpdateInventory(InventoryRequest update)
@@ -133,8 +139,9 @@ namespace Tests.WebAPI
             return await _invCtrl.Update(update);
         }
 
-        public async Task<JsonResponse> AddInventory(Guid userId)
+        public async Task<JsonResponse> AddInventory()
         {
+            var user = await GetUser();
             var item = new extIngredient
             {
                 id = 2053,
@@ -144,7 +151,7 @@ namespace Tests.WebAPI
                 amount = 3,
                 unit = "tablespoons"
             };
-            return await _invCtrl.Add(item, userId);
+            return await _invCtrl.Add(item, user.user.UserId);
         }
 
         public async Task<JsonResponse> DeleteInventory(Guid id)
@@ -152,5 +159,32 @@ namespace Tests.WebAPI
             return await _invCtrl.Delete(id);
         }
 
+        // PlanController Operations
+        public async Task<JsonResponse> AddPlan()
+        {
+            var user = await GetUser();
+            var request = new PlanRequest
+            {
+                userId = user.user.UserId, date = DateTime.Today.AddDays(1),
+                meal = "Breakfast", recipe = TestKeys.RamenNoodle, servingsYield = 4
+            };
+            return await _planCtrl.AddPlan(request);
+        }
+
+        public async Task<PlanResponse> GetPlans()
+        {
+            var user = await GetUser();
+            return await _planCtrl.GetAll(user.user.UserId);
+        }
+
+        public async Task<JsonResponse> CompletePlan(Guid id)
+        {
+            return await _planCtrl.Complete(id);
+        }
+
+        public async Task<JsonResponse> DeletePlan(Guid id)
+        {
+            return await _planCtrl.Delete(id);
+        }
     }
 }
