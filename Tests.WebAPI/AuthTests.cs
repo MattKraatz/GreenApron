@@ -19,6 +19,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanRegisterUser()
         {
+            await _task.DeleteUser();
             AuthResponse response = await _task.RegisterUser();
             Assert.NotNull(response);
             Assert.True(response.success);
@@ -29,6 +30,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CannotRegisterDuplicateUsername()
         {
+            await _task.DeleteUser();
             await _task.RegisterUser();
             JsonResponse response = await _task.RegisterUser();
             Assert.NotNull(response);
@@ -39,6 +41,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanLoginUser()
         {
+            await _task.DeleteUser();
             await _task.RegisterUser();
             AuthResponse response = await _task.LoginUser(true);
             Assert.NotNull(response);
@@ -50,6 +53,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CannotLoginUserWithIncorrectPassword()
         {
+            await _task.DeleteUser();
             await _task.RegisterUser();
             JsonResponse response = await _task.LoginUser(false);
             Assert.NotNull(response);
@@ -60,6 +64,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanDeleteUser()
         {
+            await _task.DeleteUser();
             await _task.RegisterUser();
             JsonResponse response = await _task.DeleteUser();
             Assert.NotNull(response);

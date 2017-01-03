@@ -82,9 +82,9 @@ namespace WebAPI
             User user = await _context.User.SingleOrDefaultAsync(u => u.Username == username);
             if (user != null)
             {
-                _context.User.Remove(user);
                 try
                 {
+                    _context.User.Remove(user);
                     await _context.SaveChangesAsync();
                     return new AuthResponse{ success = true, message = "User successfully deleted" };
                 }

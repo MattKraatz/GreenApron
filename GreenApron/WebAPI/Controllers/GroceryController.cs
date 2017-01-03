@@ -48,7 +48,7 @@ namespace WebAPI
                 {
                     if (item.Purchased)
                     {
-                        dbItem.DateCompleted = item.DateCompleted;
+                        dbItem.DateCompleted = DateTime.Today;
                         // Look for an existing inventory item for the same ingredient
                         var dbInventoryItem = await _context.InventoryItem.SingleOrDefaultAsync(ii => ii.IngredientId == item.IngredientId);
                         if (dbInventoryItem != null)
@@ -125,15 +125,15 @@ namespace WebAPI
             var dbItem = await _context.GroceryItem.SingleOrDefaultAsync(ii => ii.GroceryItemId == id);
             if (dbItem != null)
             {
-                _context.GroceryItem.Remove(dbItem);
-            }
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch
-            {
-                return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
+                try
+                {
+                    _context.GroceryItem.Remove(dbItem);
+                    await _context.SaveChangesAsync();
+                }
+                catch
+                {
+                    return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
+                }
             }
             return new JsonResponse { success = true, message = "Database updated successfully." };
         }

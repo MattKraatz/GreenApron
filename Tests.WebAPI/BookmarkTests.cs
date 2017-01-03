@@ -13,7 +13,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanAddBookmark()
         {
-            var user = await _task.RegisterUser();
+            var user = await _task.GetUser();
             var response = await _task.AddBookmark(user.user.UserId);
             Assert.NotNull(response);
             Assert.True(response.success);
@@ -25,7 +25,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CannotAddDupeBookmarks()
         {
-            var user = await _task.RegisterUser();
+            var user = await _task.GetUser();
             await _task.AddBookmark(user.user.UserId);
             var response = await _task.AddBookmark(user.user.UserId);
             Assert.NotNull(response);
@@ -38,7 +38,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanGetBookmarks()
         {
-            var user = await _task.RegisterUser();
+            var user = await _task.GetUser();
             await _task.AddBookmark(user.user.UserId);
             var response = await _task.GetBookmarks(user.user.UserId);
             Assert.NotNull(response);
@@ -51,7 +51,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanCheckExistentBookmark()
         {
-            var user = await _task.RegisterUser();
+            var user = await _task.GetUser();
             await _task.AddBookmark(user.user.UserId);
             var response = await _task.CheckBookmark(user.user.UserId);
             Assert.NotNull(response);
@@ -64,7 +64,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanCheckNonexistentBookmark()
         {
-            var user = await _task.RegisterUser();
+            var user = await _task.GetUser();
             var response = await _task.CheckBookmark(user.user.UserId);
             Assert.NotNull(response);
             Assert.False(response.success);
@@ -74,7 +74,7 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanDeleteBookmarks()
         {
-            var user = await _task.RegisterUser();
+            var user = await _task.GetUser();
             var mark = await _task.AddBookmark(user.user.UserId);
             var response = await _task.DeleteBookmark(mark.bookmarks[0].BookmarkId);
             Assert.NotNull(response);

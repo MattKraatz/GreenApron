@@ -55,6 +55,20 @@ namespace Tests.WebAPI
             return await _authCtrl.Login(user);
         }
 
+        public async Task<AuthResponse> GetUser()
+        {
+            var user = new User { Username = TestKeys.Username + "1", FirstName = "Test", LastName = "User", Password = TestKeys.Password };
+            var response = await _authCtrl.Login(user);
+            if (response.success)
+            {
+                return response;
+            } else
+            {
+                return await _authCtrl.Register(user);
+            }
+        }
+
+
         // BookmarkController Operations
         public async Task<BookmarkResponse> AddBookmark(Guid userId)
         {
@@ -91,14 +105,51 @@ namespace Tests.WebAPI
 
         public async Task<JsonResponse> AddGrocery(Guid userId)
         {
-            var item = new extIngredient { id = 2053, aisle = "Oil, Vinegar, Salad Dressing", image = "https://spoonacular.com/cdn/ingredients_100x100/vinegar-(white).jpg",
-                name = "vinegar", amount = 3, unit = "tablespoons" };
+            var item = new extIngredient
+            {
+                id = 2053,
+                aisle = "Oil, Vinegar, Salad Dressing",
+                image = "https://spoonacular.com/cdn/ingredients_100x100/vinegar-(white).jpg",
+                name = "vinegar",
+                amount = 3,
+                unit = "tablespoons"
+            };
             return await _grocCtrl.Add(item, userId);
         }
 
         public async Task<JsonResponse> DeleteGrocery(Guid id)
         {
             return await _grocCtrl.Delete(id);
+        }
+
+        // InventoryController Operations
+        public async Task<InventoryResponse> GetInventory(Guid userId)
+        {
+            return await _invCtrl.GetAll(userId);
+        }
+
+        public async Task<JsonResponse> UpdateInventory(InventoryRequest update)
+        {
+            return await _invCtrl.Update(update);
+        }
+
+        public async Task<JsonResponse> AddInventory(Guid userId)
+        {
+            var item = new extIngredient
+            {
+                id = 2053,
+                aisle = "Oil, Vinegar, Salad Dressing",
+                image = "https://spoonacular.com/cdn/ingredients_100x100/vinegar-(white).jpg",
+                name = "vinegar",
+                amount = 3,
+                unit = "tablespoons"
+            };
+            return await _invCtrl.Add(item, userId);
+        }
+
+        public async Task<JsonResponse> DeleteInventory(Guid id)
+        {
+            return await _invCtrl.Delete(id);
         }
     }
 }
