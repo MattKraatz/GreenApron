@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,24 +21,24 @@ namespace WebAPI
         // GET api/grocery/getall/{userId}
         // Returns all active grocery items
         [HttpGet("{userId}")]
-        public async Task<JsonResult> GetAll([FromRoute] Guid userId)
+        public async Task<GroceryResponse> GetAll([FromRoute] Guid userId)
         {
-            var items = await _context.GroceryItem.Where(gi => gi.DateCompleted == null).Include(gi => gi.Ingredient).ToListAsync();
+            var items = await _context.GroceryItem.Where(gi => gi.DateCompleted == null).Where(gi => gi.UserId == userId).Include(gi => gi.Ingredient).ToListAsync();
             if (items.Count < 1)
             {
-                return Json(new GroceryResponse { success = false, message = "No grocery items were found, have you added any? " });
+                return new GroceryResponse { success = false, message = "No grocery items were found, have you added any? " };
             }
             foreach (GroceryItem item in items)
             {
                 item.Plans = await _ingManager.AttachPlanAsync(item.IngredientId);
             }
-            return Json(new GroceryResponse { success = true, message = "Grocery Item(s) retrieved successfully", GroceryItems = items });
+            return new GroceryResponse { success = true, message = "Grocery Item(s) retrieved successfully", GroceryItems = items };
         }
 
         // POST api/grocery/update
         // Updates grocery items that were purchased
         [HttpPost]
-        public async Task<JsonResult> Update([FromBody] GroceryRequest request)
+        public async Task<JsonResponse> Update([FromBody] GroceryRequest request)
         {
             foreach (GroceryItem item in request.items)
             {
@@ -85,22 +84,22 @@ namespace WebAPI
             }
             catch
             {
-                return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
+                return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
             }
-            return Json(new JsonResponse { success = true, message = "Database updated successfully." });
+            return new JsonResponse { success = true, message = "Database updated successfully." };
         }
 
         // POST api/grocery/add
         // Adds a new grocery item record, and a new ingredient record if necessary
         [HttpPost("{userId}")]
-        public async Task<JsonResult> Add([FromBody] extIngredient item, [FromRoute] Guid userId)
+        public async Task<JsonResponse> Add([FromBody] extIngredient item, [FromRoute] Guid userId)
         {
             // Add this ingredient to the database, if it doesn't already exist
             Ingredient ingredient = await _ingManager.CheckDB(item);
             // Handle database error
             if (ingredient.IngredientId == -1)
             {
-                return Json(new JsonResponse { success = false, message = "Something went wrong while saving your ingredients to the database, please try again." });
+                return new JsonResponse { success = false, message = "Something went wrong while saving your ingredients to the database, please try again." };
             }
             // Add a grocery item record to the database
             var newGroceryItem = new GroceryItem { Amount = item.amount, UserId = userId, IngredientId = ingredient.IngredientId };
@@ -112,15 +111,15 @@ namespace WebAPI
             }
             catch
             {
-                return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
+                return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
             }
-            return Json(new JsonResponse { success = true, message = "Grocery Item added successfully." });
+            return new JsonResponse { success = true, message = "Grocery Item added successfully." };
         }
 
         // GET api/inventory/delete/{id}
         // Deletes inventory item
         [HttpGet("{id}")]
-        public async Task<JsonResult> Delete([FromRoute] Guid id)
+        public async Task<JsonResponse> Delete([FromRoute] Guid id)
         {
             // Find the inventory item record in the database
             var dbItem = await _context.GroceryItem.SingleOrDefaultAsync(ii => ii.GroceryItemId == id);
@@ -134,9 +133,9 @@ namespace WebAPI
             }
             catch
             {
-                return Json(new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." });
+                return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
             }
-            return Json(new JsonResponse { success = true, message = "Database updated successfully." });
+            return new JsonResponse { success = true, message = "Database updated successfully." };
         }
     }
 }

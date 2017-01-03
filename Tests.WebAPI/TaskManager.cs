@@ -78,5 +78,27 @@ namespace Tests.WebAPI
             return await _bookCtrl.Check(mark);
         }
 
+        // GroceryController Operations
+        public async Task<GroceryResponse> GetGrocery(Guid userId)
+        {
+            return await _grocCtrl.GetAll(userId);
+        }
+
+        public async Task<JsonResponse> UpdateGrocery(GroceryRequest update)
+        {
+            return await _grocCtrl.Update(update);
+        }
+
+        public async Task<JsonResponse> AddGrocery(Guid userId)
+        {
+            var item = new extIngredient { id = 2053, aisle = "Oil, Vinegar, Salad Dressing", image = "https://spoonacular.com/cdn/ingredients_100x100/vinegar-(white).jpg",
+                name = "vinegar", amount = 3, unit = "tablespoons" };
+            return await _grocCtrl.Add(item, userId);
+        }
+
+        public async Task<JsonResponse> DeleteGrocery(Guid id)
+        {
+            return await _grocCtrl.Delete(id);
+        }
     }
 }
