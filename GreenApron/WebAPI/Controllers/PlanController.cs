@@ -18,7 +18,7 @@ namespace WebAPI
             _context = context;
             _ingManager = new IngredientManager(_context);
         }
-
+        
         // POST api/plan/addplan
         [HttpPost]
         public async Task<JsonResponse> AddPlan([FromBody] PlanRequest plan)
