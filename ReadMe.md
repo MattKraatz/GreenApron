@@ -1,5 +1,6 @@
 # Green Apron
-![build status]()
+![build status](https://greenapron.visualstudio.com/_apis/public/build/definitions/8e466ee9-b105-4ab9-947d-57aaa6437761/1/badge)
+
 A mobile-first, comprehensive meal planner and pantry tracking system. Search thousands of recipes; bookmark your favorites, or add one to a meal plan and let Green Apron manage a grocery list for you. Purchased products are added to an inventory, so you always have a digital representation of your pantry!
 
 ## Technologies
