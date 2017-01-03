@@ -15,11 +15,10 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanAddGroceryItem()
         {
-            var user = await _task.GetUser();
-            var response = await _task.AddGrocery(user.user.UserId);
+            var response = await _task.AddGrocery();
             Assert.NotNull(response);
             Assert.True(response.success);
-            var items = await _task.GetGrocery(user.user.UserId);
+            var items = await _task.GetGrocery();
             foreach (GroceryItem item in items.GroceryItems)
             {
                 await _task.DeleteGrocery(item.GroceryItemId);
@@ -29,9 +28,8 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanDeleteGroceryItem()
         {
-            var user = await _task.GetUser();
-            await _task.AddGrocery(user.user.UserId);
-            var items = await _task.GetGrocery(user.user.UserId);
+            await _task.AddGrocery();
+            var items = await _task.GetGrocery();
             var response = await _task.DeleteGrocery(items.GroceryItems[0].GroceryItemId);
             Assert.NotNull(response);
             Assert.True(response.success);
@@ -40,9 +38,8 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanGetGroceryItems()
         {
-            var user = await _task.GetUser();
-            await _task.AddGrocery(user.user.UserId);
-            var response = await _task.GetGrocery(user.user.UserId);
+            await _task.AddGrocery();
+            var response = await _task.GetGrocery();
             Assert.NotNull(response);
             Assert.True(response.success);
             Assert.True(response.GroceryItems.Count == 1);
@@ -55,16 +52,15 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanUpdateGroceryItemAmount()
         {
-            var user = await _task.GetUser();
-            await _task.AddGrocery(user.user.UserId);
-            var items = await _task.GetGrocery(user.user.UserId);
+            await _task.AddGrocery();
+            var items = await _task.GetGrocery();
             var item = items.GroceryItems[0];
             item.Amount = 50;
             var request = new GroceryRequest();
             request.items = new List<GroceryItem>();
             request.items.Add(item);
             await _task.UpdateGrocery(request);
-            var itemsAgain = await _task.GetGrocery(user.user.UserId);
+            var itemsAgain = await _task.GetGrocery();
             Assert.NotNull(itemsAgain);
             Assert.True(itemsAgain.GroceryItems[0].Amount == item.Amount);
             foreach (GroceryItem groc in itemsAgain.GroceryItems)
@@ -76,16 +72,15 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanUpdateGroceryItemDeleted()
         {
-            var user = await _task.GetUser();
-            await _task.AddGrocery(user.user.UserId);
-            var items = await _task.GetGrocery(user.user.UserId);
+            await _task.AddGrocery();
+            var items = await _task.GetGrocery();
             var item = items.GroceryItems[0];
             item.Deleted = true;
             var request = new GroceryRequest();
             request.items = new List<GroceryItem>();
             request.items.Add(item);
             await _task.UpdateGrocery(request);
-            var itemsAgain = await _task.GetGrocery(user.user.UserId);
+            var itemsAgain = await _task.GetGrocery();
             Assert.NotNull(itemsAgain);
             Assert.False(itemsAgain.success);
         }
@@ -93,19 +88,18 @@ namespace Tests.WebAPI
         [Fact]
         public async void CanUpdateGroceryItemPurchased()
         {
-            var user = await _task.GetUser();
-            await _task.AddGrocery(user.user.UserId);
-            var items = await _task.GetGrocery(user.user.UserId);
+            await _task.AddGrocery();
+            var items = await _task.GetGrocery();
             var item = items.GroceryItems[0];
             item.Purchased = true;
             var request = new GroceryRequest();
             request.items = new List<GroceryItem>();
             request.items.Add(item);
             await _task.UpdateGrocery(request);
-            var itemsAgain = await _task.GetGrocery(user.user.UserId);
+            var itemsAgain = await _task.GetGrocery();
             Assert.NotNull(itemsAgain);
             Assert.False(itemsAgain.success);
-            var pantry = await _task.GetInventory(user.user.UserId);
+            var pantry = await _task.GetInventory();
             foreach (InventoryItem pant in pantry.InventoryItems)
             {
                 await _task.DeleteInventory(pant.InventoryItemId);
