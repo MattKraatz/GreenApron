@@ -27,6 +27,12 @@ namespace WebAPI
                 // If invalid, return error message
                 return new BookmarkResponse { success = false, message = "Something went wrong, please resubmit with all required fields." };
             }
+            // Check for existing bookmarks first
+            var check = await Check(bookmark);
+            if (check.success)
+            {
+                return new BookmarkResponse { success = false, message = "Already bookmarked.", bookmarks = check.bookmarks };
+            }
             // Create Bookmark record and save to database
             var newBookmark = new Bookmark { UserId = bookmark.userId, RecipeId = bookmark.RecipeId, Title = bookmark.Title, ImageURL = bookmark.ImageURL };
             _context.Bookmark.Add(newBookmark);
@@ -58,14 +64,14 @@ namespace WebAPI
 
         // POST api/bookmark/check
         [HttpPost]
-        public async Task<JsonResponse> Check([FromBody] BookmarkRequest bookmark)
+        public async Task<BookmarkResponse> Check([FromBody] BookmarkRequest bookmark)
         {
             var check = await _context.Bookmark.Where(b => b.UserId == bookmark.userId).Where(b => b.RecipeId == bookmark.RecipeId).ToListAsync();
             if (check.Count > 0)
             {
                 return new BookmarkResponse { success = true, message = "Already bookmarked.", bookmarks = check };
             }
-            return new JsonResponse { success = false, message = "Not bookmarked. " };
+            return new BookmarkResponse { success = false, message = "Not bookmarked. " };
         }
 
         // GET api/bookmark/delete

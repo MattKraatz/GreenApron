@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
+// Add all Tests to a single collection by default to suppress parallel testing
+[assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)]
 namespace Tests.WebAPI
 {
     public class Main
