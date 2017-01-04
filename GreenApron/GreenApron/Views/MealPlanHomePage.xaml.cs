@@ -76,22 +76,6 @@ namespace GreenApron
             await Navigation.PushAsync(page);
         }
         
-        //public async void OnCalendarTapped(object sender, Syncfusion.SfCalendar.XForms.CalendarTappedEventArgs args)
-        //{
-        //    selectedDate = args.datetime;
-        //    var planNames = response.plans.Where(p => p.Date.Date == selectedDate.Date).Select(p => p.Meal + " - " + p.RecipeName).ToArray();
-        //    var selectedMeal = await DisplayActionSheet("Which Meal?","Cancel",null,planNames);
-        //    if (planNames.Contains(selectedMeal))
-        //    {
-        //        var plan = response.plans.FirstOrDefault(p => (p.Meal + " - " + p.RecipeName) == selectedMeal);
-        //        // Grab recipe from Spoonacular
-        //        plan.Recipe = await App.SpoonManager.GetRecipeByIdAsync(plan.RecipeId);
-        //        // Instantiate new recipe page with plan as context
-        //        var newPage = new PlanPage(plan);
-        //        await Navigation.PushAsync(newPage);
-        //    }
-        //}
-        
         public void PrintDays(List<Plan> plans)
         {
             for (var i = 0; i < 15; i ++)

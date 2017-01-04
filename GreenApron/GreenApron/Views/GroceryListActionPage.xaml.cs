@@ -43,7 +43,7 @@ namespace GreenApron
                     request.items.Add(item);
                 }
             }
-            var response = await App.APImanager.UpdateGroceryItems(request);
+            await App.APImanager.UpdateGroceryItems(request);
             busy.IsVisible = false;
             busy.IsRunning = false;
             await Navigation.PopAsync();

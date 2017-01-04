@@ -82,7 +82,6 @@ namespace GreenApron
             try
             {
                 HttpResponseMessage response = await client.GetAsync(uri);
-                var test = response;
                 var JSONstring = await response.Content.ReadAsStringAsync();
                 var productArray = JsonConvert.DeserializeObject<Ingredient[]>(JSONstring);
                 var products = new List<Ingredient>();

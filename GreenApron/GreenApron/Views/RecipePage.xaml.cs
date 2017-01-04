@@ -84,7 +84,6 @@ namespace GreenApron
                     {
                         await DisplayAlert("Success", "Bookmark Added Successfully", "Okay");
                         _bookmarked = true;
-                        var test = response;
                         _bookmarkId = response.bookmarks[0].BookmarkId;
                         UpdateBookMarkButton();
                     }

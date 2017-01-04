@@ -39,10 +39,10 @@ namespace GreenApron
             // TODO: Call WebAPI endpoint that adds a GroceryItem
             if (_context == "grocery")
             {
-                var response = App.APImanager.AddGroceryItem(item);
+                await App.APImanager.AddGroceryItem(item);
             } else if (_context == "inventory")
             {
-                var response = App.APImanager.AddInventoryItem(item);
+                await App.APImanager.AddInventoryItem(item);
             }
             busy.IsVisible = false;
             busy.IsRunning = false;
