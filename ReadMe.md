@@ -13,7 +13,7 @@ A mobile-first, comprehensive meal planner and pantry tracking system. Search th
 * CI via Visual Studio Team Services
 
 ## Installation
-* Create a `Keys` class in the `GreenApron` namespace with the following values:
+* Create a `Keys` class in `GreenApron/Factories` using the `GreenApron` namespace with the following values:
    * `public static string WebAPI`: url for the WebAPI service
    * `public static string SpoonURI`: url for the Spoonacular API service
    * `public static string SpoonKey`: API token for the Spoonacular API service

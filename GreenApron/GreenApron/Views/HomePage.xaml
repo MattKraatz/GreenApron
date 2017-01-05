@@ -3,10 +3,13 @@
              x:Class="GreenApron.HomePage"
              Title="Home">
 	<ContentPage.Content>
-        <Label Text="Welcome to GreenApron!"
+		<StackLayout Spacing="20" Margin="20">
+			<Image Source="icon.png" Aspect="AspectFit" Margin="0,20" />
+        	<Label Text="Welcome to GreenApron!"
                 TextColor="#00DE0E"
                 FontSize="Large"
-                VerticalTextAlignment="Center"
                 HorizontalTextAlignment="Center"/>
+			<Button Text="Search Recipes" Clicked="OpenRecipeSearch" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" />
+		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

@@ -34,5 +34,19 @@ namespace GreenApron
                 await Navigation.PushModalAsync(login);
             }
         }
+
+		public async void OpenRecipeSearch(object sender, EventArgs e)
+		{
+			var tab = new TabbedPage();
+			tab.Title = "New Plan";
+
+			var page = new RecipeSearchPage();
+			var page2 = new RecipeCollectionPage();
+
+			tab.Children.Add(page);
+			tab.Children.Add(page2);
+
+			await Navigation.PushAsync(tab);
+		}
 	}
 }
