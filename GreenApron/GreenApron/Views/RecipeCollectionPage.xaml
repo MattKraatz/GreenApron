@@ -4,13 +4,13 @@
              x:Class="GreenApron.RecipeCollectionPage"
              Title="My Recipe Book">
   <ContentPage.Content>
-      <StackLayout>
+      <StackLayout Spacing="0">
           <ActivityIndicator x:Name="busy" Color="#00F911" />
           <ListView x:Name="bookmarkList" VerticalOptions="FillAndExpand" ItemTapped="OnItemTapped">
               <ListView.ItemTemplate>
                   <DataTemplate>
                       <ViewCell>
-                          <StackLayout Orientation="Horizontal">
+                          <StackLayout Orientation="Horizontal" Padding="10">
                               <Image Source="{Binding ImageURL}" Aspect="AspectFit" HorizontalOptions="Start" />
                               <StackLayout>
                                   <Label Text="{Binding Title}" FontAttributes="Bold"

@@ -11,14 +11,16 @@
         <ContentView Padding="0,10,0,10">
             <Label Text="Green Apron" FontSize="Large" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" />
         </ContentView>
-      <ListView x:Name="listView" VerticalOptions="FillAndExpand" SeparatorVisibility="None">
+      <ListView x:Name="listView" VerticalOptions="FillAndExpand" SeparatorVisibility="None"
+			    BackgroundColor="#00DE0E">
         <ListView.ItemTemplate>
           <DataTemplate>
               <ViewCell>
                   <StackLayout Orientation="Horizontal" Padding="5,10">
                       <Image Source="{Binding IconSource}" Aspect="AspectFit" />
                       <ContentView Padding="10,0,0,0">
-                          <Label Text="{Binding Title}" TextColor="White" FontSize="Medium" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                          <Label Text="{Binding Title}" TextColor="White" FontSize="Medium"
+								 VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
                       </ContentView>
                   </StackLayout>
               </ViewCell>

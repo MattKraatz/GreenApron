@@ -1,67 +1,48 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GreenApron.GroceryListPage"
-             Title="My Grocery List">
-  <ContentPage.Content>
-      <StackLayout Padding="0" Margin="0">
-          <ActivityIndicator x:Name="busy" Color="#00F911" IsRunning="true" />
-          <StackLayout VerticalOptions="Start">
-              <StackLayout Orientation="Horizontal" BackgroundColor="#cccccc">
-                  <ContentView Padding="10,0,0,0" WidthRequest="100"
-                               HorizontalOptions="Start">
-                      <Label Text="Qty" FontAttributes="Bold" />
-                  </ContentView>
-                  <Label Text="Name" FontAttributes="Bold"
-                          HorizontalOptions="StartAndExpand" />
-                  <Label Text="Plans" FontAttributes="Bold" WidthRequest="50"
-                          HorizontalOptions="EndAndExpand" />
-              </StackLayout>
-              <ContentView VerticalOptions="FillAndExpand">
-                  <ListView x:Name="groceryList"
-                        RowHeight="35"
-                        GroupDisplayBinding="{Binding Title}"
-                        GroupShortNameBinding="{Binding ShortName}"
-                        IsGroupingEnabled="true"
-                        ItemTapped="OnItemTapped">
-                      <ListView.ItemTemplate>
-                          <DataTemplate>
-                              <ViewCell>
-                                  <StackLayout Orientation="Horizontal">
-                                      <StackLayout Orientation="Horizontal" HorizontalOptions="Start" WidthRequest="100">
-                                          <Label Text="{Binding Amount}" FontAttributes="Bold" FontSize="Medium" TextColor="#008A09" VerticalTextAlignment="Center" HorizontalOptions="Start" />
-                                          <Label Text="{Binding Unit}" TextColor="#008A09" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
-                                      </StackLayout>
-                                      <Label Text="{Binding Ingredient.ingredientName}" FontSize="Medium" VerticalTextAlignment="Center"
-                                              HorizontalOptions="StartAndExpand" />
-                                      <Label Text="{Binding Count}" WidthRequest="25" VerticalTextAlignment="Center"
-                                              HorizontalOptions="End" />
-                                  </StackLayout>
-                              </ViewCell>
-                          </DataTemplate>
-                      </ListView.ItemTemplate>
-                      <ListView.GroupHeaderTemplate>
-                          <DataTemplate>
-                              <ViewCell>
-                                  <StackLayout Padding="10,0,0,0" VerticalOptions="EndAndExpand">
-                                      <Label Text="{Binding Title}" TextColor="#AF0400" VerticalTextAlignment="End" />
-                                  </StackLayout>
-                              </ViewCell>
-                          </DataTemplate>
-                      </ListView.GroupHeaderTemplate>
-                  </ListView>
-              </ContentView>
-              <StackLayout Padding="5, 0, 0, 5">
-                  <Label Text="Tap any item to update it" HorizontalTextAlignment="Center" />
-                  <StackLayout Orientation="Horizontal">
-                      <Button Clicked="MarkAsBought" Text="Got It All" TextColor="White"
-                              BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
-                      <Button Clicked="OpenActionView" Text="Quick Edit" TextColor="White"
-                              BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
-                  </StackLayout>
-                  <Button Clicked="OpenProductSearch" Text="New Grocery Item" TextColor="White" BackgroundColor="#00DE0E" />
-              </StackLayout>
-          </StackLayout>
-      </StackLayout>
-  </ContentPage.Content>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="GreenApron.GroceryListPage" Title="My Grocery List">
+	<ContentPage.Content>
+		<StackLayout Spacing="0">
+			<StackLayout Orientation="Horizontal" BackgroundColor="#cccccc" Padding="10">
+				<ContentView Padding="10,0,0,0" WidthRequest="100" HorizontalOptions="Start">
+					<Label Text="Qty" FontAttributes="Bold" />
+				</ContentView>
+				<Label Text="Name" FontAttributes="Bold" HorizontalOptions="StartAndExpand" />
+				<Label Text="Plans" FontAttributes="Bold" WidthRequest="50" HorizontalOptions="EndAndExpand" />
+			</StackLayout>
+			<ActivityIndicator x:Name="busy" Color="#00F911" IsRunning="true" />
+			<ListView x:Name="groceryList" RowHeight="40" GroupDisplayBinding="{Binding Title}" IsGroupingEnabled="true" ItemTapped="OnItemTapped">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<StackLayout Orientation="Horizontal" Padding="10">
+								<StackLayout Orientation="Horizontal" HorizontalOptions="Start" WidthRequest="100">
+									<Label Text="{Binding Amount}" FontAttributes="Bold" FontSize="Medium" TextColor="#008A09" VerticalTextAlignment="Center" HorizontalOptions="Start" />
+									<Label Text="{Binding Unit}" TextColor="#008A09" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
+								</StackLayout>
+								<Label Text="{Binding Ingredient.ingredientName}" FontSize="Medium" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
+								<Label Text="{Binding Count}" WidthRequest="25" VerticalTextAlignment="Center" HorizontalOptions="End" />
+							</StackLayout>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+				<ListView.GroupHeaderTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<StackLayout Padding="20,5" VerticalOptions="EndAndExpand">
+								<Label Text="{Binding Title}" Opacity="0.75" VerticalTextAlignment="End" />
+							</StackLayout>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.GroupHeaderTemplate>
+			</ListView>
+			<StackLayout Padding="5" VerticalOptions="EndAndExpand">
+				<Label Text="Tap any item to update it" HorizontalTextAlignment="Center" />
+				<StackLayout Orientation="Horizontal">
+					<Button Clicked="MarkAsBought" Text="Got It All" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+					<Button Clicked="OpenActionView" Text="Quick Edit" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+				</StackLayout>
+				<Button Clicked="OpenProductSearch" Text="New Grocery Item" TextColor="White" BackgroundColor="#00DE0E" />
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
 </ContentPage>

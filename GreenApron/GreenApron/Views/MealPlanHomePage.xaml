@@ -4,10 +4,10 @@
              x:Class="GreenApron.MealPlanHomePage"
              Title="My Meal Plans">
   <ContentPage.Content>
-    <StackLayout x:Name="mainStack">
+    <StackLayout Spacing="0">
         <ActivityIndicator x:Name="busy" Color="#00F911"
                            IsRunning="true" />
-        <ScrollView Padding="10,5,5,10">
+        <ScrollView>
             <StackLayout x:Name="scrollStack">
                 
             </StackLayout>

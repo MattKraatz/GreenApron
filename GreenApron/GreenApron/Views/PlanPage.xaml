@@ -1,72 +1,46 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GreenApron.PlanPage"
-             Title="{Binding Date, StringFormat='{0:dddd, MMMM dd}'}">
-  <ContentPage.Content>
-      <StackLayout>
-          <ScrollView Padding="0,5,5,0">
-              <StackLayout VerticalOptions="StartAndExpand">
-                  <ActivityIndicator x:Name="busy" Color="#00F911"
-                                     IsRunning="true" />
-                  <Label Text="{Binding RecipeName, StringFormat='{0:F0}'}"
-                         FontSize="Large" TextColor="#00DE0E"
-                         VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand" />
-                  <StackLayout Orientation="Horizontal" Padding="20, 0">
-                      <Label Text="{Binding Meal, StringFormat='{0:F0}'}"
-                         FontSize="Medium" FontAttributes="Bold"
-                         TextColor="#00DE0E"
-                         VerticalTextAlignment="Center"
-                         HorizontalOptions="Start" />
-                      <ContentView Padding="5,0">
-                          <Label Text="{Binding Recipe.servings, StringFormat='{0:F0} Servings'}"
-                             FontSize="Medium"
-                             TextColor="#008A09"
-                             VerticalTextAlignment="Center"
-                             HorizontalOptions="Start"
-                             x:Name="servings" />
-                      </ContentView>
-                      <StackLayout HorizontalOptions="EndAndExpand">
-                          <Label Text="{Binding Recipe.preparationMinutes, StringFormat='Prep: {0:F0} minutes'}"
-                                 VerticalTextAlignment="Center" TextColor="#AF0400"
-                                 x:Name="prepMin" />
-                          <Label Text="{Binding Recipe.cookingMinutes, StringFormat='Cook: {0:F0} minutes'}"
-                                 VerticalTextAlignment="Center" TextColor="#AF0400"
-                                 x:Name="cookMin" />
-                      </StackLayout>
-                  </StackLayout>
-                  <Image Source="{Binding Recipe.image}" />
-                  <StackLayout VerticalOptions="FillAndExpand" Padding="10,5,10,0">
-                      <Label x:Name="instructionsLabel" Text="Instructions:" TextColor="#008A09" FontSize="Medium"
-                             IsVisible="false" HorizontalTextAlignment="Center"/>
-                      <Label Text="{Binding Recipe.instructions}" />
-                      <Label x:Name="ingredientsLabel" Text="Ingredients:" TextColor="#008A09" FontSize="Medium"
-                             IsVisible="false" HorizontalTextAlignment="Center"/>
-                      <ListView x:Name="ingredientsList" ItemTapped="HandleTap">
-                          <ListView.ItemTemplate>
-                              <DataTemplate>
-                                  <ViewCell>
-                                      <StackLayout Orientation="Horizontal">
-                                          <Label Text="{Binding amount}" FontAttributes="Bold"
-                                                  HorizontalOptions="Start" />
-                                          <Label Text="{Binding unit}"
-                                                  HorizontalOptions="Start" />
-                                          <Label Text="{Binding name}"
-                                                  HorizontalOptions="EndAndExpand" />
-                                      </StackLayout>
-                                  </ViewCell>
-                              </DataTemplate>
-                          </ListView.ItemTemplate>
-                      </ListView>
-                  </StackLayout>
-              </StackLayout>
-          </ScrollView>
-          <StackLayout x:Name="actionStack" Orientation="Horizontal" Margin="10, 0, 10, 10">
-              <Button Text="Delete" TextColor="White" BackgroundColor="#FF0700" Clicked="OnDeleteClicked"
-                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-              <Button Text="I Made It!" TextColor="White" BackgroundColor="#50F75B" Clicked="OnCookedClicked"
-                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-          </StackLayout>
-      </StackLayout>
-  </ContentPage.Content>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="GreenApron.PlanPage" Title="{Binding RecipeName, StringFormat='{0:F0}'}">
+	<ContentPage.Content>
+		<StackLayout>
+			<ScrollView Padding="5,15,5,5">
+				<StackLayout VerticalOptions="StartAndExpand" Spacing="15">
+					<ActivityIndicator x:Name="busy" Color="#00F911" IsRunning="true" />
+					<Label Text="{Binding Date, StringFormat='{0:dddd, MMM d}'}" FontSize="Large" TextColor="#00DE0E" VerticalTextAlignment="Center" HorizontalOptions="CenterAndExpand" />
+					<StackLayout Orientation="Horizontal" Padding="15, 0">
+						<StackLayout>
+							<Label Text="{Binding Meal, StringFormat='{0:F0}'}" FontSize="Medium" FontAttributes="Bold" TextColor="#00DE0E" VerticalTextAlignment="Center" HorizontalOptions="Start" />
+							<Label Text="{Binding Recipe.servings, StringFormat='{0:F0} Servings'}" FontSize="Medium" TextColor="#008A09" VerticalTextAlignment="Center" x:Name="servings" />
+						</StackLayout>
+						<StackLayout HorizontalOptions="EndAndExpand">
+							<Label Text="{Binding Recipe.preparationMinutes, StringFormat='Prep: {0:F0} minutes'}" HorizontalTextAlignment="End" VerticalTextAlignment="Center" TextColor="#AF0400" x:Name="prepMin" />
+							<Label Text="{Binding Recipe.cookingMinutes, StringFormat='Cook: {0:F0} minutes'}" HorizontalTextAlignment="End" VerticalTextAlignment="Center" TextColor="#AF0400" x:Name="cookMin" />
+						</StackLayout>
+					</StackLayout>
+					<Image Source="{Binding Recipe.image}" />
+					<StackLayout VerticalOptions="FillAndExpand" Spacing="10" Padding="5">
+						<Label x:Name="instructionsLabel" Text="Instructions:" TextColor="#008A09" FontSize="Medium" IsVisible="false" HorizontalTextAlignment="Center" />
+						<Label Text="{Binding Recipe.instructions}" />
+						<Label x:Name="ingredientsLabel" Text="Ingredients:" TextColor="#008A09" FontSize="Medium" IsVisible="false" HorizontalTextAlignment="Center" />
+						<ListView x:Name="ingredientsList" IsVisible="false" ItemTapped="HandleTap">
+							<ListView.ItemTemplate>
+								<DataTemplate>
+									<ViewCell>
+										<StackLayout Orientation="Horizontal" Padding="5,0">
+											<Label Text="{Binding amount}" FontAttributes="Bold" HorizontalOptions="Start" />
+											<Label Text="{Binding unit}" HorizontalOptions="Start" />
+											<Label Text="{Binding name}" HorizontalOptions="EndAndExpand" />
+										</StackLayout>
+									</ViewCell>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</StackLayout>
+				</StackLayout>
+			</ScrollView>
+			<StackLayout x:Name="actionStack" Orientation="Horizontal" Padding="5">
+				<Button Text="Delete" TextColor="White" BackgroundColor="#FF0700" Clicked="OnDeleteClicked" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+				<Button Text="I Made It!" TextColor="White" BackgroundColor="#50F75B" Clicked="OnCookedClicked" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
 </ContentPage>

@@ -1,62 +1,52 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GreenApron.PantryItemDetailModal"
-             Title="Pantry Item Detail">
-  <ContentPage.Content>
-      <StackLayout>
-          <ScrollView Padding="0,5,5,0" VerticalOptions="FillAndExpand">
-              <StackLayout>
-                  <ContentView Padding="0,15,0,5">
-                      <Label Text="{Binding Ingredient.ingredientName}" HorizontalTextAlignment="Center"
-                         FontSize="Large" FontAttributes="Bold" />
-                  </ContentView>
-                  <Image x:Name="ingredientImage" Source="{Binding Ingredient.imageURL}" Aspect="AspectFit" HeightRequest="100" />
-                  <ContentView Padding="0,5,0,5">
-                      <Label Text="Update Qty" TextColor="#008A09" FontSize="Medium" HorizontalTextAlignment="Center" />
-                  </ContentView>
-                  <Slider Minimum="0" Maximum="500" x:Name="slider" Value="{Binding Amount, Mode=TwoWay}" />
-                  <StackLayout Orientation="Horizontal">
-                      <Stepper BindingContext="{x:Reference slider}" Value="{Binding Value}" HorizontalOptions="CenterAndExpand" />
-                      <Entry BindingContext="{x:Reference slider}" Text="{Binding Value}" HorizontalOptions="EndAndExpand"
-                           HorizontalTextAlignment="Center" Keyboard="Numeric" WidthRequest="60" />
-                      <Label Text="{Binding Unit}" HorizontalOptions="End" WidthRequest="60" VerticalTextAlignment="End" />
-                  </StackLayout>
-                  <Label Text="Plans:" TextColor="#008A09" FontSize="Medium"
-                             HorizontalTextAlignment="Center" />
-                  <ListView x:Name="planList" ItemTapped="HandleTap">
-                      <ListView.ItemTemplate>
-                          <DataTemplate>
-                               <ViewCell>
-                                  <StackLayout Orientation="Horizontal">
-                                      <Image Source="{Binding RecipeImage}" Aspect="AspectFit" HorizontalOptions="Start" />
-                                      <StackLayout>
-                                          <Label Text="{Binding RecipeName}" FontAttributes="Bold"
-                                                 VerticalTextAlignment="Center" HorizontalOptions="Start" />
-                                          <Label Text="{Binding Meal}"
-                                                 VerticalTextAlignment="Center" HorizontalOptions="Start" />
-                                      </StackLayout>
-                                      <Label Text="{Binding Date, StringFormat='{0:dddd, dd MMMM}'}"
-                                             VerticalTextAlignment="Center" HorizontalOptions="EndAndExpand" />
-                                  </StackLayout>
-                              </ViewCell>
-                          </DataTemplate>
-                      </ListView.ItemTemplate>
-                  </ListView>
-              </StackLayout>
-             </ScrollView>
-          <StackLayout VerticalOptions="EndAndExpand">
-              <ActivityIndicator x:Name="busy" Color="#00F911" />
-          </StackLayout>
-        <StackLayout VerticalOptions="EndAndExpand">
-            <Button Text="Update" Clicked="OnUpdateClicked" TextColor="White" BackgroundColor="#00DE0E" />
-            <StackLayout Orientation="Horizontal">
-                <Button Clicked="OnCancelClicked" Text="Cancel" TextColor="White"
-                        BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
-                <Button Clicked="OnDeleteClicked" Text="Delete" TextColor="White"
-                        BackgroundColor="#FF0700" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
-            </StackLayout>
-        </StackLayout>
-    </StackLayout>
-  </ContentPage.Content>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="GreenApron.PantryItemDetailModal" Title="Pantry Item Detail">
+	<ContentPage.Content>
+		<StackLayout VerticalOptions="FillAndExpand" Spacing="0">
+			<ScrollView VerticalOptions="FillAndExpand">
+				<StackLayout>
+					<StackLayout Spacing="20" Padding="20,0">
+						<ContentView Padding="0,50,0,25">
+							<Label Text="{Binding Ingredient.ingredientName}" HorizontalTextAlignment="Center" FontSize="Large" FontAttributes="Bold" />
+						</ContentView>
+						<Image x:Name="ingredientImage" Source="{Binding Ingredient.imageURL}" Aspect="AspectFit" HeightRequest="100" />
+						<StackLayout Spacing="20">
+							<Label Text="Update Qty" TextColor="#008A09" FontSize="Medium" HorizontalTextAlignment="Center" />
+							<Slider Minimum="0" Maximum="500" x:Name="slider" Value="{Binding Amount, Mode=TwoWay}" />
+							<StackLayout Orientation="Horizontal" Spacing="15" Padding="0,0,10,0">
+								<Stepper BindingContext="{x:Reference slider}" Value="{Binding Value}" HorizontalOptions="CenterAndExpand" />
+								<Entry BindingContext="{x:Reference slider}" Text="{Binding Value}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" Keyboard="Numeric" WidthRequest="60" />
+								<Label Text="{Binding Unit}" HorizontalOptions="End" WidthRequest="60" VerticalTextAlignment="End" />
+							</StackLayout>
+						</StackLayout>
+					</StackLayout>
+					<ContentView Padding="20,0">
+						<Label Text="Plans:" TextColor="#008A09" FontSize="Medium" HorizontalTextAlignment="Start" />
+					</ContentView>
+					<ListView x:Name="planList" ItemTapped="HandleTap">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<ViewCell>
+									<StackLayout Orientation="Horizontal" Padding="10">
+										<Image Source="{Binding RecipeImage}" Aspect="AspectFit" />
+										<Label Text="{Binding RecipeName}" LineBreakMode="MiddleTruncation" FontAttributes="Bold" VerticalTextAlignment="Center" />
+										<Label Text="{Binding Date, StringFormat='{0:ddd, M/d}'}" VerticalTextAlignment="Center" HorizontalOptions="EndAndExpand" />
+									</StackLayout>
+								</ViewCell>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</StackLayout>
+			</ScrollView>
+			<StackLayout VerticalOptions="EndAndExpand">
+				<ActivityIndicator x:Name="busy" Color="#00F911" />
+			</StackLayout>
+			<StackLayout VerticalOptions="EndAndExpand" Padding="5">
+				<Button Text="Update" Clicked="OnUpdateClicked" TextColor="White" BackgroundColor="#00DE0E" />
+				<StackLayout Orientation="Horizontal">
+					<Button Clicked="OnCancelClicked" Text="Cancel" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+					<Button Clicked="OnDeleteClicked" Text="Delete" TextColor="White" BackgroundColor="#FF0700" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+				</StackLayout>
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
 </ContentPage>

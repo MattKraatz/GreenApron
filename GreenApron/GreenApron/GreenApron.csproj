@@ -133,6 +133,7 @@
     <Compile Include="Views\RecipeSearchPage.xaml.cs">
       <DependentUpon>RecipeSearchPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\LoginPage.xaml">

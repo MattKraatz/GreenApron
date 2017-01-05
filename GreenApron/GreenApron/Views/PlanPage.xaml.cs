@@ -52,8 +52,9 @@ namespace GreenApron
             prepMin.IsVisible = plan.Recipe.preparationMinutes > 0;
             cookMin.IsVisible = plan.Recipe.cookingMinutes > 0;
             ingredientsList.ItemsSource = plan.Recipe.extendedIngredients;
-            ingredientsList.RowHeight = 20;
-            ingredientsList.HeightRequest = (20 * plan.Recipe.extendedIngredients.Count()) + 1;
+            ingredientsList.RowHeight = 25;
+            ingredientsList.HeightRequest = (25 * plan.Recipe.extendedIngredients.Count());
+			ingredientsList.IsVisible = true;
 
             this.BindingContext = plan;
 

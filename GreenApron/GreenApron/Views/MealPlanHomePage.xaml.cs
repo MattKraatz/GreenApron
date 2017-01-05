@@ -1,5 +1,4 @@
-﻿using Syncfusion.SfCalendar.XForms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,7 +12,6 @@ namespace GreenApron
 {
     public partial class MealPlanHomePage : ContentPage
     {
-        CalendarEventCollection collection = new CalendarEventCollection();
         PlanResponse response;
 
         public MealPlanHomePage()
@@ -85,28 +83,40 @@ namespace GreenApron
                 // Create a label for the date
                 var dateLabel = new Label
                 {
-                    Text = today.ToString("dddd, dd MMMM"),
-                    TextColor = Color.White,
+                    Text = today.ToString("dddd, MMMM d"),
+                    TextColor = Color.Black,
                     HorizontalTextAlignment = TextAlignment.Center,
-                    FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
-                    BackgroundColor = Color.FromHex("#50F75B")
+					FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
                 };
-                // Add padding
-                var view = new ContentView() { Margin = new Thickness(0,5) };
+				// Add padding and margin to a view container
+				var view = new ContentView() { BackgroundColor = Color.FromHex("#00DE0E"), Padding = new Thickness(0, 10), Margin = new Thickness(0, 10) };
                 view.Content = dateLabel;
                 // Add Date label to the stack
                 scrollStack.Children.Add(view);
 
                 var todayPlans = plans.Where(p => p.Date.Date == today.Date).ToList();
-                if (todayPlans.Count > 0)
-                {
-                    PrintPlans(todayPlans, "Breakfast");
-                    PrintPlans(todayPlans, "Lunch");
-                    PrintPlans(todayPlans, "Snack");
-                    PrintPlans(todayPlans, "Dinner");
-                    PrintPlans(todayPlans, "Dessert");
-                }
-                var addButton = new Button { Text = "Add a Plan", TextColor = Color.White, BackgroundColor = Color.FromHex("#00DE0E"), HorizontalOptions = LayoutOptions.Center };
+				if (todayPlans.Count > 0)
+				{
+					PrintPlans(todayPlans, "Breakfast");
+					PrintPlans(todayPlans, "Lunch");
+					PrintPlans(todayPlans, "Snack");
+					PrintPlans(todayPlans, "Dinner");
+					PrintPlans(todayPlans, "Dessert");
+				}
+				else
+				{
+					// Create a label for the default text if no plans are available for that date
+					var label = new Label
+					{
+						Text = "No plans for this date yet, want to add one?",
+						TextColor = Color.Black,
+						Opacity = 0.5,
+						HorizontalTextAlignment = TextAlignment.Center,
+						FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
+					};
+					scrollStack.Children.Add(label);
+				}
+                var addButton = new Button { Text = "Add a Plan", TextColor = Color.White, BackgroundColor = Color.FromHex("#50F75B"), HorizontalOptions = LayoutOptions.Center, WidthRequest = 150 };
                 addButton.Command = new Command<DateTime>(OnAddClicked);
                 addButton.CommandParameter = today;
                 scrollStack.Children.Add(addButton);
@@ -118,10 +128,11 @@ namespace GreenApron
             var meals = plans.Where(p => p.Meal == meal).ToList();
             if (meals.Count > 0)
             {
-                var mealLabel = new Label
-                {
-                    Text = meal,
-                    TextColor = Color.FromHex("#AF0400"),
+				var mealLabel = new Label
+				{
+					Text = meal,
+					TextColor = Color.FromHex("#AF0400"),
+					Margin = new Thickness(15, 0),
                     HorizontalTextAlignment = TextAlignment.Start
                 };
                 scrollStack.Children.Add(mealLabel);
@@ -139,7 +150,7 @@ namespace GreenApron
                                 VerticalOptions = LayoutOptions.Start,
                                 Children =
                                 {
-                                    new Image { HeightRequest = 50, WidthRequest = 80, Source = plan.RecipeImage }
+                                    new Image { HeightRequest = 50, WidthRequest = 60, Source = plan.RecipeImage }
                                 }
                             },
                             new StackLayout
@@ -148,8 +159,8 @@ namespace GreenApron
                                 VerticalOptions = LayoutOptions.StartAndExpand,
                                 Children =
                                 {
-                                    new Label { Text = plan.RecipeName, VerticalOptions = LayoutOptions.Start },
-                                    new Label { Text = "tap to view"}
+                                    new Label { Text = plan.RecipeName, VerticalOptions = LayoutOptions.Start, LineBreakMode = LineBreakMode.TailTruncation },
+                                    new Label { Text = "tap to view", Opacity = 0.5 }
                                 }
                             }
                         }

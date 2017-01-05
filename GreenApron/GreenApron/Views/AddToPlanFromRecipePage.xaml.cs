@@ -31,7 +31,7 @@ namespace GreenApron
             // Instantiate Calendar and add to View
             _calendar.OnCalendarTapped += CacheSelectedDate;
             _calendar.MonthViewSettings = _calendarSettings;
-            _calendar.VerticalOptions = LayoutOptions.FillAndExpand;
+            _calendar.VerticalOptions = LayoutOptions.StartAndExpand;
             layout.Children.Add(_calendar);
             // Instantiate Add to Plan button and add to View
             var addButton = new Button { Text = "Add to Plan", BackgroundColor = Color.FromHex("#00DE0E"),
