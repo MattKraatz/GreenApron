@@ -15,7 +15,7 @@ namespace GreenApron
         {
             InitializeComponent();
             this.BindingContext = item;
-            slider.Maximum = item.Amount * 8;
+			slider.Maximum = (item.Amount > 0) ? item.Amount * 8 : 60;
             StepValue = 1;
             slider.ValueChanged += OnSliderValueChanged;
             ListPlans(item.Plans);

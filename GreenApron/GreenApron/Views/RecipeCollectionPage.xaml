@@ -10,14 +10,12 @@
               <ListView.ItemTemplate>
                   <DataTemplate>
                       <ViewCell>
-                          <StackLayout Orientation="Horizontal" Padding="10">
+                          <StackLayout Orientation="Horizontal" Padding="10" HorizontalOptions="FillAndExpand">
                               <Image Source="{Binding ImageURL}" Aspect="AspectFit" HorizontalOptions="Start" />
-                              <StackLayout>
-                                  <Label Text="{Binding Title}" FontAttributes="Bold"
-                                         VerticalTextAlignment="Center" HorizontalOptions="Start" />
-                              </StackLayout>
+                              <Label Text="{Binding Title}" FontAttributes="Bold" LineBreakMode="TailTruncation"
+                                         VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
                               <Label Text="{Binding DateCreated, StringFormat='{0:MMMM dd, yyyy}'}"
-                                     VerticalTextAlignment="Center" HorizontalOptions="EndAndExpand" />
+                                     VerticalTextAlignment="Center" HorizontalOptions="End" />
                           </StackLayout>
                       </ViewCell>
                   </DataTemplate>

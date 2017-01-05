@@ -6,7 +6,6 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using Plugin.Toasts;
 using Xamarin.Forms;
 
 namespace GreenApron.Droid
@@ -22,9 +21,6 @@ namespace GreenApron.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-
-            DependencyService.Register<ToastNotification>();
-            ToastNotification.Init(this);
 
             LoadApplication(new App());
         }
@@ -47,6 +43,11 @@ namespace GreenApron.Droid
 
                 if (mainPage != null)
                 {
+					if (mainPage.Navigation.ModalStack.Count > 0)
+					{
+						return true;
+					}
+
                     bool canDoBack = mainPage.Detail.Navigation.NavigationStack.Count > 1 || mainPage.IsPresented;
 
                     // we are on a top level page and the Master menu is NOT showing
@@ -57,7 +58,7 @@ namespace GreenApron.Droid
                         return false;
                     }
                     else
-                    {
+					{
                         return true;
                     }
                 }

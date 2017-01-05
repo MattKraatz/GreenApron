@@ -71,7 +71,8 @@ namespace GreenApron
             {
                 foreach (GroceryItem item in group)
                 {
-                    item.DateCompleted = DateTime.Now;
+					
+                    item.Purchased = true;
                     request.items.Add(item);
                 }
             }

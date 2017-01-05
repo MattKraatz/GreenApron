@@ -14,7 +14,7 @@
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<ViewCell>
-							<StackLayout Orientation="Horizontal" Padding="10">
+							<StackLayout Orientation="Horizontal" Margin="10">
 								<StackLayout Orientation="Horizontal" HorizontalOptions="Start" WidthRequest="100">
 									<Label Text="{Binding Amount}" FontAttributes="Bold" FontSize="Medium" TextColor="#008A09" VerticalTextAlignment="Center" HorizontalOptions="Start" />
 									<Label Text="{Binding Unit}" TextColor="#008A09" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" />
@@ -35,7 +35,7 @@
 					</DataTemplate>
 				</ListView.GroupHeaderTemplate>
 			</ListView>
-			<StackLayout Padding="5" VerticalOptions="EndAndExpand">
+			<StackLayout Margin="5" VerticalOptions="EndAndExpand">
 				<Label Text="Tap any item to update it" HorizontalTextAlignment="Center" />
 				<StackLayout Orientation="Horizontal">
 					<Button Clicked="MarkAsBought" Text="Got It All" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />

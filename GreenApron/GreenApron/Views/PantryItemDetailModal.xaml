@@ -15,7 +15,7 @@
 							<StackLayout Orientation="Horizontal" Spacing="15" Padding="0,0,10,0">
 								<Stepper BindingContext="{x:Reference slider}" Value="{Binding Value}" HorizontalOptions="CenterAndExpand" />
 								<Entry BindingContext="{x:Reference slider}" Text="{Binding Value}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" Keyboard="Numeric" WidthRequest="60" />
-								<Label Text="{Binding Unit}" HorizontalOptions="End" WidthRequest="60" VerticalTextAlignment="End" />
+								<Label Text="{Binding Unit}" HorizontalOptions="End" WidthRequest="60" VerticalTextAlignment="End" LineBreakMode="TailTruncation" />
 							</StackLayout>
 						</StackLayout>
 					</StackLayout>
@@ -37,10 +37,8 @@
 					</ListView>
 				</StackLayout>
 			</ScrollView>
-			<StackLayout VerticalOptions="EndAndExpand">
-				<ActivityIndicator x:Name="busy" Color="#00F911" />
-			</StackLayout>
-			<StackLayout VerticalOptions="EndAndExpand" Padding="5">
+			<ActivityIndicator x:Name="busy" Color="#00F911" IsVisible="false" VerticalOptions="End" />
+			<StackLayout VerticalOptions="End" Margin="5">
 				<Button Text="Update" Clicked="OnUpdateClicked" TextColor="White" BackgroundColor="#00DE0E" />
 				<StackLayout Orientation="Horizontal">
 					<Button Clicked="OnCancelClicked" Text="Cancel" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />

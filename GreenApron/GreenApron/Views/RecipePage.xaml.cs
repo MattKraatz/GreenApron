@@ -68,6 +68,8 @@ namespace GreenApron
                         }
                     }
                 }
+				busy.IsVisible = false;
+				busy.IsRunning = false;
             }
         }
 
@@ -75,6 +77,8 @@ namespace GreenApron
         {
             if (this.BindingContext != null)
             {
+				busy.IsVisible = true;
+				busy.IsRunning = true;
                 if (!_bookmarked)
                 {
                     var recipe = this.BindingContext as Recipe;
@@ -82,7 +86,6 @@ namespace GreenApron
                     var response = await App.APImanager.AddBookmark(newBookmark);
                     if (response.success)
                     {
-                        await DisplayAlert("Success", "Bookmark Added Successfully", "Okay");
                         _bookmarked = true;
                         _bookmarkId = response.bookmarks[0].BookmarkId;
                         UpdateBookMarkButton();
@@ -108,6 +111,8 @@ namespace GreenApron
                         await DisplayAlert("Error", response.message, "Okay");
                     }
                 }
+				busy.IsVisible = false;
+				busy.IsRunning = false;
             }
         }
 

@@ -23,20 +23,29 @@ namespace GreenApron
         public async void GetMealPlans()
         {
             response = await App.APImanager.GetActivePlans();
-            if (response.success)
-            {
-                // Print the page with meal plans
-                PrintDays(response.plans);
-                busy.IsRunning = false;
-                busy.IsVisible = false;
-            } else
-            {
-                busy.IsRunning = false;
-                busy.IsVisible = false;
-                await DisplayAlert("Error", response.message, "Okay");
-                var addButton = new Button { Text = "Add a Plan", TextColor = Color.White, BackgroundColor = Color.FromHex("#50F75B") };
+			if (response.success)
+			{
+				// Print the page with meal plans
+				PrintDays(response.plans);
+				busy.IsRunning = false;
+				busy.IsVisible = false;
+			}
+			else
+			{
+				busy.IsRunning = false;
+				busy.IsVisible = false;
+
+				var view = new StackLayout { Padding = new Thickness(20), Spacing = 20, VerticalOptions = LayoutOptions.CenterAndExpand };
+				var label = new Label { Text = "Hmm, doesn't look like you have any plans yet, wanna add one?", FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+					VerticalOptions = LayoutOptions.CenterAndExpand, HorizontalTextAlignment = TextAlignment.Center, Opacity = 0.75 };
+                var addButton = new Button { Text = "Add a Plan", TextColor = Color.White, BackgroundColor = Color.FromHex("#50F75B"),
+					HorizontalOptions = LayoutOptions.FillAndExpand };
                 addButton.Command = new Command(OnAddClicked);
-                scrollStack.Children.Add(addButton);
+
+				view.Children.Add(label);
+                view.Children.Add(addButton);
+
+				scrollStack.Children.Add(view);
             }
         }
 

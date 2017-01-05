@@ -28,14 +28,14 @@
 				<ListView.GroupHeaderTemplate>
 					<DataTemplate>
 						<ViewCell>
-							<StackLayout Padding="20,5" VerticalOptions="EndAndExpand">
+							<StackLayout Margin="20,5" VerticalOptions="EndAndExpand">
 								<Label Text="{Binding Title}" Opacity="0.75" VerticalTextAlignment="End" />
 							</StackLayout>
 						</ViewCell>
 					</DataTemplate>
 				</ListView.GroupHeaderTemplate>
 			</ListView>
-			<StackLayout Padding="5" VerticalOptions="EndAndExpand">
+			<StackLayout Margin="5" VerticalOptions="EndAndExpand">
 				<Label Text="Tap any item to update it" HorizontalTextAlignment="Center" />
 				<StackLayout Orientation="Horizontal">
 					<Button Clicked="EditInventory" Text="Quick Edit" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
