@@ -20,6 +20,8 @@ namespace GreenApron.Droid
 
             base.OnCreate(bundle);
 
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
             LoadApplication(new App());
@@ -64,7 +66,15 @@ namespace GreenApron.Droid
                 }
                 return true;
             }
+
+
         }
-    }
+
+		// Handle any exceptions
+		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+		}
+
+	}
 }
 
