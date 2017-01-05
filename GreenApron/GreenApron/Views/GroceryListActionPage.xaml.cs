@@ -28,6 +28,8 @@ namespace GreenApron
 
         public async void Update(object sender, EventArgs e)
         {
+			var button = (Button)sender;
+			button.IsEnabled = false;
             busy.IsVisible = true;
             busy.IsRunning = true;
             var request = new GroceryRequest();
@@ -43,7 +45,15 @@ namespace GreenApron
                     request.items.Add(item);
                 }
             }
-            await App.APImanager.UpdateGroceryItems(request);
+            var response = await App.APImanager.UpdateGroceryItems(request);
+			if (response.success)
+			{
+				await Navigation.PopModalAsync();
+			}
+			else
+			{
+				await DisplayAlert("Error", response.message, "Okay");
+			}
             busy.IsVisible = false;
             busy.IsRunning = false;
             await Navigation.PopAsync();

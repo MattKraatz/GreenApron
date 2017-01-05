@@ -34,6 +34,8 @@ namespace GreenApron
         {
             if (this.BindingContext != null)
             {
+				var button = (Button)sender;
+				button.IsEnabled = false;
                 busy.IsVisible = true;
                 busy.IsRunning = true;
                 var recipe = this.BindingContext as Recipe;
@@ -70,6 +72,7 @@ namespace GreenApron
                 }
 				busy.IsVisible = false;
 				busy.IsRunning = false;
+				button.IsEnabled = true;
             }
         }
 
@@ -77,6 +80,8 @@ namespace GreenApron
         {
             if (this.BindingContext != null)
             {
+				var button = (Button)sender;
+				button.IsEnabled = false;
 				busy.IsVisible = true;
 				busy.IsRunning = true;
                 if (!_bookmarked)
@@ -113,6 +118,7 @@ namespace GreenApron
                 }
 				busy.IsVisible = false;
 				busy.IsRunning = false;
+				button.IsEnabled = true;
             }
         }
 

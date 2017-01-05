@@ -61,9 +61,11 @@ namespace GreenApron
         public async void OnAddToPlanClicked(object sender, EventArgs e)
         {
             var mealStrings = new[] { "Breakfast", "Lunch", "Dinner", "Snack", "Dessert" };
+			var button = (Button)sender;
+			button.IsEnabled = false;
             var action = await DisplayActionSheet("Which Meal?", "Cancel", null, mealStrings);
             if (mealStrings.Contains(action))
-            {
+			{
                 // Post this Meal Plan to WebAPI
                 var newPlan = new PlanRequest { userId = App.AuthManager.loggedInUser.UserId, date = selectedDate, meal = action, recipe = selectedRecipe };
                 JsonResponse response = await App.APImanager.AddPlan(newPlan);
@@ -78,6 +80,7 @@ namespace GreenApron
                     await DisplayAlert("Error", response.message, "Okay");
                 }
             }
+			button.IsEnabled = true;
         }
 
         public void CacheSelectedDate(object sender, Syncfusion.SfCalendar.XForms.CalendarTappedEventArgs args)

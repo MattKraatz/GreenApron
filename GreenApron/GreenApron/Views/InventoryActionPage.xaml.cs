@@ -28,6 +28,8 @@ namespace GreenApron
 
         public async void Update(object sender, EventArgs e)
         {
+			var button = (Button)sender;
+			button.IsEnabled = false;
             busy.IsVisible = true;
             busy.IsRunning = true;
             var request = new InventoryRequest();
@@ -40,9 +42,16 @@ namespace GreenApron
                 }
             }
             var response = await App.APImanager.UpdateInventoryItems(request);
+			if (response.success)
+			{
+				await Navigation.PopModalAsync();
+			}
+			else
+			{
+				await DisplayAlert("Error", response.message, "Okay");
+			}
             busy.IsRunning = false;
-            busy.IsVisible = false;
-            await DisplayAlert("Response", response.message, "Okay");
+			busy.IsVisible = false;
             await Navigation.PopAsync();
         }
 

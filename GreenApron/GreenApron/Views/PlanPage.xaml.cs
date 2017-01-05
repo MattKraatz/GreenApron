@@ -77,18 +77,28 @@ namespace GreenApron
 
         public async void OnDeleteClicked(object sender, EventArgs e)
         {
-            var response = await App.APImanager.DeletePlan(_activePlan.PlanId);
-            if (response.success)
-            {
-                await Navigation.PopAsync();
-            } else
-            {
-                await DisplayAlert("Error", response.message, "Okay");
-            }
+			var button = (Button)sender;
+			button.IsEnabled = false;
+			var confirm = await DisplayActionSheet("Delete this plan?", "Cancel", "Delete");
+			if (confirm == "Delete")
+			{
+				var response = await App.APImanager.DeletePlan(_activePlan.PlanId);
+				if (response.success)
+				{
+					await Navigation.PopAsync();
+				}
+				else
+				{
+					await DisplayAlert("Error", response.message, "Okay");
+				}
+			}
+			button.IsEnabled = true;
         }
 
         public async void OnCookedClicked(object sender, EventArgs e)
         {
+			var button = (Button)sender;
+			button.IsEnabled = false;
             // Call to the Database to Update the Plan and Update InventoryItems
             var response = await App.APImanager.CompletePlan(_activePlan.PlanId);
             if (response.success)
@@ -101,6 +111,7 @@ namespace GreenApron
                 // handle failure
                 await DisplayAlert("Error", response.message, "Okay");
             }
+			button.IsEnabled = true;
         }
     }
 }
