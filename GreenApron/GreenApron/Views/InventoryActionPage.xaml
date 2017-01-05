@@ -13,21 +13,21 @@
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<ViewCell>
-							<StackLayout Orientation="Horizontal" Padding="10">
-								<StackLayout WidthRequest="60">
-									<Entry BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" FontSize="Large" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Center" TextColor="#008A09" Keyboard="Numeric" />
-									<Label Text="{Binding Unit}" HorizontalTextAlignment="Center" VerticalOptions="End" LineBreakMode="TailTruncation" />
+							<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10">
+								<StackLayout HorizontalOptions="Start">
+									<Entry WidthRequest="60" BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" FontSize="Large" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Center" TextColor="#008A09" Keyboard="Numeric" />
+									<Label WidthRequest="60" Text="{Binding Unit}" HorizontalTextAlignment="Center" LineBreakMode="TailTruncation" />
 								</StackLayout>
-								<StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+								<StackLayout HorizontalOptions="StartAndExpand">
 									<ContentView Padding="3,0,0,0">
 										<Label Text="{Binding Ingredient.ingredientName}" FontSize="Medium" VerticalTextAlignment="Center" FontAttributes="Bold" />
 									</ContentView>
-									<StackLayout Orientation="Horizontal">
-										<Stepper x:Name="qtyStepper" Maximum="1000" Value="{Binding Amount}" />
-										<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-											<Switch IsToggled="{Binding Empty}" WidthRequest="55" />
-											<Switch IsToggled="{Binding Rebuy}" WidthRequest="55" />
-										</StackLayout>
+									<Stepper x:Name="qtyStepper" Maximum="1000" Value="{Binding Amount}" />
+								</StackLayout>
+								<StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+									<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+										<Switch IsToggled="{Binding Empty}" WidthRequest="55" />
+										<Switch IsToggled="{Binding Rebuy}" WidthRequest="55" />
 									</StackLayout>
 								</StackLayout>
 							</StackLayout>

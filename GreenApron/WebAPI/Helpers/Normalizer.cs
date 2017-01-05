@@ -74,6 +74,8 @@ namespace WebAPI
                 case "pounds":
                     output = Units.Pound;
                     break;
+                case "":
+                    output = "count";
                 default:
                     output = unitName.ToLower();
                     break;

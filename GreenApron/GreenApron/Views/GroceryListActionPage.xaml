@@ -14,20 +14,20 @@
 					<DataTemplate>
 						<ViewCell>
 							<StackLayout Orientation="Horizontal" Padding="10">
-								<StackLayout WidthRequest="60">
-									<Entry BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" FontSize="Large" HorizontalTextAlignment="Center" TextColor="#008A09" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Keyboard="Numeric" />
-									<Label Text="{Binding Unit}" VerticalOptions="End" HorizontalOptions="Center" HorizontalTextAlignment="End" LineBreakMode="TailTruncation" />
+								<StackLayout HorizontalOptions="Start">
+									<Entry WidthRequest="60" BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" FontSize="Large" HorizontalTextAlignment="Center" TextColor="#008A09" Keyboard="Numeric" />
+									<Label WidthRequest="60" Text="{Binding Unit}" HorizontalTextAlignment="End" LineBreakMode="NoWrap" />
 								</StackLayout>
-								<StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+								<StackLayout HorizontalOptions="StartAndExpand">
 									<ContentView Padding="3,0,0,0">
-										<Label Text="{Binding Ingredient.ingredientName}" FontSize="Medium" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" />
+										<Label Text="{Binding Ingredient.ingredientName}" FontSize="Medium" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" LineBreakMode="NoWrap" />
 									</ContentView>
-									<StackLayout Orientation="Horizontal">
-										<Stepper x:Name="qtyStepper" Maximum="1000" Value="{Binding Amount}" />
-										<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-											<Switch IsToggled="{Binding Deleted}" HorizontalOptions="EndAndExpand" />
-											<Switch IsToggled="{Binding Purchased}" HorizontalOptions="End" />
-										</StackLayout>
+									<Stepper x:Name="qtyStepper" Maximum="1000" Value="{Binding Amount}" />
+								</StackLayout>
+								<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+									<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+										<Switch IsToggled="{Binding Deleted}" HorizontalOptions="EndAndExpand" />
+										<Switch IsToggled="{Binding Purchased}" HorizontalOptions="End" />
 									</StackLayout>
 								</StackLayout>
 							</StackLayout>
