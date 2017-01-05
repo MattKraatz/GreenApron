@@ -24,8 +24,6 @@ namespace GreenApron
         public async void GetGroceryItems()
         {
             var response = await App.APImanager.GetGroceryItems();
-            busy.IsRunning = false;
-            busy.IsVisible = false;
             if (response.success)
             {
                 groceryItems.Clear();
@@ -46,6 +44,10 @@ namespace GreenApron
                         groupCheck.Add(item);
                     }
                 }
+				busy.IsRunning = false;
+				busy.IsVisible = false;
+				editBtn.IsEnabled = true;
+				markBtn.IsEnabled = true;
             } else
             {
                 await DisplayAlert("Error", response.message, "Okay");
@@ -99,5 +101,15 @@ namespace GreenApron
             var page = new ProductSearchPage("grocery");
             await Navigation.PushAsync(page);
         }
+
+		protected override void OnAppearing()
+		{
+			if (!busy.IsRunning)
+			{
+				busy.IsRunning = true;
+				busy.IsVisible = true;
+				GetGroceryItems();
+			}
+		}
     }
 }

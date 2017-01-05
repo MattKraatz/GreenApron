@@ -23,6 +23,8 @@ namespace GreenApron
         public async void GetMealPlans()
         {
             response = await App.APImanager.GetActivePlans();
+			scrollStack.Children.Clear();
+
 			if (response.success)
 			{
 				// Print the page with meal plans
@@ -98,7 +100,7 @@ namespace GreenApron
 					FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label))
                 };
 				// Add padding and margin to a view container
-				var view = new ContentView() { BackgroundColor = Color.FromHex("#00DE0E"), Padding = new Thickness(0, 10), Margin = new Thickness(0, 10) };
+				var view = new ContentView() { BackgroundColor = Color.FromHex("#00DE0E"), Padding = new Thickness(0, 10) };
                 view.Content = dateLabel;
                 // Add Date label to the stack
                 scrollStack.Children.Add(view);
@@ -179,5 +181,15 @@ namespace GreenApron
                 }
             }
         }
+
+		protected override void OnAppearing()
+		{
+			if (!busy.IsRunning)
+			{
+				busy.IsRunning = true;
+				busy.IsVisible = true;
+				GetMealPlans();
+			}
+		}
     }
 }

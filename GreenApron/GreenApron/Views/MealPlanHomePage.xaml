@@ -8,9 +8,7 @@
         <ActivityIndicator x:Name="busy" Color="#00F911"
                            IsRunning="true" />
         <ScrollView>
-            <StackLayout x:Name="scrollStack">
-                
-            </StackLayout>
+            <StackLayout x:Name="scrollStack" Spacing="10"></StackLayout>
         </ScrollView>
     </StackLayout>
   </ContentPage.Content>

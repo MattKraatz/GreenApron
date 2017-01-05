@@ -48,6 +48,7 @@ namespace GreenApron
                         groupCheck.Add(item);
                     }
                 }
+				editBtn.IsEnabled = true;
             }
             else
             {
@@ -74,5 +75,15 @@ namespace GreenApron
             var page = new InventoryActionPage(inventoryItems);
             await Navigation.PushAsync(page);
         }
+
+		protected override void OnAppearing()
+		{
+			if (!busy.IsRunning)
+			{
+				busy.IsRunning = true;
+				busy.IsVisible = true;
+				GetInventoryItems();
+			}
+		}
     }
 }

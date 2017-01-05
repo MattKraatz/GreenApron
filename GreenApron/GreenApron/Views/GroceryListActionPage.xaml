@@ -16,15 +16,16 @@
 							<StackLayout Orientation="Horizontal" Padding="10">
 								<StackLayout HorizontalOptions="Start">
 									<Entry WidthRequest="60" BindingContext="{x:Reference qtyStepper}" Text="{Binding Value}" FontSize="Large" HorizontalTextAlignment="Center" TextColor="#008A09" Keyboard="Numeric" />
-									<Label WidthRequest="60" Text="{Binding Unit}" HorizontalTextAlignment="End" LineBreakMode="NoWrap" />
+									<Label WidthRequest="60" Text="{Binding Unit}" HorizontalTextAlignment="End" LineBreakMode="TailTruncation" />
 								</StackLayout>
-								<StackLayout HorizontalOptions="StartAndExpand">
+								<StackLayout HorizontalOptions="Start">
 									<ContentView Padding="3,0,0,0">
-										<Label Text="{Binding Ingredient.ingredientName}" FontSize="Medium" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" LineBreakMode="NoWrap" />
+										<Label Text="{Binding Ingredient.ingredientName}" FontSize="Medium" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" />
 									</ContentView>
 									<Stepper x:Name="qtyStepper" Maximum="1000" Value="{Binding Amount}" />
 								</StackLayout>
-								<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+								<StackLayout HorizontalOptions="EndAndExpand">
+									<Label Text=" " HorizontalTextAlignment="End" />
 									<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
 										<Switch IsToggled="{Binding Deleted}" HorizontalOptions="EndAndExpand" />
 										<Switch IsToggled="{Binding Purchased}" HorizontalOptions="End" />

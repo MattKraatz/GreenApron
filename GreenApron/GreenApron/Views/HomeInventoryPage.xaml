@@ -38,7 +38,7 @@
 			<StackLayout Margin="5" VerticalOptions="EndAndExpand">
 				<Label Text="Tap any item to update it" HorizontalTextAlignment="Center" />
 				<StackLayout Orientation="Horizontal">
-					<Button Clicked="EditInventory" Text="Quick Edit" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+					<Button x:Name="editBtn" IsEnabled="false" Clicked="EditInventory" Text="Quick Edit" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
 					<Button Clicked="OpenProductSearch" Text="New Item" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
 				</StackLayout>
 			</StackLayout>
