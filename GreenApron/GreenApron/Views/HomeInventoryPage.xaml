@@ -10,7 +10,7 @@
 				<Label Text="Plans" FontAttributes="Bold" WidthRequest="55" HorizontalOptions="EndAndExpand" />
 			</StackLayout>
 			<ActivityIndicator x:Name="busy" Color="#00F911" IsRunning="true" />
-			<ListView x:Name="inventoryList" RowHeight="40" GroupDisplayBinding="{Binding Title}" IsGroupingEnabled="true" ItemTapped="OnItemTapped">
+			<ListView x:Name="inventoryList" RowHeight="45" GroupDisplayBinding="{Binding Title}" IsGroupingEnabled="true" ItemTapped="OnItemTapped">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<ViewCell>

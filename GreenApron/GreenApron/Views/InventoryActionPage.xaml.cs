@@ -44,15 +44,13 @@ namespace GreenApron
             var response = await App.APImanager.UpdateInventoryItems(request);
 			if (response.success)
 			{
-				await Navigation.PopModalAsync();
+				await Navigation.PopAsync();
 			}
 			else
 			{
 				await DisplayAlert("Error", response.message, "Okay");
-			}
-            busy.IsRunning = false;
-			busy.IsVisible = false;
-            await Navigation.PopAsync();
+                await Navigation.PopAsync();
+            }
         }
 
         public async void Cancel(object sender, EventArgs e)

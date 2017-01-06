@@ -53,10 +53,8 @@ namespace GreenApron
 			else
 			{
 				await DisplayAlert("Error", response.message, "Okay");
-			}
-            busy.IsVisible = false;
-            busy.IsRunning = false;
-            await Navigation.PopAsync();
+                await Navigation.PopAsync();
+            }
         }
 
         public async void Cancel(object sender, EventArgs e)
