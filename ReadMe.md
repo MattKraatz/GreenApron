@@ -40,3 +40,5 @@ Generated with [MockuPhone](http://mockuphone.com/)
    * `public static string SpoonURI`: url for Spoonacular API service
    * `public static string SpoonKey`: API token for Spoonacular API service
 * To run, set your desired Startup Project in Visual Studio and press play
+
+Green Apron's style guide is [available here](https://app.frontify.com/d/QxVhCeuHB3jU/green-apron-style-guide) via Frontify.
