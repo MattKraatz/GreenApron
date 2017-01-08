@@ -102,7 +102,6 @@ namespace GreenApron
                     }
                 } else
                 {
-                    // TODO: Call WebAPI endpoint to delete this bookmark
                     var response = await App.APImanager.DeleteBookmark(_bookmarkId);
                     if (response.success)
                     {
