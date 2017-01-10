@@ -42,6 +42,8 @@ namespace GreenApron
 		{
             // grab user input from page entry elements
 			var creds = (User)BindingContext;
+            creds.FirstName = "demo";
+            creds.LastName = "day";
             if (creds.Password != creds.ConfirmPassword)
             {
                 // handle mis-matched passwords
@@ -70,8 +72,6 @@ namespace GreenApron
             userEntry.Completed += (s, e) => passEntry.Focus();
             userReg.Completed += (s, e) => passReg.Focus();
             passReg.Completed += (s, e) => confReg.Focus();
-            confReg.Completed += (s, e) => firstReg.Focus();
-            firstReg.Completed += (s, e) => lastReg.Focus();
         }
     }
 }

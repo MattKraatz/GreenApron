@@ -24,9 +24,9 @@ namespace GreenApron
         public async void GetGroceryItems()
         {
             var response = await App.APImanager.GetGroceryItems();
+            groceryItems.Clear();
             if (response.success)
             {
-                groceryItems.Clear();
                 foreach (GroceryItem item in response.GroceryItems)
                 {
                     item.Count = item.Plans.Count();
@@ -44,14 +44,14 @@ namespace GreenApron
                         groupCheck.Add(item);
                     }
                 }
-				busy.IsRunning = false;
-				busy.IsVisible = false;
 				editBtn.IsEnabled = true;
 				markBtn.IsEnabled = true;
             } else
             {
                 await DisplayAlert("Error", response.message, "Okay");
             }
+            busy.IsRunning = false;
+            busy.IsVisible = false;
         }
         
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
@@ -73,8 +73,8 @@ namespace GreenApron
             {
                 foreach (GroceryItem item in group)
                 {
-					
                     item.Purchased = true;
+                    item.DateCompleted = DateTime.Now;
                     request.items.Add(item);
                 }
             }

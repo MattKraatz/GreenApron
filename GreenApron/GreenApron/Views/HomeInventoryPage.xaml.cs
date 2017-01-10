@@ -26,9 +26,9 @@ namespace GreenApron
             var response = await App.APImanager.GetInventoryItems();
             busy.IsRunning = false;
             busy.IsVisible = false;
+            inventoryItems.Clear();
             if (response.success)
             {
-                inventoryItems.Clear();
                 // Sort items by aisle for initial load
                 foreach (InventoryItem item in response.InventoryItems)
                 {
@@ -54,6 +54,8 @@ namespace GreenApron
             {
                 await DisplayAlert("Error", response.message, "Okay");
             }
+            busy.IsRunning = false;
+            busy.IsVisible = false;
         }
 
         public void OnItemTapped(object sender, ItemTappedEventArgs e)

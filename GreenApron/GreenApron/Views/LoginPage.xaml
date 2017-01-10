@@ -8,10 +8,10 @@
         <ContentPage.Content>
             <StackLayout Spacing="20" Padding="20"
                      VerticalOptions="Center">
-                <Label Text="Welcome to Green Apron"
-                       FontSize="26" />
+                <Label Text="Green Apron" HorizontalTextAlignment="Center"
+                       FontSize="26" TextColor="#00DE0E" />
                 <Label Text="Please Login or Register" />
-                <Label Text="Username" />
+                <Label Text="Email" />
                 <Entry x:Name="userEntry" Text="{Binding Username}" />
                 <Label Text="Password" />
                 <Entry x:Name="passEntry" Text="{Binding Password}"
@@ -26,10 +26,10 @@
       <ContentPage Title="Register">
         <StackLayout Spacing="20" Padding="20"
                  VerticalOptions="Center">
-		  <Label Text="Green Apron Registration"
+		  <Label Text="Registration"
 				 FontSize="26"
                  HorizontalOptions="Center" />
-          <Entry x:Name="userReg" Placeholder="Username"
+          <Entry x:Name="userReg" Placeholder="Email"
                  Text="{Binding Path=Username}"/>
           <Entry x:Name="passReg" Placeholder="Password"
                  Text="{Binding Path=Password}"
@@ -37,10 +37,6 @@
           <Entry x:Name="confReg" Placeholder="Confirm Password"
                  Text="{Binding Path=ConfirmPassword}"
                  IsPassword="true"/>
-		  <Entry x:Name="firstReg" Placeholder="First Name"
-                 Text="{Binding Path=FirstName}"/>
-          <Entry x:Name="lastReg" Placeholder="Last Name"
-                 Text="{Binding Path=LastName}"/>
           <Button Text="Register" TextColor="White"
                   BackgroundColor="#00DE0E"
                   Clicked="DoRegistration"/>

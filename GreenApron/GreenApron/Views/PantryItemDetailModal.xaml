@@ -13,7 +13,7 @@
 							<Label Text="Update Qty" TextColor="#008A09" FontSize="Medium" HorizontalTextAlignment="Center" />
 							<Slider Minimum="0" Maximum="500" x:Name="slider" Value="{Binding Amount, Mode=TwoWay}" />
 							<StackLayout Orientation="Horizontal" Spacing="15" Padding="0,0,10,0">
-								<Stepper BindingContext="{x:Reference slider}" Value="{Binding Value}" HorizontalOptions="CenterAndExpand" />
+								<Stepper BindingContext="{x:Reference slider}" Value="{Binding Value}" Maximum="{Binding Maximum}" HorizontalOptions="CenterAndExpand" />
 								<Entry BindingContext="{x:Reference slider}" Text="{Binding Value}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" Keyboard="Numeric" WidthRequest="60" />
 								<Label Text="{Binding Unit}" HorizontalOptions="End" WidthRequest="60" VerticalTextAlignment="End" LineBreakMode="TailTruncation" />
 							</StackLayout>

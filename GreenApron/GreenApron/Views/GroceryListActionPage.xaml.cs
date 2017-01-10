@@ -48,7 +48,7 @@ namespace GreenApron
             var response = await App.APImanager.UpdateGroceryItems(request);
 			if (response.success)
 			{
-				await Navigation.PopModalAsync();
+				await Navigation.PopAsync();
 			}
 			else
 			{
