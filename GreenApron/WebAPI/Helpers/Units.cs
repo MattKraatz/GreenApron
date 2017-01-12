@@ -7,44 +7,13 @@ namespace WebAPI
 {
     public static class Units
     {
-        public static string Ounce
-        {
-            get{ return "ounce"; }
-        }
-
-        public static string Teaspoon
-        {
-            get { return "tsp"; }
-        }
-
-        public static string Tablespoon
-        {
-            get { return "tbs"; }
-        }
-
-        public static string Cup
-        {
-            get { return "cup"; }
-        }
-
-        public static string Pint
-        {
-            get { return "pint"; }
-        }
-
-        public static string Quart
-        {
-            get { return "quart"; }
-        }
-
-        public static string Gallon
-        {
-            get { return "gallon"; }
-        }
-
-        public static string Pound
-        {
-            get { return "pound"; }
-        }
+        public const string Ounce = "ounce";
+        public const string Teaspoon = "tsp";
+        public const string Tablespoon = "tbs";
+        public const string Cup = "cup";
+        public const string Pint = "pint";
+        public const string Quart = "quart";
+        public const string Gallon = "gallon";
+        public const string Pound = "pound";
     }
 }

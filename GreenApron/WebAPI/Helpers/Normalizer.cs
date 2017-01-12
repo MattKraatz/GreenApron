@@ -9,6 +9,7 @@ namespace WebAPI
     public static class Normalizer
     {
         // Convert externally-provided unit name to database preference
+        // Uses Units helper class to return constant string values
         // Default returns the unitName as-is
         public static string UnitName(string unitName)
         {
@@ -60,7 +61,6 @@ namespace WebAPI
                     output = Units.Quart;
                     break;
                 // Gallon
-                case "g":
                 case "gal":
                 case "gals":
                 case "gallon":
@@ -76,6 +76,7 @@ namespace WebAPI
                     break;
                 case "":
                     output = "count";
+                    break;
                 default:
                     output = unitName.ToLower();
                     break;
