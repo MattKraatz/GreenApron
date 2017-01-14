@@ -6,6 +6,12 @@ using WebAPI;
 
 namespace Tests.WebAPI
 {
+
+    /**
+     * Purpose: Generates a context and instantiates each WebAPI controller with it
+     *          Provides abstractions for all controller tasks required for WebAPI testing
+     */
+
     public class TaskManager
     {
         private GreenApronContext _context { get; set; }
@@ -96,12 +102,12 @@ namespace Tests.WebAPI
         public async Task<GroceryResponse> GetGrocery()
         {
             var user = await GetUser();
-            return await _grocCtrl.GetAll(user.user.UserId);
+            return await _grocCtrl.Get(user.user.UserId);
         }
 
         public async Task<JsonResponse> UpdateGrocery(GroceryRequest update)
         {
-            return await _grocCtrl.Update(update);
+            return await _grocCtrl.Put(update);
         }
 
         public async Task<JsonResponse> AddGrocery()
@@ -116,7 +122,7 @@ namespace Tests.WebAPI
                 amount = 3,
                 unit = "tablespoons"
             };
-            return await _grocCtrl.Add(item, user.user.UserId);
+            return await _grocCtrl.Post(item, user.user.UserId);
         }
 
         public async Task<JsonResponse> DeleteGrocery(Guid id)

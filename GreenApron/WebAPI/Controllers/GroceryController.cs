@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class GroceryController : Controller
     {
         private GreenApronContext _context { get; set; }
@@ -18,10 +18,10 @@ namespace WebAPI
             _ingManager = new IngredientManager(_context);
         }
 
-        // GET api/grocery/getall/{userId}
+        // GET api/grocery/{userId}
         // Returns all active grocery items
         [HttpGet("{userId}")]
-        public async Task<GroceryResponse> GetAll([FromRoute] Guid userId)
+        public async Task<GroceryResponse> Get([FromRoute] Guid userId)
         {
             var items = await _context.GroceryItem.Where(gi => gi.DateCompleted == null).Where(gi => gi.UserId == userId).Include(gi => gi.Ingredient).ToListAsync();
             if (items.Count < 1)
@@ -35,10 +35,10 @@ namespace WebAPI
             return new GroceryResponse { success = true, message = "Grocery Item(s) retrieved successfully", GroceryItems = items };
         }
 
-        // POST api/grocery/update
-        // Updates grocery items that were purchased
-        [HttpPost]
-        public async Task<JsonResponse> Update([FromBody] GroceryRequest request)
+        // PUT api/grocery
+        // Updates grocery items
+        [HttpPut]
+        public async Task<JsonResponse> Put([FromBody] GroceryRequest request)
         {
             foreach (GroceryItem item in request.items)
             {
@@ -89,10 +89,10 @@ namespace WebAPI
             return new JsonResponse { success = true, message = "Database updated successfully." };
         }
 
-        // POST api/grocery/add
+        // POST api/grocery
         // Adds a new grocery item record, and a new ingredient record if necessary
         [HttpPost("{userId}")]
-        public async Task<JsonResponse> Add([FromBody] extIngredient item, [FromRoute] Guid userId)
+        public async Task<JsonResponse> Post([FromBody] extIngredient item, [FromRoute] Guid userId)
         {
             // Add this ingredient to the database, if it doesn't already exist
             Ingredient ingredient = await _ingManager.CheckDB(item);
@@ -116,9 +116,9 @@ namespace WebAPI
             return new JsonResponse { success = true, message = "Grocery Item added successfully." };
         }
 
-        // GET api/inventory/delete/{id}
+        // DELETE api/inventory/{id}
         // Deletes inventory item
-        [HttpGet("{id}")]
+        [HttpDelete("{id}")]
         public async Task<JsonResponse> Delete([FromRoute] Guid id)
         {
             // Find the inventory item record in the database

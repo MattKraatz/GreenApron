@@ -94,7 +94,7 @@ namespace GreenApron
         // GET a list of grocery items for the logged-in user
         public async Task<GroceryResponse> GetGroceryItems()
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/getall/" + App.AuthManager.loggedInUser.UserId.ToString(), string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/" + App.AuthManager.loggedInUser.UserId.ToString(), string.Empty));
             try
             {
                 HttpResponseMessage response = await client.GetAsync(uri);
@@ -110,12 +110,12 @@ namespace GreenApron
         // PUT a list of grocery items to be updated
         public async Task<JsonResponse> UpdateGroceryItems(GroceryRequest request)
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/update", string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery", string.Empty));
             try
             {
                 var json = JsonConvert.SerializeObject(request);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(uri, content);
+                HttpResponseMessage response = await client.PutAsync(uri, content);
                 var JSONstring = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
             }
@@ -194,7 +194,7 @@ namespace GreenApron
         // POST a new grocery item
         public async Task<JsonResponse> AddGroceryItem(Ingredient item)
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/add/" + App.AuthManager.loggedInUser.UserId, string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/" + App.AuthManager.loggedInUser.UserId, string.Empty));
             try
             {
                 var json = JsonConvert.SerializeObject(item);
@@ -246,10 +246,10 @@ namespace GreenApron
         // DELETE a grocery item
         public async Task<JsonResponse> DeleteGroceryItem(Guid groceryItemId)
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/delete/" + groceryItemId, string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/grocery/" + groceryItemId, string.Empty));
             try
             {
-                HttpResponseMessage response = await client.GetAsync(uri);
+                HttpResponseMessage response = await client.DeleteAsync(uri);
                 var JSONstring = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
             }
