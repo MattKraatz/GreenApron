@@ -80,9 +80,9 @@ namespace GreenApron
             return _APIservice.DeleteGroceryItem(groceryItemId);
         }
 
-        public Task<BookmarkResponse> CheckBookmark(BookmarkRequest bookmark)
+        public Task<BookmarkResponse> CheckBookmark(int recipeId, Guid userId)
         {
-            return _APIservice.CheckBookmark(bookmark);
+            return _APIservice.CheckBookmark(recipeId, userId);
         }
 
         public Task<JsonResponse> DeleteBookmark(Guid id)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class BookmarkController : Controller
     {
         private GreenApronContext _context { get; set; }
@@ -17,9 +17,9 @@ namespace WebAPI
             _context = context;
         }
 
-        // POST api/bookmark/addbookmark
+        // POST api/bookmark
         [HttpPost]
-        public async Task<BookmarkResponse> AddBookmark([FromBody] BookmarkRequest bookmark)
+        public async Task<BookmarkResponse> Post([FromBody] BookmarkRequest bookmark)
         {
             // Check ModelState
             if (!ModelState.IsValid)
@@ -28,7 +28,7 @@ namespace WebAPI
                 return new BookmarkResponse { success = false, message = "Something went wrong, please resubmit with all required fields." };
             }
             // Check for existing bookmarks first
-            var check = await Check(bookmark);
+            var check = await Get(bookmark.RecipeId, bookmark.userId);
             if (check.success)
             {
                 return new BookmarkResponse { success = false, message = "Already bookmarked.", bookmarks = check.bookmarks };
@@ -51,8 +51,8 @@ namespace WebAPI
         }
 
         // GET api/bookmark/{uid}
-        [HttpGet("{userId}")]
-        public async Task<BookmarkResponse> GetAll([FromRoute] Guid userId)
+        [HttpGet("{userId:guid}")]
+        public async Task<BookmarkResponse> Get([FromRoute] Guid userId)
         {
             var bookmarks = await _context.Bookmark.Where(b => b.UserId == userId).ToListAsync();
             if (bookmarks.Count < 1)
@@ -62,11 +62,12 @@ namespace WebAPI
             return new BookmarkResponse { success = true, message = "Bookmark(s) retrieved successfully.", bookmarks = bookmarks};
         }
 
-        // POST api/bookmark/check
-        [HttpPost]
-        public async Task<BookmarkResponse> Check([FromBody] BookmarkRequest bookmark)
+        // Check whether a particular recipe has been bookmarked already, if so, it returns the bookmark in a list
+        // GET api/bookmark/{recipeId}/{userId}
+        [HttpGet("{recipeId:int}/{userId:guid}")]
+        public async Task<BookmarkResponse> Get([FromRoute] int recipeId, [FromRoute] Guid userId)
         {
-            var check = await _context.Bookmark.Where(b => b.UserId == bookmark.userId).Where(b => b.RecipeId == bookmark.RecipeId).ToListAsync();
+            var check = await _context.Bookmark.Where(b => b.UserId == userId).Where(b => b.RecipeId == recipeId).ToListAsync();
             if (check.Count > 0)
             {
                 return new BookmarkResponse { success = true, message = "Already bookmarked.", bookmarks = check };
@@ -74,8 +75,8 @@ namespace WebAPI
             return new BookmarkResponse { success = false, message = "Not bookmarked. " };
         }
 
-        // GET api/bookmark/delete
-        [HttpGet("{id}")]
+        // DELETE api/bookmark
+        [HttpDelete("{id}")]
         public async Task<JsonResponse> Delete([FromRoute] Guid id)
         {
             // Find the bookmark record in the database

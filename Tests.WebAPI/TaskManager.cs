@@ -72,13 +72,13 @@ namespace Tests.WebAPI
         {
             var user = await GetUser();
             var mark = new BookmarkRequest { userId = user.user.UserId, RecipeId = 556177, Title = "Ramen Noodle Coleslaw", ImageURL = "https://spoonacular.com/recipeImages/Ramen-Noodle-Coleslaw-556177.jpg" };
-            return await _bookCtrl.AddBookmark(mark);
+            return await _bookCtrl.Post(mark);
         }
 
         public async Task<BookmarkResponse> GetBookmarks()
         {
             var user = await GetUser();
-            return await _bookCtrl.GetAll(user.user.UserId);
+            return await _bookCtrl.Get(user.user.UserId);
         }
 
         public async Task<JsonResponse> DeleteBookmark(Guid id)
@@ -89,8 +89,7 @@ namespace Tests.WebAPI
         public async Task<BookmarkResponse> CheckBookmark()
         {
             var user = await GetUser();
-            var mark = new BookmarkRequest { userId = user.user.UserId, RecipeId = 556177, Title = "Ramen Noodle Coleslaw", ImageURL = "https://spoonacular.com/recipeImages/Ramen-Noodle-Coleslaw-556177.jpg" };
-            return await _bookCtrl.Check(mark);
+            return await _bookCtrl.Get(556177, user.user.UserId);
         }
 
         // GroceryController Operations

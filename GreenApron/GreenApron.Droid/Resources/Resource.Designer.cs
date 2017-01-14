@@ -4668,9 +4668,6 @@ namespace GreenApron.Droid
 			// aapt resource value: 0x7f080021
 			public const int abc_toolbar_collapse_description = 2131230753;
 			
-			// aapt resource value: 0x7f080028
-			public const int app_name = 2131230760;
-			
 			// aapt resource value: 0x7f080023
 			public const int appbar_scrolling_view_behavior = 2131230755;
 			
@@ -4724,6 +4721,9 @@ namespace GreenApron.Droid
 			
 			// aapt resource value: 0x7f08000e
 			public const int mr_user_route_category_name = 2131230734;
+			
+			// aapt resource value: 0x7f080028
+			public const int sfcalendar_inlineviewnoappointmenttext = 2131230760;
 			
 			// aapt resource value: 0x7f080022
 			public const int status_bar_notification_info_overflow = 2131230754;
