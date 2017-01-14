@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class AuthController : Controller
     {
         private GreenApronContext _context { get; set; }
@@ -14,24 +14,16 @@ namespace WebAPI
             _context = context;
         }
 
-        // POST api/auth/login
-        [HttpPost]
-        public async Task<AuthResponse> Login([FromBody] User user)
+        // GET api/auth
+        // User login
+        [HttpGet("{userName}/{userPass}")]
+        public async Task<AuthResponse> Get([FromRoute] string userName, [FromRoute] string userPass)
         {
-            ModelState.Remove("FirstName");
-            ModelState.Remove("LastName");
-
-            // Check ModelState
-            if (!ModelState.IsValid)
-            {
-                // If invalid, return error message
-                return new AuthResponse{ success = false, message = "Something went wrong, please resubmit with all required fields." };
-            }
             // Check for existing username in database
-            User userCheck = await _context.User.SingleOrDefaultAsync(u => u.Username == user.Username);
+            User userCheck = await _context.User.SingleOrDefaultAsync(u => u.Username == userName);
             if (userCheck != null)
             {
-                if (userCheck.Password == user.Password)
+                if (userCheck.Password == userPass)
                 {
                     return new AuthResponse{ success = true, message = "You have successfully logged in.", user = userCheck };
                 } else
@@ -44,9 +36,10 @@ namespace WebAPI
             }
         }
 
-        // POST api/auth/register
+        // POST api/auth
+        // User registrations
         [HttpPost]
-        public async Task<AuthResponse> Register([FromBody] User user)
+        public async Task<AuthResponse> Post([FromBody] User user)
         {
             // Check ModelState
             if (!ModelState.IsValid)

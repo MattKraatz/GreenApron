@@ -44,7 +44,7 @@ namespace Tests.WebAPI
         public async Task<AuthResponse> RegisterUser()
         {
             var user = new User { Username = TestKeys.Username, FirstName = "Test", LastName = "User", Password = TestKeys.Password };
-            return await _authCtrl.Register(user);
+            return await _authCtrl.Post(user);
         }
 
         public async Task<JsonResponse> DeleteUser()
@@ -56,19 +56,19 @@ namespace Tests.WebAPI
         {
             var user = new User { Username = TestKeys.Username };
             user.Password = correct ? TestKeys.Password : "wrongPass";
-            return await _authCtrl.Login(user);
+            return await _authCtrl.Get(user.Username, user.Password);
         }
 
         public async Task<AuthResponse> GetUser()
         {
             var user = new User { Username = TestKeys.Username + "1", FirstName = "Test", LastName = "User", Password = TestKeys.Password };
-            var response = await _authCtrl.Login(user);
+            var response = await _authCtrl.Get(TestKeys.Username + "1", TestKeys.Password);
             if (response.success)
             {
                 return response;
             } else
             {
-                return await _authCtrl.Register(user);
+                return await _authCtrl.Post(user);
             }
         }
 
