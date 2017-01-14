@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WebAPI;
 using Xunit;
 
@@ -51,12 +52,14 @@ namespace Tests.WebAPI
         {
             await _task.AddPlan();
             var plans = await _task.GetPlans();
-            var response = await _task.CompletePlan(plans.plans[0].PlanId);
+            var plan = plans.plans[0];
+            plan.DateCompleted = DateTime.Now;
+            var response = await _task.UpdatePlan(plan);
             Assert.NotNull(response);
             Assert.True(response.success);
-            foreach (Plan plan in plans.plans)
+            foreach (Plan dbPlan in plans.plans)
             {
-                await _task.DeletePlan(plan.PlanId);
+                await _task.DeletePlan(dbPlan.PlanId);
             }
         }
     }

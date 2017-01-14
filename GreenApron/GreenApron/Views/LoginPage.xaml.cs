@@ -58,7 +58,7 @@ namespace GreenApron
                     // if successful, set current user and route to home page
                     App.AuthManager.loggedInUser = response.user;
                     Navigation.InsertPageBefore(new HomePage(), this);
-                    await Navigation.PopAsync();
+                    await Navigation.PopModalAsync();
                 } else
                 {
                     // handle unsuccessful logins

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/v1/[controller]")]
     public class PlanController : Controller
     {
         private GreenApronContext _context { get; set; }
@@ -19,9 +19,9 @@ namespace WebAPI
             _ingManager = new IngredientManager(_context);
         }
         
-        // POST api/plan/addplan
+        // POST api/plan
         [HttpPost]
-        public async Task<JsonResponse> AddPlan([FromBody] PlanRequest plan)
+        public async Task<JsonResponse> Post([FromBody] PlanRequest plan)
         {
             // Check ModelState
             if (!ModelState.IsValid)
@@ -143,10 +143,10 @@ namespace WebAPI
             return new JsonResponse { success = true, message = "Plan saved successfully"};
         }
 
-        // GET api/plan/getall/{userId}
+        // GET api/plan/{userId}
         // Returns all active plans
         [HttpGet("{userId}")]
-        public async Task<PlanResponse> GetAll([FromRoute] Guid userId)
+        public async Task<PlanResponse> Get([FromRoute] Guid userId)
         {
             var plans = await _context.Plan.Where(p => DateTime.Compare(p.Date, DateTime.Now) >= 0)
                 .Where(p => p.UserId == userId).Where(p => p.DateCompleted == null)
@@ -158,36 +158,50 @@ namespace WebAPI
             return new PlanResponse { success = true, message = "Plan(s) retrieved successfully.", plans = plans };
         }
 
-        // POST api/plan/complete/{planId}
+        // PUT api/plan/{planId}
         // Completes a plan, deducts amounts from inventory items
-        [HttpGet("{planId}")]
-        public async Task<JsonResponse> Complete([FromRoute] Guid planId)
+        // Refactored to REST so it will accept any kind of updates, currently only completing the plan however
+        [HttpPut]
+        public async Task<JsonResponse> Put([FromBody] Plan planRequest)
         {
-            var plan = await _context.Plan.SingleOrDefaultAsync(p => p.PlanId == planId);
+            var plan = await _context.Plan.SingleOrDefaultAsync(p => p.PlanId == planRequest.PlanId);
             if (plan == null)
             {
                 return new JsonResponse { success = false, message = "Something went wrong, please refresh your client." };
             }
-            var planIngredients = await _context.PlanIngredient.Where(pi => pi.PlanId == plan.PlanId).ToListAsync();
-            if (planIngredients.Count > 0)
+            if (planRequest.DateCompleted != null)
             {
-                foreach (PlanIngredient ingredient in planIngredients)
+                var planIngredients = await _context.PlanIngredient.Where(pi => pi.PlanId == plan.PlanId).ToListAsync();
+                if (planIngredients.Count > 0)
                 {
-                    _context.PlanIngredient.Remove(ingredient);
-                    var inventoryItem = await _context.InventoryItem.Where(ii => ii.IngredientId == ingredient.IngredientId).FirstOrDefaultAsync(ii => ii.Unit == ingredient.Unit);
-                    if (inventoryItem != null)
+                    foreach (PlanIngredient ingredient in planIngredients)
                     {
-                        if (inventoryItem.Amount - ingredient.Amount <= 0)
+                        _context.PlanIngredient.Remove(ingredient);
+                        var inventoryItem = await _context.InventoryItem.Where(ii => ii.IngredientId == ingredient.IngredientId).FirstOrDefaultAsync(ii => ii.Unit == ingredient.Unit);
+                        if (inventoryItem != null)
                         {
-                            _context.InventoryItem.Remove(inventoryItem);
-                        }
-                        else
-                        {
-                            inventoryItem.Amount -= ingredient.Amount;
-                            _context.Entry(inventoryItem).State = EntityState.Modified;
+                            if (inventoryItem.Amount - ingredient.Amount <= 0)
+                            {
+                                _context.InventoryItem.Remove(inventoryItem);
+                            }
+                            else
+                            {
+                                inventoryItem.Amount -= ingredient.Amount;
+                                _context.Entry(inventoryItem).State = EntityState.Modified;
+                            }
                         }
                     }
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch
+                    {
+                        return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
+                    }
                 }
+                plan.DateCompleted = planRequest.DateCompleted;
+                _context.Entry(plan).State = EntityState.Modified;
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -196,22 +210,15 @@ namespace WebAPI
                 {
                     return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
                 }
-            }
-            plan.DateCompleted = DateTime.Now;
-            _context.Entry(plan).State = EntityState.Modified;
-            try
+                return new JsonResponse { success = true, message = "Plan updated successfully" };
+            } else
             {
-                await _context.SaveChangesAsync();
+                return new JsonResponse { success = false, message = "Nothing to update." };
             }
-            catch
-            {
-                return new JsonResponse { success = false, message = "Something went wrong while saving to the database, please try again." };
-            }
-            return new JsonResponse { success = true, message = "Plan updated successfully" };
         }
 
-        // GET api/plan/delete
-        [HttpGet("{id}")]
+        // DELETE api/plan
+        [HttpDelete("{id}")]
         public async Task<JsonResponse> Delete([FromRoute] Guid id)
         {
             // Find the plan record in the database

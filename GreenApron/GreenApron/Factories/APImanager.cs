@@ -65,9 +65,9 @@ namespace GreenApron
             return _APIservice.AddInventoryItem(item);
         }
 
-        public Task<JsonResponse> CompletePlan(Guid id)
+        public Task<JsonResponse> UpdatePlan(Plan plan)
         {
-            return _APIservice.CompletePlan(id);
+            return _APIservice.UpdatePlan(plan);
         }
 
         public Task<JsonResponse> DeleteInventoryItem(Guid inventoryItemId)
@@ -80,9 +80,9 @@ namespace GreenApron
             return _APIservice.DeleteGroceryItem(groceryItemId);
         }
 
-        public Task<BookmarkResponse> CheckBookmark(BookmarkRequest bookmark)
+        public Task<BookmarkResponse> CheckBookmark(int recipeId, Guid userId)
         {
-            return _APIservice.CheckBookmark(bookmark);
+            return _APIservice.CheckBookmark(recipeId, userId);
         }
 
         public Task<JsonResponse> DeleteBookmark(Guid id)

@@ -134,8 +134,7 @@ namespace GreenApron
         public async void CheckBookmark(int id)
         {
             // Call a WebAPI Endpoint that accepts a recipe Id and user Id and returns true or false
-            var bookmark = new BookmarkRequest { RecipeId = id, userId = App.AuthManager.loggedInUser.UserId, ImageURL = "check", Title = "check" };
-            var response = await App.APImanager.CheckBookmark(bookmark);
+            var response = await App.APImanager.CheckBookmark(id, App.AuthManager.loggedInUser.UserId);
             if (response.success)
             {
                 _bookmarked = true;

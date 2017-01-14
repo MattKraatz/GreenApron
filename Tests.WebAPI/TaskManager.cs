@@ -6,6 +6,12 @@ using WebAPI;
 
 namespace Tests.WebAPI
 {
+
+    /**
+     * Purpose: Generates a context and instantiates each WebAPI controller with it
+     *          Provides abstractions for all controller tasks required for WebAPI testing
+     */
+
     public class TaskManager
     {
         private GreenApronContext _context { get; set; }
@@ -38,7 +44,7 @@ namespace Tests.WebAPI
         public async Task<AuthResponse> RegisterUser()
         {
             var user = new User { Username = TestKeys.Username, FirstName = "Test", LastName = "User", Password = TestKeys.Password };
-            return await _authCtrl.Register(user);
+            return await _authCtrl.Post(user);
         }
 
         public async Task<JsonResponse> DeleteUser()
@@ -50,19 +56,19 @@ namespace Tests.WebAPI
         {
             var user = new User { Username = TestKeys.Username };
             user.Password = correct ? TestKeys.Password : "wrongPass";
-            return await _authCtrl.Login(user);
+            return await _authCtrl.Get(user.Username, user.Password);
         }
 
         public async Task<AuthResponse> GetUser()
         {
             var user = new User { Username = TestKeys.Username + "1", FirstName = "Test", LastName = "User", Password = TestKeys.Password };
-            var response = await _authCtrl.Login(user);
+            var response = await _authCtrl.Get(TestKeys.Username + "1", TestKeys.Password);
             if (response.success)
             {
                 return response;
             } else
             {
-                return await _authCtrl.Register(user);
+                return await _authCtrl.Post(user);
             }
         }
 
@@ -72,13 +78,13 @@ namespace Tests.WebAPI
         {
             var user = await GetUser();
             var mark = new BookmarkRequest { userId = user.user.UserId, RecipeId = 556177, Title = "Ramen Noodle Coleslaw", ImageURL = "https://spoonacular.com/recipeImages/Ramen-Noodle-Coleslaw-556177.jpg" };
-            return await _bookCtrl.AddBookmark(mark);
+            return await _bookCtrl.Post(mark);
         }
 
         public async Task<BookmarkResponse> GetBookmarks()
         {
             var user = await GetUser();
-            return await _bookCtrl.GetAll(user.user.UserId);
+            return await _bookCtrl.Get(user.user.UserId);
         }
 
         public async Task<JsonResponse> DeleteBookmark(Guid id)
@@ -89,20 +95,19 @@ namespace Tests.WebAPI
         public async Task<BookmarkResponse> CheckBookmark()
         {
             var user = await GetUser();
-            var mark = new BookmarkRequest { userId = user.user.UserId, RecipeId = 556177, Title = "Ramen Noodle Coleslaw", ImageURL = "https://spoonacular.com/recipeImages/Ramen-Noodle-Coleslaw-556177.jpg" };
-            return await _bookCtrl.Check(mark);
+            return await _bookCtrl.Get(556177, user.user.UserId);
         }
 
         // GroceryController Operations
         public async Task<GroceryResponse> GetGrocery()
         {
             var user = await GetUser();
-            return await _grocCtrl.GetAll(user.user.UserId);
+            return await _grocCtrl.Get(user.user.UserId);
         }
 
         public async Task<JsonResponse> UpdateGrocery(GroceryRequest update)
         {
-            return await _grocCtrl.Update(update);
+            return await _grocCtrl.Put(update);
         }
 
         public async Task<JsonResponse> AddGrocery()
@@ -117,7 +122,7 @@ namespace Tests.WebAPI
                 amount = 3,
                 unit = "tablespoons"
             };
-            return await _grocCtrl.Add(item, user.user.UserId);
+            return await _grocCtrl.Post(item, user.user.UserId);
         }
 
         public async Task<JsonResponse> DeleteGrocery(Guid id)
@@ -129,12 +134,12 @@ namespace Tests.WebAPI
         public async Task<InventoryResponse> GetInventory()
         {
             var user = await GetUser();
-            return await _invCtrl.GetAll(user.user.UserId);
+            return await _invCtrl.Get(user.user.UserId);
         }
 
         public async Task<JsonResponse> UpdateInventory(InventoryRequest update)
         {
-            return await _invCtrl.Update(update);
+            return await _invCtrl.Put(update);
         }
 
         public async Task<JsonResponse> AddInventory()
@@ -149,7 +154,7 @@ namespace Tests.WebAPI
                 amount = 3,
                 unit = "tablespoons"
             };
-            return await _invCtrl.Add(item, user.user.UserId);
+            return await _invCtrl.Post(item, user.user.UserId);
         }
 
         public async Task<JsonResponse> DeleteInventory(Guid id)
@@ -166,18 +171,18 @@ namespace Tests.WebAPI
                 userId = user.user.UserId, date = DateTime.Today.AddDays(1),
                 meal = "Breakfast", recipe = TestKeys.RamenNoodle, servingsYield = 4
             };
-            return await _planCtrl.AddPlan(request);
+            return await _planCtrl.Post(request);
         }
 
         public async Task<PlanResponse> GetPlans()
         {
             var user = await GetUser();
-            return await _planCtrl.GetAll(user.user.UserId);
+            return await _planCtrl.Get(user.user.UserId);
         }
 
-        public async Task<JsonResponse> CompletePlan(Guid id)
+        public async Task<JsonResponse> UpdatePlan(Plan plan)
         {
-            return await _planCtrl.Complete(id);
+            return await _planCtrl.Put(plan);
         }
 
         public async Task<JsonResponse> DeletePlan(Guid id)
