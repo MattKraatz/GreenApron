@@ -180,9 +180,9 @@ namespace Tests.WebAPI
             return await _planCtrl.Get(user.user.UserId);
         }
 
-        public async Task<JsonResponse> CompletePlan(Guid id)
+        public async Task<JsonResponse> UpdatePlan(Plan plan)
         {
-            return await _planCtrl.Put(id);
+            return await _planCtrl.Put(plan);
         }
 
         public async Task<JsonResponse> DeletePlan(Guid id)
