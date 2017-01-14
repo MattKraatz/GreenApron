@@ -65,9 +65,9 @@ namespace GreenApron
             return _APIservice.AddInventoryItem(item);
         }
 
-        public Task<JsonResponse> CompletePlan(Guid id)
+        public Task<JsonResponse> UpdatePlan(Plan plan)
         {
-            return _APIservice.CompletePlan(id);
+            return _APIservice.UpdatePlan(plan);
         }
 
         public Task<JsonResponse> DeleteInventoryItem(Guid inventoryItemId)

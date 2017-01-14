@@ -99,8 +99,10 @@ namespace GreenApron
         {
 			var button = (Button)sender;
 			button.IsEnabled = false;
+            var plan = this.BindingContext as Plan;
+            plan.DateCompleted = DateTime.Now;
             // Call to the Database to Update the Plan and Update InventoryItems
-            var response = await App.APImanager.CompletePlan(_activePlan.PlanId);
+            var response = await App.APImanager.UpdatePlan(plan);
             if (response.success)
             {
                 await DisplayAlert("Success", "You cooked it!", "Okay");

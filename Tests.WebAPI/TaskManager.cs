@@ -171,18 +171,18 @@ namespace Tests.WebAPI
                 userId = user.user.UserId, date = DateTime.Today.AddDays(1),
                 meal = "Breakfast", recipe = TestKeys.RamenNoodle, servingsYield = 4
             };
-            return await _planCtrl.AddPlan(request);
+            return await _planCtrl.Post(request);
         }
 
         public async Task<PlanResponse> GetPlans()
         {
             var user = await GetUser();
-            return await _planCtrl.GetAll(user.user.UserId);
+            return await _planCtrl.Get(user.user.UserId);
         }
 
         public async Task<JsonResponse> CompletePlan(Guid id)
         {
-            return await _planCtrl.Complete(id);
+            return await _planCtrl.Put(id);
         }
 
         public async Task<JsonResponse> DeletePlan(Guid id)

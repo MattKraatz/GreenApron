@@ -42,7 +42,7 @@ namespace GreenApron
         // POST a new plan
         public async Task<JsonResponse> AddPlan(PlanRequest plan)
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/plan/addplan", string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/plan", string.Empty));
             try
             {
                 var json = JsonConvert.SerializeObject(plan);
@@ -144,7 +144,7 @@ namespace GreenApron
         // GET a list of active plans for this user
         public async Task<PlanResponse> GetActivePlans()
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/plan/getall/" + App.AuthManager.loggedInUser.UserId.ToString(), string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/plan/" + App.AuthManager.loggedInUser.UserId.ToString(), string.Empty));
             try
             {
                 HttpResponseMessage response = await client.GetAsync(uri);
@@ -157,13 +157,15 @@ namespace GreenApron
             }
         }
 
-        // PUT a provided plan to be updated
-        public async Task<JsonResponse> CompletePlan(Guid planId)
+        // PUT a plan to be updated
+        public async Task<JsonResponse> UpdatePlan(Plan plan)
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/plan/complete/" + planId, string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/plan", string.Empty));
             try
             {
-                HttpResponseMessage response = await client.GetAsync(uri);
+                var json = JsonConvert.SerializeObject(plan);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync(uri, content);
                 var JSONstring = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
             }
@@ -294,10 +296,10 @@ namespace GreenApron
         // DELETE a plan
         public async Task<JsonResponse> DeletePlan(Guid id)
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/plan/delete/" + id, string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/plan/" + id, string.Empty));
             try
             {
-                HttpResponseMessage response = await client.GetAsync(uri);
+                HttpResponseMessage response = await client.DeleteAsync(uri);
                 var JSONstring = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
             }

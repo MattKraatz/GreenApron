@@ -13,7 +13,7 @@ namespace GreenApron
         Task<JsonResponse> UpdateGroceryItems(GroceryRequest request);
         Task<InventoryResponse> GetInventoryItems();
         Task<PlanResponse> GetActivePlans();
-        Task<JsonResponse> CompletePlan(Guid planId);
+        Task<JsonResponse> UpdatePlan(Plan plan);
         Task<JsonResponse> AddInventoryItem(Ingredient item);
         Task<JsonResponse> AddGroceryItem(Ingredient item);
         Task<JsonResponse> UpdateInventoryItems(InventoryRequest request);
