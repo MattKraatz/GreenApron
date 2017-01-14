@@ -18,7 +18,7 @@ namespace GreenApron
      *     Task<JsonResponse> UpdateGroceryItems(request) - puts a provided list of grocery items
      *     Task<InventoryResponse> GetInventoryItems() - gets all inventory items for this user
      *     Task<PlanResponse> GetActivePlans() - gets all active meal plans for this user
-     *     Task<JsonResponse> CompletePlan(planId) - puts a provided meal plan
+     *     Task<JsonResponse> UpdatePlan(plan) - puts a provided meal plan
      *     Task<JsonResponse> AddInventoryItem(item) - posts an inventory item
      *     Task<JsonResponse> AddGroceryItem(item) - posts a grocery item
      *     Task<JsonResponse> UpdateInventoryItems(request) - puts a provided list of inventory items

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class InventoryController : Controller
     {
         private GreenApronContext _context { get; set; }

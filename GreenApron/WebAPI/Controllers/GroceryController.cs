@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class GroceryController : Controller
     {
         private GreenApronContext _context { get; set; }

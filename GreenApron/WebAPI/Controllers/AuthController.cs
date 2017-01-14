@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class AuthController : Controller
     {
         private GreenApronContext _context { get; set; }
