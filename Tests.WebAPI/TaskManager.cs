@@ -134,12 +134,12 @@ namespace Tests.WebAPI
         public async Task<InventoryResponse> GetInventory()
         {
             var user = await GetUser();
-            return await _invCtrl.GetAll(user.user.UserId);
+            return await _invCtrl.Get(user.user.UserId);
         }
 
         public async Task<JsonResponse> UpdateInventory(InventoryRequest update)
         {
-            return await _invCtrl.Update(update);
+            return await _invCtrl.Put(update);
         }
 
         public async Task<JsonResponse> AddInventory()
@@ -154,7 +154,7 @@ namespace Tests.WebAPI
                 amount = 3,
                 unit = "tablespoons"
             };
-            return await _invCtrl.Add(item, user.user.UserId);
+            return await _invCtrl.Post(item, user.user.UserId);
         }
 
         public async Task<JsonResponse> DeleteInventory(Guid id)

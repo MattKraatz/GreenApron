@@ -128,7 +128,7 @@ namespace GreenApron
         // GET a list of inventory items for this user
         public async Task<InventoryResponse> GetInventoryItems()
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/getall/" + App.AuthManager.loggedInUser.UserId.ToString(), string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/" + App.AuthManager.loggedInUser.UserId.ToString(), string.Empty));
             try
             {
                 HttpResponseMessage response = await client.GetAsync(uri);
@@ -176,7 +176,7 @@ namespace GreenApron
         // POST a new inventory item
         public async Task<JsonResponse> AddInventoryItem(Ingredient item)
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/add/" + App.AuthManager.loggedInUser.UserId, string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/" + App.AuthManager.loggedInUser.UserId, string.Empty));
             try
             {
                 var json = JsonConvert.SerializeObject(item);
@@ -212,12 +212,12 @@ namespace GreenApron
         // PUT a list of inventory items to be updated
         public async Task<JsonResponse> UpdateInventoryItems(InventoryRequest request)
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/update", string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory", string.Empty));
             try
             {
                 var json = JsonConvert.SerializeObject(request);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(uri, content);
+                HttpResponseMessage response = await client.PutAsync(uri, content);
                 var JSONstring = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
             }
@@ -230,10 +230,10 @@ namespace GreenApron
         // DELETE an inventory item
         public async Task<JsonResponse> DeleteInventoryItem(Guid inventoryItemId)
         {
-            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/delete/" + inventoryItemId, string.Empty));
+            var uri = new Uri(string.Format(Keys.WebAPI + "/inventory/" + inventoryItemId, string.Empty));
             try
             {
-                HttpResponseMessage response = await client.GetAsync(uri);
+                HttpResponseMessage response = await client.DeleteAsync(uri);
                 var JSONstring = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<JsonResponse>(JSONstring);
             }

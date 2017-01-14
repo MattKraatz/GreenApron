@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class InventoryController : Controller
     {
         private GreenApronContext _context { get; set; }
@@ -19,10 +19,10 @@ namespace WebAPI
             _ingManager = new IngredientManager(_context);
         }
 
-        // GET api/inventory/getall/{userId}
+        // GET api/inventory/{userId}
         // Returns all active inventory items
         [HttpGet("{userId}")]
-        public async Task<InventoryResponse> GetAll([FromRoute] Guid userId)
+        public async Task<InventoryResponse> Get([FromRoute] Guid userId)
         {
             var items = await _context.InventoryItem.Where(ii => ii.Amount > 0).Where(ii => ii.UserId == userId).Include(ii => ii.Ingredient).ToListAsync();
             if (items.Count < 1)
@@ -36,10 +36,10 @@ namespace WebAPI
             return new InventoryResponse { success = true, message = "Inventory Item(s) retrieved successfully", InventoryItems = items };
         }
 
-        // POST api/inventory/add
+        // POST api/inventory
         // Adds a new inventory item record, and a new ingredient record if necessary
         [HttpPost("{userId}")]
-        public async Task<JsonResponse> Add([FromBody] extIngredient item, [FromRoute] Guid userId)
+        public async Task<JsonResponse> Post([FromBody] extIngredient item, [FromRoute] Guid userId)
         {
             // Find an existing ingredient item record in the database by Id or by name
             var dbIngredient = await _ingManager.CheckDB(item);
@@ -70,10 +70,10 @@ namespace WebAPI
             return new JsonResponse { success = true, message = "Grocery Item added successfully." };
         }
 
-        // POST api/inventory/update
+        // PUT api/inventory
         // Updates inventory items
-        [HttpPost]
-        public async Task<JsonResponse> Update([FromBody] InventoryRequest request)
+        [HttpPut]
+        public async Task<JsonResponse> Put([FromBody] InventoryRequest request)
         {
             foreach (InventoryItem item in request.items)
             {
@@ -110,9 +110,9 @@ namespace WebAPI
             return new JsonResponse { success = true, message = "Database updated successfully." };
         }
 
-        // GET api/inventory/delete/{id}
+        // GET api/inventory/{id}
         // Deletes inventory item
-        [HttpGet("{id}")]
+        [HttpDelete("{id}")]
         public async Task<JsonResponse> Delete([FromRoute] Guid id)
         {
             // Find the inventory item record in the database
