@@ -28,6 +28,7 @@ namespace GreenApron
             if (response.success)
             {
                 // if successful, set current user and route to home page
+                await App.Database.AddUserAsync(response.user);
                 App.AuthManager.loggedInUser = response.user;
                 await Navigation.PopModalAsync();
             }
@@ -56,6 +57,7 @@ namespace GreenApron
                 if (response.success)
                 {
                     // if successful, set current user and route to home page
+                    await App.Database.AddUserAsync(response.user);
                     App.AuthManager.loggedInUser = response.user;
                     Navigation.InsertPageBefore(new HomePage(), this);
                     await Navigation.PopModalAsync();
@@ -72,6 +74,11 @@ namespace GreenApron
             userEntry.Completed += (s, e) => passEntry.Focus();
             userReg.Completed += (s, e) => passReg.Focus();
             passReg.Completed += (s, e) => confReg.Focus();
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
         }
     }
 }

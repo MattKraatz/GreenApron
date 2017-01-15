@@ -45,7 +45,8 @@ namespace GreenApron.Droid
 
                 if (mainPage != null)
                 {
-					if (mainPage.Navigation.ModalStack.Count > 0)
+                    var modalCount = mainPage.Navigation.ModalStack.Count;
+                    if (modalCount > 0)
 					{
 						return true;
 					}

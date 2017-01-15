@@ -1,8 +1,11 @@
 ﻿using System;
+using SQLite;
+
 namespace GreenApron
 {
 	public class User
 	{
+        [PrimaryKey]
 		public Guid UserId { get; set; }
 
 		public string Username { get; set; }

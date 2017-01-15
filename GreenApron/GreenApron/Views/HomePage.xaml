@@ -10,6 +10,7 @@
                 FontSize="Large"
                 HorizontalTextAlignment="Center"/>
 			<Button Text="Search Recipes" Clicked="OpenRecipeSearch" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" />
+            <Button Text="Logout" Clicked="Logout" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" />
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>
