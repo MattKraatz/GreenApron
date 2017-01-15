@@ -15,30 +15,18 @@ namespace GreenApron
 
         public async void CheckLogin()
         {
-            // Auto-login feature
-            //if (Keys.User.Length > 0)
-            //{
-            //    var user = new User { Username = Keys.User, Password = Keys.Pass };
-            //    AuthResponse response = await App.AuthManager.LoginAsync(user);
-            //    if (!response.success)
-            //    {
-            //        var login = new LoginPage();
-            //        await Navigation.PushModalAsync(login);
-            //    } else
-            //    {
-            //        App.AuthManager.loggedInUser = response.user;
-            //        await DisplayAlert("Hello", response.message, "Okay");
-            //    }
-            //} else if (App.AuthManager.loggedInUser == null)
-            //{
-            //    var login = new LoginPage();
-            //    await Navigation.PushModalAsync(login);
-            //}
-
             if (App.AuthManager.loggedInUser == null)
             {
-                var login = new LoginPage();
-                await Navigation.PushModalAsync(login);
+                // Check local SQL database
+                var user = await App.Database.GetUserAsync();
+                if (user == null)
+                {
+                    var login = new LoginPage();
+                    await Navigation.PushModalAsync(login);
+                } else
+                {
+                    App.AuthManager.loggedInUser = user;
+                }
             }
         }
 
@@ -55,5 +43,15 @@ namespace GreenApron
 
 			await Navigation.PushAsync(tab);
 		}
-	}
+
+        public async void Logout(object sender, EventArgs e)
+        {
+            var user = App.AuthManager.loggedInUser;
+            await App.Database.DeleteUserAsync(user);
+            App.AuthManager.loggedInUser = null;
+            var login = new LoginPage();
+            await Navigation.PushModalAsync(login);
+        }
+
+    }
 }
