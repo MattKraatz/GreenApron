@@ -11,35 +11,42 @@ namespace GreenApron
 {
     public partial class RecipeSearchPage : ContentPage
     {
-        public ObservableCollection<RecipePreview> recipePageItems { get; private set; } = new ObservableCollection<RecipePreview>();
-        private DateTime? _activeDate { get; set; }
+        ObservableCollection<RecipePreview> _recipePageItems { get; set; } = new ObservableCollection<RecipePreview>();
+        DateTime? _activeDate { get; set; }
+		int _totalResults { get; set; }
+		bool _endOfResults { get; set; }
 
         public RecipeSearchPage()
         {
             InitializeComponent();
-            recipeSearchList.ItemsSource = recipePageItems;
+            recipeSearchList.ItemsSource = _recipePageItems;
+			recipeSearchList.ItemAppearing += ItemAppearing;
         }
 
         public RecipeSearchPage(DateTime activeDate)
         {
             InitializeComponent();
-            recipeSearchList.ItemsSource = recipePageItems;
+            recipeSearchList.ItemsSource = _recipePageItems;
+			recipeSearchList.ItemAppearing += ItemAppearing;
             _activeDate = activeDate;
         }
 
-        public async void DoSearch(object sender, EventArgs args)
+        async void DoSearch(object sender, EventArgs args)
         {
             if (recipeSearch.Text.Length > 1)
             {
+				_recipePageItems.Clear();
+				_totalResults = 0;
+				_endOfResults = false;
 				busy = Busy.Flip(busy);
                 var response = await App.SpoonManager.GetRecipesByQueryAsync(recipeSearch.Text, 0);
                 busy = Busy.Flip(busy);
                 if (response.totalResults > 0)
-                {
-                    recipePageItems.Clear();
+				{
+					_totalResults = response.totalResults;
                     foreach (RecipePreview recipe in response.results)
                     {
-                        recipePageItems.Add(recipe);
+                        _recipePageItems.Add(recipe);
                     }
                 }
                 else
@@ -63,12 +70,38 @@ namespace GreenApron
         //    }
         //}
 
-        public void OnItemTapped(object sender, ItemTappedEventArgs e)
+        void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var recipe = e.Item as RecipePreview;
             var recipePage = new RecipePage(recipe.id, _activeDate);
             Navigation.PushAsync(recipePage);
             recipeSearchList.SelectedItem = null;
         }
+
+		// Infinite ListView Extension, borrowed from http://www.codenutz.com/lac09-xamarin-forms-infinite-scrolling-listview/
+		async void ItemAppearing(object sender, ItemVisibilityEventArgs e)
+		{
+			var items = _recipePageItems;
+			var item = e.Item;
+			if (items != null && e.Item == items[items.Count - 1])
+			{
+				busy = Busy.Flip(busy);
+				var response = await App.SpoonManager.GetRecipesByQueryAsync(recipeSearch.Text, items.Count);
+				busy = Busy.Flip(busy);
+				if (response.totalResults > 0)
+				{
+					foreach (RecipePreview recipe in response.results)
+					{
+						_recipePageItems.Add(recipe);
+					}
+				}
+				else if (!_endOfResults)
+				{
+					var label = new Label();
+					label.Text = "No more recipes, please try another search.";
+					recipeStack.Children.Add(label);
+				}
+			}
+		}
     }
 }
