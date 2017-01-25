@@ -31,11 +31,9 @@ namespace GreenApron
         {
             if (recipeSearch.Text.Length > 1)
             {
-                busy.IsVisible = true;
-                busy.IsRunning = true;
-                var response = await App.SpoonManager.GetRecipesByQueryAsync(recipeSearch.Text);
-                busy.IsVisible = false;
-                busy.IsRunning = false;
+				busy = Busy.Flip(busy);
+                var response = await App.SpoonManager.GetRecipesByQueryAsync(recipeSearch.Text, 0);
+                busy = Busy.Flip(busy);
                 if (response.totalResults > 0)
                 {
                     recipePageItems.Clear();
@@ -65,7 +63,6 @@ namespace GreenApron
         //    }
         //}
 
-        // TODO: either update this method, or update the recipePage constructor to retrieve the Spoonacular recipe by Id on instantiation
         public void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var recipe = e.Item as RecipePreview;

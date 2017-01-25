@@ -31,9 +31,9 @@ namespace GreenApron
             return _spoonService.GetProductByQuery(productSearchString);
         }
 
-        public Task<RecipeResult> GetRecipesByQueryAsync(string query)
+        public Task<RecipeResult> GetRecipesByQueryAsync(string query, int offset)
         {
-            return _spoonService.GetRecipesByQueryAsync(query);
+            return _spoonService.GetRecipesByQueryAsync(query, offset);
         }
     }
 }

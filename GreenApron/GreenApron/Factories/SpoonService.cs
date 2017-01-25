@@ -44,7 +44,7 @@ namespace GreenApron
             }
         }
 
-        public async Task<RecipeResult> GetRecipesByQueryAsync(string query)
+        public async Task<RecipeResult> GetRecipesByQueryAsync(string query, int offset)
         {
             var uri = new Uri(string.Format(Keys.SpoonURI + "/recipes/search?instructionsRequired=true&limitLicense=false&number=10&offset=0&query=" + query, string.Empty));
             try
