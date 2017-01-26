@@ -16,6 +16,7 @@ namespace GreenApron
         public string AmountUnit { get; set; }
         public bool Empty { get; set; } = false;
         public bool Rebuy { get; set; } = false;
+		public bool Search { get; set; } = false;
         public int Count { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }

@@ -137,6 +137,10 @@
     </Compile>
     <Compile Include="Helpers\ViewModelLocator.cs" />
     <Compile Include="Helpers\Busy.cs" />
+    <Compile Include="Views\RecipeSearchByProductPage.cs">
+      <DependentUpon>RecipeSearchByProductPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SpoonacularModels\RecipeIngredsPreview.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\LoginPage.xaml">
@@ -149,6 +153,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\HomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\RecipeSearchByProductPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

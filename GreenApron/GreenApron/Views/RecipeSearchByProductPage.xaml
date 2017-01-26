@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:design="clr-namespace:GreenApron;assembly=GreenApron" x:Class="GreenApron.RecipeSearchByProductPage" Title="Search by Ingredients">
+	<ContentPage.Content>
+		<StackLayout Spacing="0">
+			<StackLayout Orientation="Horizontal" BackgroundColor="#cccccc" Padding="10">
+				<ContentView WidthRequest="100" HorizontalOptions="FillAndExpand">
+					<Label Text="Qty" FontAttributes="Bold" />
+				</ContentView>
+				<Label Text="Include" FontAttributes="Bold" WidthRequest="60" HorizontalOptions="End" />
+			</StackLayout>
+			<ListView x:Name="inventoryList" HeightRequest="1000" GroupDisplayBinding="{Binding Title}" IsGroupingEnabled="true" ItemTapped="OnItemTapped" HasUnevenRows="True">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10">
+								<StackLayout HorizontalOptions="Start">
+									<Label WidthRequest="60" Text="{Binding Amount}" FontSize="Large" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Center" TextColor="#008A09" />
+									<Label WidthRequest="60" Text="{Binding Unit}" HorizontalTextAlignment="Center" LineBreakMode="TailTruncation" />
+								</StackLayout>
+								<StackLayout HorizontalOptions="Start" Padding="3,0,0,0">
+									<Label Text="{Binding Ingredient.ingredientName}" FontSize="Medium" VerticalTextAlignment="Center" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+								</StackLayout>
+								<StackLayout HorizontalOptions="EndAndExpand">
+									<StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+										<Switch IsToggled="{Binding Search}" WidthRequest="55" HorizontalOptions="End" />
+									</StackLayout>
+								</StackLayout>
+							</StackLayout>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+				<ListView.GroupHeaderTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<StackLayout Padding="20,5" VerticalOptions="EndAndExpand">
+								<Label Text="{Binding Title}" Opacity="0.75" VerticalTextAlignment="End" />
+							</StackLayout>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.GroupHeaderTemplate>
+			</ListView>
+			<ActivityIndicator x:Name="busy" Color="#00F911" IsVisible="false" IsRunning="false" />
+			<StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Padding="5">
+				<Button Clicked="Cancel" Text="Cancel" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+				<Button Clicked="Search" Text="Search" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+			</StackLayout>
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>

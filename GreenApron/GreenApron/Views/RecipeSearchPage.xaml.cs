@@ -15,6 +15,7 @@ namespace GreenApron
         DateTime? _activeDate { get; set; }
 		int _totalResults { get; set; }
 		bool _endOfResults { get; set; }
+		List<string> _ingreds { get; set; }
 
         public RecipeSearchPage()
         {
@@ -31,6 +32,14 @@ namespace GreenApron
             _activeDate = activeDate;
         }
 
+		public RecipeSearchPage(List<string> ingreds)
+		{
+			InitializeComponent();
+			_ingreds = ingreds;
+			recipeSearchList.ItemsSource = _recipePageItems;
+			GetRecipesByIngreds();
+		}
+
         async void DoSearch(object sender, EventArgs args)
         {
             if (recipeSearch.Text.Length > 1)
@@ -46,6 +55,7 @@ namespace GreenApron
 					_totalResults = response.totalResults;
                     foreach (RecipePreview recipe in response.results)
                     {
+						recipe.image = "https://spoonacular.com/recipeImages/" + recipe.image;
                         _recipePageItems.Add(recipe);
                     }
                 }
@@ -59,6 +69,19 @@ namespace GreenApron
                 await DisplayAlert("Error", "Please enter a search query.", "Okay");
             }
         }
+
+		async void GetRecipesByIngreds()
+		{
+			var recipes = await App.SpoonManager.GetRecipeByIngreds(_ingreds,0);
+			foreach (RecipeIngredsPreview recipe in recipes)
+			{
+				var prev = new RecipePreview();
+				prev.title = recipe.title;
+				prev.image = recipe.image;
+				prev.id = recipe.id;
+				_recipePageItems.Add(prev);
+			}
+		}
 
         //// Tabling this for future use in an advanced search
         //public async void GetRandomRecipe(object sender, EventArgs e)
@@ -92,6 +115,7 @@ namespace GreenApron
 				{
 					foreach (RecipePreview recipe in response.results)
 					{
+						recipe.image = "https://spoonacular.com/recipeImages/" + recipe.image;
 						_recipePageItems.Add(recipe);
 					}
 				}

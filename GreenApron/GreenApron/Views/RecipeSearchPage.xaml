@@ -7,7 +7,7 @@
 				<ListView x:Name="recipeSearchList" VerticalOptions="FillAndExpand" SeparatorVisibility="None" ItemTapped="OnItemTapped">
 					<ListView.ItemTemplate>
 						<DataTemplate>
-							<ImageCell Text="{Binding title}" ImageSource="{Binding image, StringFormat='https://spoonacular.com/recipeImages/{0:N}'}" />
+							<ImageCell Text="{Binding title}" ImageSource="{Binding image}" />
 						</DataTemplate>
 					</ListView.ItemTemplate>
 				</ListView>
