@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="GreenApron.Views.AboutPage">
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Margin="20">
+            <Label Text="About Green Apron"
+                TextColor="#00DE0E"
+                FontSize="Large"
+                HorizontalTextAlignment="Center"/>
+            <Image Source="icon.png" Aspect="AspectFit" Margin="0,5" />
+            <Label>
+                Green Apron is a mobile-first, comprehensive meal planner, grocery list and pantry inventory system. Search thousands of recipes, bookmark your favorites, or add recipes to a meal plan and let Green Apron manage a grocery list and a digital pantry for you!
+            </Label>
+            <Label>
+                Starting in 2017, Green Apron is a hobby project of Matt Kraatz, built with Xamarin and Xamarin Forms. Recipe and ingredient data are courtesy of Spoonacular's spectacular API, hosted on Mashape.
+            </Label>
+            <Label x:Name="githubLink" TextColor="#0000EE">
+                Click here to view the source code on Github.
+            </Label>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
