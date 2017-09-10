@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GreenApron
+﻿namespace GreenApron
 {
-    public class RecipeResult
+	public class RecipeResult
     {
         public RecipePreview[] results { get; set; }
         public string baseUri { get; set; }

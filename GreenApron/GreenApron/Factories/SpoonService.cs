@@ -44,9 +44,9 @@ namespace GreenApron
             }
         }
 
-        public async Task<RecipeResult> GetRecipesByQueryAsync(string query)
+        public async Task<RecipeResult> GetRecipesByQueryAsync(string query, int offset)
         {
-            var uri = new Uri(string.Format(Keys.SpoonURI + "/recipes/search?instructionsRequired=true&limitLicense=false&number=10&offset=0&query=" + query, string.Empty));
+            var uri = new Uri(string.Format(Keys.SpoonURI + "/recipes/search?instructionsRequired=true&limitLicense=false&number=12&offset=" + offset + "&query=" + query, string.Empty));
             try
             {
                 HttpResponseMessage response = await client.GetAsync(uri);
@@ -96,5 +96,30 @@ namespace GreenApron
                 throw new NotImplementedException();
             }
         }
+
+		public async Task<RecipeIngredsPreview[]> GetRecipeByIngreds(List<string> ingreds, int offset)
+		{
+			var builder = new StringBuilder();
+			for (var i = 0; i < ingreds.Count; i++)
+			{
+				builder.Append(ingreds[i]);
+				if (i != ingreds.Count - 1)
+				{
+					builder.Append("%2C");
+				}
+			}
+			var uri = new Uri(string.Format(Keys.SpoonURI + "/recipes/findByIngredients?fillIngredients=true&limitLicense=false&number=12&ranking=1&offset=" + offset + "&ingredients=" + builder.ToString(), string.Empty));
+			try
+			{
+				HttpResponseMessage response = await client.GetAsync(uri);
+				var JSONstring = await response.Content.ReadAsStringAsync();
+				var results = JsonConvert.DeserializeObject<RecipeIngredsPreview[]>(JSONstring);
+				return results;
+			}
+			catch
+			{
+				throw new NotImplementedException();
+			}
+		}
     }
 }

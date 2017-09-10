@@ -39,8 +39,9 @@
 				<Label Text="Tap any item to update it" HorizontalTextAlignment="Center" />
 				<StackLayout Orientation="Horizontal">
 					<Button x:Name="editBtn" IsEnabled="false" Clicked="EditInventory" Text="Quick Edit" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
-					<Button Clicked="OpenProductSearch" Text="New Item" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+					<Button Clicked="OpenRecipeSearch" Text="Search by Item" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
 				</StackLayout>
+				<Button Clicked="OpenProductSearch" Text="New Item" TextColor="White" BackgroundColor="#00DE0E" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
 			</StackLayout>
 		</StackLayout>
 	</ContentPage.Content>

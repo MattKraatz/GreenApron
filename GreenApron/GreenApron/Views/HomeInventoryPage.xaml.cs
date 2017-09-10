@@ -72,6 +72,12 @@ namespace GreenApron
             await Navigation.PushAsync(page);
         }
 
+		public async void OpenRecipeSearch(object sender, EventArgs e)
+		{
+			var page = new RecipeSearchByProductPage(inventoryItems);
+			await Navigation.PushAsync(page);
+		}
+
         public async void EditInventory(object sender, EventArgs e)
         {
             var page = new InventoryActionPage(inventoryItems);

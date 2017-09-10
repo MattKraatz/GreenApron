@@ -11,37 +11,52 @@ namespace GreenApron
 {
     public partial class RecipeSearchPage : ContentPage
     {
-        public ObservableCollection<RecipePreview> recipePageItems { get; private set; } = new ObservableCollection<RecipePreview>();
-        private DateTime? _activeDate { get; set; }
+        ObservableCollection<RecipePreview> _recipePageItems { get; set; } = new ObservableCollection<RecipePreview>();
+        DateTime? _activeDate { get; set; }
+		int _totalResults { get; set; }
+		bool _endOfResults { get; set; }
+		List<string> _ingreds { get; set; }
 
         public RecipeSearchPage()
         {
             InitializeComponent();
-            recipeSearchList.ItemsSource = recipePageItems;
+            recipeSearchList.ItemsSource = _recipePageItems;
+			recipeSearchList.ItemAppearing += ItemAppearing;
         }
 
         public RecipeSearchPage(DateTime activeDate)
         {
             InitializeComponent();
-            recipeSearchList.ItemsSource = recipePageItems;
+            recipeSearchList.ItemsSource = _recipePageItems;
+			recipeSearchList.ItemAppearing += ItemAppearing;
             _activeDate = activeDate;
         }
 
-        public async void DoSearch(object sender, EventArgs args)
+		public RecipeSearchPage(List<string> ingreds)
+		{
+			InitializeComponent();
+			_ingreds = ingreds;
+			recipeSearchList.ItemsSource = _recipePageItems;
+			GetRecipesByIngreds();
+		}
+
+        async void DoSearch(object sender, EventArgs args)
         {
             if (recipeSearch.Text.Length > 1)
             {
-                busy.IsVisible = true;
-                busy.IsRunning = true;
-                var response = await App.SpoonManager.GetRecipesByQueryAsync(recipeSearch.Text);
-                busy.IsVisible = false;
-                busy.IsRunning = false;
+				_recipePageItems.Clear();
+				_totalResults = 0;
+				_endOfResults = false;
+				busy = Busy.Flip(busy);
+                var response = await App.SpoonManager.GetRecipesByQueryAsync(recipeSearch.Text, 0);
+                busy = Busy.Flip(busy);
                 if (response.totalResults > 0)
-                {
-                    recipePageItems.Clear();
+				{
+					_totalResults = response.totalResults;
                     foreach (RecipePreview recipe in response.results)
                     {
-                        recipePageItems.Add(recipe);
+						recipe.image = "https://spoonacular.com/recipeImages/" + recipe.image;
+                        _recipePageItems.Add(recipe);
                     }
                 }
                 else
@@ -55,6 +70,19 @@ namespace GreenApron
             }
         }
 
+		async void GetRecipesByIngreds()
+		{
+			var recipes = await App.SpoonManager.GetRecipeByIngreds(_ingreds,0);
+			foreach (RecipeIngredsPreview recipe in recipes)
+			{
+				var prev = new RecipePreview();
+				prev.title = recipe.title;
+				prev.image = recipe.image;
+				prev.id = recipe.id;
+				_recipePageItems.Add(prev);
+			}
+		}
+
         //// Tabling this for future use in an advanced search
         //public async void GetRandomRecipe(object sender, EventArgs e)
         //{
@@ -65,13 +93,39 @@ namespace GreenApron
         //    }
         //}
 
-        // TODO: either update this method, or update the recipePage constructor to retrieve the Spoonacular recipe by Id on instantiation
-        public void OnItemTapped(object sender, ItemTappedEventArgs e)
+        void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var recipe = e.Item as RecipePreview;
             var recipePage = new RecipePage(recipe.id, _activeDate);
             Navigation.PushAsync(recipePage);
             recipeSearchList.SelectedItem = null;
         }
+
+		// Infinite ListView Extension, borrowed from http://www.codenutz.com/lac09-xamarin-forms-infinite-scrolling-listview/
+		async void ItemAppearing(object sender, ItemVisibilityEventArgs e)
+		{
+			var items = _recipePageItems;
+			var item = e.Item;
+			if (items != null && e.Item == items[items.Count - 1])
+			{
+				busy = Busy.Flip(busy);
+				var response = await App.SpoonManager.GetRecipesByQueryAsync(recipeSearch.Text, items.Count);
+				busy = Busy.Flip(busy);
+				if (response.totalResults > 0)
+				{
+					foreach (RecipePreview recipe in response.results)
+					{
+						recipe.image = "https://spoonacular.com/recipeImages/" + recipe.image;
+						_recipePageItems.Add(recipe);
+					}
+				}
+				else if (!_endOfResults)
+				{
+					var label = new Label();
+					label.Text = "No more recipes, please try another search.";
+					recipeStack.Children.Add(label);
+				}
+			}
+		}
     }
 }

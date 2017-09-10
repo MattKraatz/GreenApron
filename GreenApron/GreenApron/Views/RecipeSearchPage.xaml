@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="GreenApron.RecipeSearchPage" Title="Recipe Search">
 	<ContentPage.Content>
-		<StackLayout VerticalOptions="FillAndExpand">
+		<StackLayout x:Name="recipeStack" VerticalOptions="FillAndExpand">
 			<SearchBar x:Name="recipeSearch" SearchButtonPressed="DoSearch" Placeholder="Search recipes here..." />
-			<ActivityIndicator x:Name="busy" Color="#00F911" />
 			<StackLayout Padding="10,0">
 				<ListView x:Name="recipeSearchList" VerticalOptions="FillAndExpand" SeparatorVisibility="None" ItemTapped="OnItemTapped">
 					<ListView.ItemTemplate>
 						<DataTemplate>
-							<ImageCell Text="{Binding title}" ImageSource="{Binding image, StringFormat='https://spoonacular.com/recipeImages/{0:N}'}" />
+							<ImageCell Text="{Binding title}" ImageSource="{Binding image}" />
 						</DataTemplate>
 					</ListView.ItemTemplate>
 				</ListView>
 			</StackLayout>
+			<ActivityIndicator x:Name="busy" Color="#00F911" IsRunning="false" IsVisible="false" />
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>
